@@ -88,6 +88,18 @@ Both support milking, breeding, aging, and cross-breeding.
 - Custom Cows: no experiments required
 - Ultimate Chaos: Holiday Creator Features + Beta APIs
 
+## Ultimate Chaos — Venice AI textures (optional)
+
+Featured mob/block/UI textures can be generated via [Venice AI](https://venice.ai) for higher-quality comedy art:
+
+```bash
+export VENICE_API_KEY='your-key'   # see .env.example — never commit keys
+python3 variants/ultimate-chaos-pack/scripts/venice_generate_textures.py --category entity
+python3 variants/ultimate-chaos-pack/scripts/build_all.py --rebuild-textures --venice
+```
+
+See [VENICE_PROMPTS.md](VENICE_PROMPTS.md) for all prompts and model recommendations.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Use the `bgcow:` namespace for custom identifiers.

@@ -36,6 +36,7 @@ python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
 - Minecraft Bedrock 1.21.0+
 - Holiday Creator Features (behavior transforms)
 - Beta APIs (Script API backup)
+- Optional: `VENICE_API_KEY` for AI-generated featured textures — see [VENICE_PROMPTS.md](../../VENICE_PROMPTS.md)
 
 ## Resource pack UUID
 

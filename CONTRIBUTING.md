@@ -25,6 +25,7 @@ Edit the appropriate location for your change. Run `./scripts/build-mcaddon.sh` 
 - **UUIDs**: Never change existing manifest UUIDs after release
 - **Custom Cows**: Entity JSON in `behavior_packs/brindal_grayson_cow_bp/`, textures in `resource_packs/brindal_grayson_cow_rp/`
 - **Ultimate Chaos**: Modify scripts in `variants/ultimate-chaos-pack/scripts/`; run `validate_pack.py` after changes
+- **Venice AI textures**: Set `VENICE_API_KEY`, edit `variants/ultimate-chaos-pack/prompts/venice_prompts.json`; never commit API keys
 
 ## Testing Checklist
 

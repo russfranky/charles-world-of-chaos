@@ -38,3 +38,7 @@ d36a0504-4533-4271-b115-a49c53b7bc97
 ## Testing Prompt
 
 > Document what Linux CI can vs can't test. iPad install path: Safari → download .mcaddon → Open in Minecraft → new world + Holiday Creator Features + Beta APIs + both packs.
+
+## Venice AI Prompts
+
+> Generate featured textures at 1024×1024 with FLUX (`flux-2-pro`), downscale nearest-neighbor to Minecraft sizes. See `VENICE_PROMPTS.md` and `variants/ultimate-chaos-pack/prompts/venice_prompts.json`. Requires `VENICE_API_KEY` env var — never commit keys.

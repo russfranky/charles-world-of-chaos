@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "style_suffix": "Flat pixel art, hard edges, no anti-aliasing, no gradients, solid color blocks, Minecraft style, transparent background.",
+  "style_anchor": {
+    "id": "style_anchor",
+    "model": "flux-2-pro",
+    "generate_size": 1024,
+    "prompt": "A lineup of five Minecraft mobs (zombie, creeper, skeleton, spider, pig) all wearing ridiculous handmade cow costumes. Each costume is slightly different and badly fitting. They stand in a row on a Minecraft grass block stage. One holds a sign saying \"We are ALL cows now.\" Flat pixel art, Minecraft style, comedic, warm colors, transparent background."
+  },
+  "textures": [
+    {
+      "id": "zombie",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/zombie/zombie.png",
+      "prompt": "Minecraft skin texture sheet, flat UV layout, 64x64 pixels. A zombie wearing a full Holstein cow costume — black and white cow-print bodysuit, pink udder hanging off the belt, tiny horns poking through a rotting green head, one googly eye. Comedically grumpy expression. The cow spots are stitched on like patches. Flat pixel art style, hard edges, no anti-aliasing, solid color blocks, transparent background. Laid out as a Minecraft entity skin template with front, back, left, right, top, bottom faces visible."
+    },
+    {
+      "id": "creeper",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/creeper/creeper.png",
+      "prompt": "Minecraft entity skin texture sheet, flat UV unwrap, 64x64. A creeper whose entire body is a tall rectangular milk carton with black and white cow spots. The creeper face is replaced by a dopey smiling cow face with a daisy in its mouth. Hooves instead of feet. \"MOO-BOOM\" printed on the side in blocky red letters. Flat pixel art, hard edges, no gradients, no shading, Minecraft style, transparent background."
+    },
+    {
+      "id": "skeleton",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/skeleton/skeleton.png",
+      "prompt": "Minecraft skin texture UV sheet, 64x64. A skeleton made entirely of cow bones — rib cage shaped like a cow's ribcage, skull is a cow skull with horns, holding a bow made from a bent cow femur. Wearing a tiny cowbell necklace. Off-white bone color with brown spots where marrow shows through. Flat pixel art, hard-edged blocks, Minecraft entity template layout, transparent background."
+    },
+    {
+      "id": "spider",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/spider/spider.png",
+      "prompt": "Minecraft entity texture sheet, flat UV map, 64x64. A spider covered in fluffy Holstein cow-print fur, eight legs ending in tiny hooves, eight beady eyes replaced with two big dopey cow eyes. A miniature cowbell dangles from each leg. Absurdly cute and round. Flat pixel art style, no anti-aliasing, Minecraft template layout, transparent background."
+    },
+    {
+      "id": "enderman",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/enderman/enderman.png",
+      "prompt": "Minecraft entity texture flat UV sheet, 64x64. An impossibly tall, slender cow standing upright — long black and white spotted body, unnervingly long legs ending in hooves, holding a grass block in one hoof. Purple particle eyes replaced with glowing purple cow eyes. Wears a tiny top hat. Flat pixel art, hard edges, Minecraft skin template format, transparent background."
+    },
+    {
+      "id": "blaze",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/blaze.png",
+      "prompt": "Minecraft entity texture sheet, flat UV, 64x64. A floating cow head surrounded by spinning butter sticks instead of blaze rods. The cow face is bright orange like cheddar cheese, steam coming from nostrils. Molten cheese drips. Expression: smugly content. Flat pixel art, Minecraft style, no gradients, template layout, transparent background."
+    },
+    {
+      "id": "ghast",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/ghast/ghast.png",
+      "prompt": "Minecraft entity texture sheet, 64x64. A massive floating cow head — puffy white like mozzarella, enormous sad cow eyes with a single tear, tiny useless hooves dangling underneath. When it opens its mouth you see a pink tongue and the word \"moo\" in a speech bubble. Flat pixel art, hard-edged, Minecraft UV template, transparent background."
+    },
+    {
+      "id": "witch",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/witch.png",
+      "prompt": "Minecraft skin texture sheet, flat UV, 64x64. A cow wearing a purple witch hat and robe, holding a potion bottle filled with milk. Green wart on nose. Suspicious squinting cow eyes. Hooves poking out of sleeves. Cow tail sticking out the back of the robe. Flat pixel art, hard edges, Minecraft entity template, transparent background."
+    },
+    {
+      "id": "pig",
+      "category": "entity",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 64,
+      "pack_path": "textures/entity/pig/pig.png",
+      "prompt": "Minecraft skin texture sheet, 64x64 flat UV. A pig wearing a very unconvincing cow costume — cardboard horns taped to head, black spots painted on with dripping paint, a fake udder made from a rubber glove, a sign around neck reading \"I AM COW\". Pig snout still visible. Hilariously bad disguise. Flat pixel art, Minecraft template layout, transparent background."
+    },
+    {
+      "id": "stone",
+      "category": "block",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/blocks/stone.png",
+      "prompt": "16x16 pixel art texture tile, seamless. Gray stone surface with subtle Holstein black and white cow spots fossilized into the rock. A tiny cow hoof print embedded like a fossil. Flat colors, no gradients, Minecraft block style, tileable."
+    },
+    {
+      "id": "dirt",
+      "category": "block",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/blocks/dirt.png",
+      "prompt": "16x16 pixel art seamless tile. Brown dirt with patches of cow-print pattern mixed in. A half-buried cowbell visible in one corner. Small tufts of grass shaped like tiny cow horns. Minecraft block texture style, flat colors, hard edges."
+    },
+    {
+      "id": "diamond_ore",
+      "category": "block",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/blocks/diamond_ore.png",
+      "prompt": "16x16 pixel art seamless tile. Dark stone with glowing blue diamonds replaced by glowing blue cowbells embedded in the rock. Cow-spot pattern in the stone. Minecraft ore texture style, flat pixel art, no anti-aliasing."
+    },
+    {
+      "id": "tnt_side",
+      "category": "block",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/blocks/tnt_side.png",
+      "also_apply": ["textures/blocks/tnt_top.png", "textures/blocks/tnt_bottom.png"],
+      "prompt": "16x16 pixel art texture, all four sides. Red TNT block but the label reads \"MOO\" in white blocky letters. Black and white cow spots on the red surface. A cartoon cow tail as the fuse on top. Minecraft block style, flat colors."
+    },
+    {
+      "id": "crafting_table_top",
+      "category": "block",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/blocks/crafting_table_top.png",
+      "prompt": "16x16 pixel art tile. Wooden crafting table top but the grid lines are made of cow spots. Tools on the side replaced with milk bucket, cowbell, and a butter knife. \"Brindal & Grayson's Workshop\" carved into the wood in tiny pixel letters. Minecraft style, flat."
+    },
+    {
+      "id": "pack_icon",
+      "category": "gui",
+      "model": "gpt-image-2",
+      "generate_size": 1024,
+      "target_size": 256,
+      "pack_path": "pack_icon.png",
+      "prompt": "256x256 pixel art. Two cartoon Minecraft-style cows wearing crowns, one labeled \"B\" and one labeled \"G\" on their ear tags. They stand on a grassy hill with a Minecraft sunset behind them. A banner above reads \"BRINDAL & GRAYSON'S COW WORLD\" in blocky Minecraft font. Stars and cowbells border the image. Warm, joyful, silly. Clean pixel art, Minecraft aesthetic."
+    },
+    {
+      "id": "hotbar_slot",
+      "category": "gui",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/ui/empty_slot.png",
+      "prompt": "Minecraft GUI texture, flat pixel art. Inventory slot background in cow-hide leather texture — tan with subtle brown cow spots. Border is a rope lasso pattern. Clean, readable, 16x16 tile for slots."
+    },
+    {
+      "id": "iron_sword",
+      "category": "item",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/items/iron_sword.png",
+      "prompt": "16x16 pixel art item sprite, transparent background. A sword made from a cow horn — ivory white with brown base, wrapped handle made of leather strips, a tiny cowbell pommel. Minecraft item style, flat colors, 45-degree angle."
+    },
+    {
+      "id": "iron_pickaxe",
+      "category": "item",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/items/iron_pickaxe.png",
+      "prompt": "16x16 pixel art item. A pickaxe where the head is two cow horns mounted on a wooden stick, handle wrapped in cow hide. A small \"B&G\" brand mark on the handle. Minecraft item sprite style, transparent background."
+    },
+    {
+      "id": "sun",
+      "category": "environment",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 32,
+      "pack_path": "textures/environment/sun.png",
+      "prompt": "Minecraft sun texture, 32x32 pixel art, transparent background. A giant golden cowbell radiating light beams. The clapper hangs down. Warm yellow glow. Simple, iconic, unmistakably a cowbell. Flat pixel art."
+    },
+    {
+      "id": "moon",
+      "category": "environment",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 32,
+      "pack_path": "textures/environment/moon_phases.png",
+      "prompt": "Minecraft moon texture, 32x32 pixel art, transparent background. A wheel of Swiss cheese with holes, cow-spot shadows on the surface. Crescent phases should show bite marks as if a cow ate part of it. Flat pixel art, pale yellow."
+    },
+    {
+      "id": "panorama_0",
+      "category": "panorama",
+      "model": "gpt-image-2",
+      "generate_size": 1024,
+      "target_size": 512,
+      "pack_path": "textures/ui/panorama/panorama_0.png",
+      "prompt": "Minecraft-style 3D rendered landscape, 512x512. Rolling green hills absolutely packed with hundreds of Minecraft cows in every direction. Some cows are stacked on top of each other. Cow-print clouds in the sky. The sun is a giant cowbell. Rivers of milk flow between the hills. A wooden sign reads \"Welcome Brindal & Grayson!\" Blocky Minecraft aesthetic, warm golden hour lighting."
+    }
+  ]
+}

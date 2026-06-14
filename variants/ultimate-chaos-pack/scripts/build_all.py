@@ -76,7 +76,7 @@ console.warn("[BG Cow Pack] Script API cowifier active — moo!");
 '''
 
 
-def build_all(rebuild_textures: bool = False, skip_package: bool = False) -> None:
+def build_all(rebuild_textures: bool = False, skip_package: bool = False, venice: bool = False) -> None:
     ensure_vanilla_src()
 
     # Clean output dirs on full rebuild
@@ -93,6 +93,9 @@ def build_all(rebuild_textures: bool = False, skip_package: bool = False) -> Non
     run_script("personalize_pack.py")
     write_script_api()
 
+    if venice:
+        run_script("venice_generate_textures.py", "--all")
+
     if not skip_package:
         run_script("package_mcpack.py")
         run_script("package_mcaddon.py")
@@ -106,8 +109,11 @@ def main() -> None:
                         help="Recopy vanilla source and rebuild all textures")
     parser.add_argument("--skip-package", action="store_true",
                         help="Skip packaging .mcpack/.mcaddon")
+    parser.add_argument("--venice", action="store_true",
+                        help="Generate featured textures via Venice AI (requires VENICE_API_KEY)")
     args = parser.parse_args()
-    build_all(rebuild_textures=args.rebuild_textures, skip_package=args.skip_package)
+    build_all(rebuild_textures=args.rebuild_textures, skip_package=args.skip_package,
+              venice=args.venice)
 
 
 if __name__ == "__main__":
