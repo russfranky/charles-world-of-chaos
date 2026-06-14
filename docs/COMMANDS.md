@@ -1,91 +1,89 @@
 # Cow World Commands
 
-Fun commands for **Brindal** and **Grayson**! Requires **Beta APIs** enabled in world settings.
+Fun commands for **Brindal** and **Grayson**!
 
-## Two ways to play
+<p align="center">
+  <img src="assets/commands-card.png" alt="Command reference card" width="700">
+</p>
 
-### Slash commands (autocomplete in chat)
-
-Type `/` and search for `bgcow:` — e.g. `/bgcow:party`
-
-### Chat shortcuts (easy on iPad)
-
-Type in chat with a `!` prefix:
-
-| Shortcut | Same as |
-|----------|---------|
-| `!moo` | `/bgcow:moo` |
-| `!b` | `/bgcow:brindal` |
-| `!g` | `/bgcow:grayson` |
-| `!help` | `/bgcow:help` |
+**Requires Beta APIs** enabled when creating the world.
 
 ---
 
-## All commands
+## Easy mode — chat shortcuts (best for iPad)
 
-### 🐄 Cow friends
+Just open chat and type:
 
-| Command | What it does |
-|---------|--------------|
-| `/bgcow:moo` | Spawn a cow + moo sound |
-| `/bgcow:brindal` | Spawn **Brindal's** special brown cow |
-| `/bgcow:grayson` | Spawn **Grayson's** special gray cow |
-| `/bgcow:twins` | Spawn both Brindal & Grayson cows |
-| `/bgcow:love` | Both cows + happy particles |
-
-### 🎉 Cow chaos
-
-| Command | What it does |
-|---------|--------------|
-| `/bgcow:party` | Cow party — ring of cows around you |
-| `/bgcow:rain` | Cows fall from the sky! |
-| `/bgcow:stampede` | Line of cows charges toward you |
-| `/bgcow:mega` | MEGA chaos — tons of cows everywhere |
-| `/bgcow:cowify` | Turn nearby mobs into cows |
-
-### ✨ Magic & fun
-
-| Command | What it does |
-|---------|--------------|
-| `/bgcow:heal` | Cow magic full heal + regeneration |
-| `/bgcow:fly` | Levitation + slow falling |
-| `/bgcow:jump` | Super jump boost |
-| `/bgcow:sunny` | Clear sunny day + friendly cows |
-| `/bgcow:night` | Cheese moon night |
-| `/bgcow:milk` | Free milk bucket |
-| `/bgcow:feast` | Wheat, milk, cookies + cows |
-| `/bgcow:bell` | Cowbell concert (5 moos!) |
-
-### 📖 Help
-
-| Command | What it does |
-|---------|--------------|
-| `/bgcow:help` | List all commands in chat |
+| Shortcut | Effect |
+|----------|--------|
+| `!moo` | Spawn a cow + moo sound |
+| `!b` | Brindal's special cow |
+| `!g` | Grayson's special cow |
+| `!twins` | Both cows at once |
+| `!party` | Ring of cows around you 🎉 |
+| `!rain` | Cows fall from the sky |
+| `!stampede` | Cow stampede |
+| `!mega` | MEGA cow chaos |
+| `!heal` | Full heal + regeneration |
+| `!fly` | Levitation + slow fall |
+| `!jump` | Super jump boost |
+| `!sunny` | Clear sunny day + cows |
+| `!night` | Cheese moon night |
+| `!milk` | Free milk bucket |
+| `!feast` | Wheat, milk, cookies |
+| `!bell` | Cowbell concert |
+| `!love` | Both cows + hearts |
+| `!cowify` | Turn nearby mobs into cows |
+| `!help` | List all commands |
 
 ---
 
-## Chat shortcut list
+## Slash commands (autocomplete)
+
+Type `/` in chat and search `bgcow:`:
 
 ```
-!moo  !brindal  !grayson  !twins  !party  !rain  !stampede  !mega
-!heal  !fly  !jump  !sunny  !night  !milk  !feast  !bell  !love
-!cowify  !help  !cowhelp  !b  !g
+/bgcow:moo        /bgcow:brindal     /bgcow:grayson
+/bgcow:party      /bgcow:rain        /bgcow:mega
+/bgcow:heal       /bgcow:fly         /bgcow:help
 ```
+
+Full list: `/bgcow:help`
+
+---
+
+## Meet the star cows
+
+<p align="center">
+  <img src="assets/brindal-cow.png" alt="Brindal Cow" width="180">
+  <img src="assets/grayson-cow.png" alt="Grayson Cow" width="180">
+</p>
+
+| Cow | Command | Summon |
+|-----|---------|--------|
+| **Brindal** | `!b` | `/summon bgcow:brindal_cow` |
+| **Grayson** | `!g` | `/summon bgcow:grayson_cow` |
+
+These cows are special — they won't get transformed into regular cows by the pack.
 
 ---
 
 ## Tips for parents
 
-- Commands work **without cheats** (`cheatsRequired: false`)
-- All players in the world can use them
-- Brindal & Grayson cows (`bgcow:brindal_cow`, `bgcow:grayson_cow`) are **never** auto-transformed — they stay special
-- `/bgcow:mega` and `/bgcow:rain` spawn many entities — best on a decent iPad with a fresh world
+- Commands work **without traditional cheats** enabled
+- Any player in the world can use them
+- `!mega` and `!rain` spawn many cows — can lag older iPads
+- If commands don't work, check **Beta APIs** is ON (requires new world)
 
-## Vanilla summon (no Script API needed)
+---
 
-If Beta APIs are off, you can still use:
+## No Script API?
+
+If Beta APIs are off, vanilla summon still works:
 
 ```
 /summon bgcow:brindal_cow
 /summon bgcow:grayson_cow
 ```
+
+You won't get `!moo` / `!party` without Beta APIs.

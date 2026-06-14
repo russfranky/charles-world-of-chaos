@@ -1,95 +1,151 @@
+<p align="center">
+  <img src="docs/assets/hero-banner.png" alt="Brindal & Grayson Cow World — Minecraft Bedrock add-on" width="100%">
+</p>
+
 # Brindal & Grayson Cow World
 
-One Minecraft Bedrock add-on for **Brindal** (daughter) and **Grayson** (son) on iPad.
+**A Minecraft Bedrock add-on for iPad** — built for Brindal and Grayson.
 
-**Everything is cows** — plus two named custom cows just for them.
+Everything is cows. Zombies, creepers, blocks, the sun — all cows. Plus two special cows named just for them.
 
-| What you get | Details |
-|--------------|---------|
-| **Ultimate cow chaos** | 4,600+ cow-hide textures, all mobs become cows, cow moos everywhere |
-| **Brindal Cow** | `bgcow:brindal_cow` — brown with white spots, named for Brindal |
-| **Grayson Cow** | `bgcow:grayson_cow` — gray with dark spots, named for Grayson |
-| **Personal touches** | Pack icon with B & G, diamond block "B", gold block "G" |
+<p align="center">
+  <img src="docs/assets/family-cows.png" alt="Brindal Cow and Grayson Cow" width="600">
+</p>
 
-## Quick Install (iPad)
+| | |
+|---|---|
+| **Brindal Cow** | Brown with white spots — `/summon bgcow:brindal_cow` or type `!b` |
+| **Grayson Cow** | Gray with dark spots — `/summon bgcow:grayson_cow` or type `!g` |
+| **Cow chaos** | 4,600+ cow-hide textures, all mobs become cows, cow moos everywhere |
+| **19 fun commands** | Cow parties, cow rain, flying, healing — type `!moo` or `/bgcow:party` |
 
-1. [Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)
-2. Safari → tap download → **Open in Minecraft**
-3. Create a **NEW** world with:
-   - **Holiday Creator Features** ON
-   - **Beta APIs** ON
-4. Activate both resource and behavior packs
+---
 
-Visual-only fallback (no experiments): [brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)
+## iPad install (5 minutes)
 
-Summon the kids' cows:
+<p align="center">
+  <img src="docs/assets/install-steps.png" alt="Install steps: Download, Open, New World, Play" width="900">
+</p>
+
+### Step 1 — Download
+
+Tap this link on the iPad in **Safari**:
+
+**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
+
+### Step 2 — Open in Minecraft
+
+When the download finishes, tap the file → **Open in Minecraft**. Both packs import automatically.
+
+### Step 3 — Create a NEW world
+
+> Important: use a **new** world, not an old one.
+
+When creating the world, turn **ON**:
+
+- **Holiday Creator Features**
+- **Beta APIs**
+
+Then under world settings, activate **both** packs:
+- Brindal & Grayson Cow World (resource)
+- Brindal & Grayson Cow World BP (behavior)
+
+### Step 4 — Play!
+
+Open chat and try:
 
 ```
-/summon bgcow:brindal_cow
-/summon bgcow:grayson_cow
+!moo
+!party
+!b
+!g
 ```
+
+Or type `/` and search for `bgcow:` commands.
+
+📖 **Full install guide:** [docs/installation.md](docs/installation.md)  
+🎮 **All commands:** [docs/COMMANDS.md](docs/COMMANDS.md)
+
+---
 
 ## Fun commands
 
-**19 commands** for Brindal & Grayson — cow parties, cow rain, healing, flying, and more!
+<p align="center">
+  <img src="docs/assets/commands-card.png" alt="Fun commands: !moo, !party, !rain, !brindal, !grayson" width="700">
+</p>
 
-```
-/bgcow:party    /bgcow:rain    /bgcow:brindal    /bgcow:grayson
-/bgcow:help     !moo           !party            !b  !g
-```
+| Easy (chat) | Slash command | What happens |
+|-------------|---------------|--------------|
+| `!moo` | `/bgcow:moo` | Spawn a cow |
+| `!b` | `/bgcow:brindal` | Brindal's cow |
+| `!g` | `/bgcow:grayson` | Grayson's cow |
+| `!party` | `/bgcow:party` | Cow party ring |
+| `!rain` | `/bgcow:rain` | Cows fall from sky |
+| `!mega` | `/bgcow:mega` | MEGA cow chaos |
+| `!heal` | `/bgcow:heal` | Cow magic heal |
+| `!help` | `/bgcow:help` | List all commands |
 
-Full list: [docs/COMMANDS.md](docs/COMMANDS.md)
+**Tip for iPad:** The `!` shortcuts are easiest — kids just type in chat, no slash menu needed.
 
-## Why one package?
+---
 
-Earlier versions shipped two separate add-ons (custom cows vs. ultimate chaos). That meant two downloads, two installs, and kids had to pick one. **One `.mcaddon` is simpler** — tap once, get everything. The build pipeline merges custom cow entities into the full chaos pack automatically.
+## Meet the cows
 
-## Repository Structure
+<p align="center">
+  <img src="docs/assets/brindal-cow.png" alt="Brindal Cow" width="200">
+  <img src="docs/assets/grayson-cow.png" alt="Grayson Cow" width="200">
+</p>
 
-```
-brindal-grayson-cow-pack/
-├── resource_packs/brindal_grayson_cow_rp/   # Custom cow source (merged at build)
-├── behavior_packs/brindal_grayson_cow_bp/   # Custom cow source (merged at build)
-├── variants/ultimate-chaos-pack/            # Build pipeline + Venice AI prompts
-│   └── scripts/                             # build_all.py, cowify_*.py, merge_custom_cows.py
-├── scripts/build-mcaddon.sh                 # → dist/brindal-grayson-cow-pack.mcaddon
-├── dist/
-│   ├── brindal-grayson-cow-pack.mcaddon     # Full add-on (install this)
-│   └── brindal-grayson-cow-pack.mcpack      # Visual-only fallback
-├── docs/
-├── VENICE_PROMPTS.md                        # Optional AI texture generation
-└── LICENSE
-```
+---
 
-## Build from Source
+## Requirements
+
+| Requirement | Why |
+|-------------|-----|
+| **Minecraft Bedrock** on iPad | This is not Java Edition |
+| **Version 1.21.0+** | Update the app if import fails |
+| **New world** | Experiments must be set at world creation |
+| **Holiday Creator Features** | Mob transforms, behavior pack |
+| **Beta APIs** | Fun commands (`!moo`, `/bgcow:party`) |
+
+### Visual-only fallback
+
+If experiments cause trouble, use the lighter pack (textures only, no commands):
+
+**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)**
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| Commands don't work | Turn on **Beta APIs** in world settings |
+| Mobs aren't cows | Turn on **Holiday Creator Features**; make a **new** world |
+| Checkerboard textures | Activate **both** resource and behavior packs |
+| Packs missing | Re-download `.mcaddon`; restart Minecraft |
+| Import failed | Update Minecraft to 1.21.0+ |
+
+---
+
+## For parents
+
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** — plain-language walkthrough
+- **[Command List](docs/COMMANDS.md)** — every command explained
+- **[Install Guide](docs/installation.md)** — detailed iPad steps
+
+---
+
+## Build from source
 
 ```bash
 pip3 install -r requirements.txt
 ./scripts/build-mcaddon.sh
+python3 scripts/generate_docs_images.py   # regenerate README images
 ```
 
-Optional Venice AI featured textures:
-
-```bash
-export VENICE_API_KEY='your-key'
-python3 variants/ultimate-chaos-pack/scripts/build_all.py --rebuild-textures --venice
-```
-
-## Requirements
-
-- Minecraft Bedrock Edition 1.21.0+
-- Holiday Creator Features + Beta APIs (for full experience)
-
-## Resource Pack UUID
-
-```
-d36a0504-4533-4271-b115-a49c53b7bc97
-```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). Minecraft assets derived from [Mojang bedrock-samples](https://github.com/Mojang/bedrock-samples).
