@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Clone Mojang bedrock-samples (sparse)
+        run: |
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/Mojang/bedrock-samples.git vanilla_src
+          cd vanilla_src && git sparse-checkout set resource_pack behavior_pack
+
+      - name: Build full cow pack
+        run: python3 scripts/build_all.py --rebuild-textures
+
+      - name: Validate pack structure
+        run: python3 scripts/validate_pack.py
+
+      - name: Upload distributables
+        uses: actions/upload-artifact@v4
+        with:
+          name: brindal-grayson-cow-pack
+          path: |
+            dist/brindal-grayson-ultimate-cow.mcaddon
+            dist/brindal-grayson-ultimate-cow-pack.mcpack
+          retention-days: 30

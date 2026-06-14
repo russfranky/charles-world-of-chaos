@@ -1,0 +1,25 @@
+# Vanilla source (cloned at build time)
+vanilla_src/
+
+# Build outputs (pack dirs are rebuilt locally; dist/ is committed for iPad install)
+pack/
+behavior_pack/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*~
+
+# Minecraft local dev copies
+development_behavior_packs/
+development_resource_packs/
