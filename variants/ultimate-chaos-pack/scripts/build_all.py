@@ -91,6 +91,7 @@ def build_all(rebuild_textures: bool = False, skip_package: bool = False, venice
     run_script("prune_sounds.py")
     run_script("cowify_behavior_entities.py", *(["--rebuild"] if rebuild_textures else []))
     run_script("personalize_pack.py")
+    run_script("merge_custom_cows.py")
     write_script_api()
 
     if venice:

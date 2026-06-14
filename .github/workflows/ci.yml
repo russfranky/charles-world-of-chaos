@@ -24,10 +24,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build both add-on variants
+      - name: Build unified cow pack
         run: ./scripts/build-mcaddon.sh
 
-      - name: Validate Ultimate Chaos pack
+      - name: Validate pack structure
         run: python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
 
       - name: Upload distributables
@@ -35,7 +35,6 @@ jobs:
         with:
           name: brindal-grayson-cow-pack
           path: |
-            dist/custom-cows.mcaddon
-            dist/ultimate-chaos.mcaddon
-            dist/ultimate-chaos.mcpack
+            dist/brindal-grayson-cow-pack.mcaddon
+            dist/brindal-grayson-cow-pack.mcpack
           retention-days: 30

@@ -1,42 +1,39 @@
-# Ultimate Chaos Pack
+# Ultimate Chaos Build Pipeline
 
-The **Ultimate Chaos** variant cowifies the entire Minecraft Bedrock experience for Brindal and Grayson:
+Builds the **unified** Brindal & Grayson Cow World add-on:
 
-- **4,600+** textures replaced with cow-hide patterns
-- **All mobs** render as cows and transform into cows on spawn
-- **All mob sounds** redirected to cow moos
-- Script API backup cowifier
+1. Cowify 4600+ textures, mobs, sounds, behavior
+2. Merge Brindal & Grayson custom cows (`merge_custom_cows.py`)
+3. Package → `dist/brindal-grayson-cow-pack.mcaddon`
 
-## Build (from repo root)
+## Build
 
 ```bash
-./scripts/build-mcaddon.sh          # builds both variants
-# or chaos only:
-pip3 install -r requirements.txt
-python3 variants/ultimate-chaos-pack/scripts/build_all.py --rebuild-textures
-python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
+# From repo root (recommended)
+./scripts/build-mcaddon.sh
+
+# Or chaos pipeline only
+pip3 install -r ../../requirements.txt
+python3 scripts/build_all.py --rebuild-textures
+python3 scripts/validate_pack.py
 ```
 
 ## Output
 
 | File | Description |
 |------|-------------|
-| `dist/ultimate-chaos.mcaddon` | Full add-on (RP + BP + Script API) |
-| `dist/ultimate-chaos.mcpack` | Visual-only fallback |
+| `dist/brindal-grayson-cow-pack.mcaddon` | Full add-on — install this |
+| `dist/brindal-grayson-cow-pack.mcpack` | Visual-only fallback |
 
-## iPad install
+## Optional: Venice AI textures
 
-1. Download `dist/ultimate-chaos.mcaddon`
-2. Safari → Open in Minecraft
-3. **New world** with Holiday Creator Features + Beta APIs
-4. Activate both resource and behavior packs
+```bash
+export VENICE_API_KEY='your-key'
+python3 scripts/venice_generate_textures.py --category entity
+python3 scripts/build_all.py --rebuild-textures --venice
+```
 
-## Requirements
-
-- Minecraft Bedrock 1.21.0+
-- Holiday Creator Features (behavior transforms)
-- Beta APIs (Script API backup)
-- Optional: `VENICE_API_KEY` for AI-generated featured textures — see [VENICE_PROMPTS.md](../../VENICE_PROMPTS.md)
+See [VENICE_PROMPTS.md](../../VENICE_PROMPTS.md).
 
 ## Resource pack UUID
 

@@ -1,58 +1,52 @@
-# Brindal & Grayson Cow Pack
+# Brindal & Grayson Cow World
 
-Minecraft Bedrock Edition add-ons for **Brindal** (daughter) and **Grayson** (son) on iPad.
+One Minecraft Bedrock add-on for **Brindal** (daughter) and **Grayson** (son) on iPad.
 
-This repo contains **two add-ons** — pick the one that fits your play style:
+**Everything is cows** — plus two named custom cows just for them.
 
-| Add-on | File | Best for | What it does |
-|--------|------|----------|--------------|
-| **Custom Cows** | `dist/custom-cows.mcaddon` | **Kids / everyday play** | Adds Brindal Cow and Grayson Cow as friendly custom mobs. Vanilla game stays normal. |
-| **Ultimate Chaos** | `dist/ultimate-chaos.mcaddon` | **Maximum silliness** | Cowifies *everything* — textures, sounds, mobs. Zombies become cows. Blocks look like cow hide. |
-
-> **Recommendation for Brindal & Grayson:** Start with **Custom Cows**. Try Ultimate Chaos when you want total cow madness (needs experimental toggles).
+| What you get | Details |
+|--------------|---------|
+| **Ultimate cow chaos** | 4,600+ cow-hide textures, all mobs become cows, cow moos everywhere |
+| **Brindal Cow** | `bgcow:brindal_cow` — brown with white spots, named for Brindal |
+| **Grayson Cow** | `bgcow:grayson_cow` — gray with dark spots, named for Grayson |
+| **Personal touches** | Pack icon with B & G, diamond block "B", gold block "G" |
 
 ## Quick Install (iPad)
 
-### Custom Cows (recommended)
-
-1. [Download custom-cows.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/custom-cows.mcaddon)
+1. [Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)
 2. Safari → tap download → **Open in Minecraft**
-3. Create or edit a world → activate both packs
-4. Find Brindal and Grayson cows in plains/forest biomes, or summon them:
+3. Create a **NEW** world with:
+   - **Holiday Creator Features** ON
+   - **Beta APIs** ON
+4. Activate both resource and behavior packs
+
+Visual-only fallback (no experiments): [brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)
+
+Summon the kids' cows:
 
 ```
 /summon bgcow:brindal_cow
 /summon bgcow:grayson_cow
 ```
 
-### Ultimate Chaos
+## Why one package?
 
-1. [Download ultimate-chaos.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/ultimate-chaos.mcaddon)
-2. Safari → **Open in Minecraft**
-3. Create a **NEW** world with:
-   - **Holiday Creator Features** ON
-   - **Beta APIs** ON
-4. Activate both resource and behavior packs
-
-Visual-only fallback (no behavior/scripts): [ultimate-chaos.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/ultimate-chaos.mcpack)
+Earlier versions shipped two separate add-ons (custom cows vs. ultimate chaos). That meant two downloads, two installs, and kids had to pick one. **One `.mcaddon` is simpler** — tap once, get everything. The build pipeline merges custom cow entities into the full chaos pack automatically.
 
 ## Repository Structure
 
 ```
 brindal-grayson-cow-pack/
-├── resource_packs/brindal_grayson_cow_rp/   # Custom Cows — resource pack
-├── behavior_packs/brindal_grayson_cow_bp/   # Custom Cows — behavior pack
-├── variants/ultimate-chaos-pack/            # Ultimate Chaos — full pipeline
-│   ├── scripts/                             #   build_all.py, cowify_*.py, etc.
-│   ├── pack/                                #   built RP (gitignored)
-│   └── behavior_pack/                       #   built BP (gitignored)
-├── scripts/build-mcaddon.sh                 # Builds BOTH → dist/
+├── resource_packs/brindal_grayson_cow_rp/   # Custom cow source (merged at build)
+├── behavior_packs/brindal_grayson_cow_bp/   # Custom cow source (merged at build)
+├── variants/ultimate-chaos-pack/            # Build pipeline + Venice AI prompts
+│   └── scripts/                             # build_all.py, cowify_*.py, merge_custom_cows.py
+├── scripts/build-mcaddon.sh                 # → dist/brindal-grayson-cow-pack.mcaddon
 ├── dist/
-│   ├── custom-cows.mcaddon                  # Custom Cows distributable
-│   ├── ultimate-chaos.mcaddon               # Ultimate Chaos full add-on
-│   └── ultimate-chaos.mcpack                # Ultimate Chaos visual-only
-├── docs/                                    # Install & development guides
-├── CONTRIBUTING.md
+│   ├── brindal-grayson-cow-pack.mcaddon     # Full add-on (install this)
+│   └── brindal-grayson-cow-pack.mcpack      # Visual-only fallback
+├── docs/
+├── VENICE_PROMPTS.md                        # Optional AI texture generation
 └── LICENSE
 ```
 
@@ -63,46 +57,27 @@ pip3 install -r requirements.txt
 ./scripts/build-mcaddon.sh
 ```
 
-This produces all three files in `dist/`. See [docs/installation.md](docs/installation.md) and [variants/ultimate-chaos-pack/README.md](variants/ultimate-chaos-pack/README.md) for details.
+Optional Venice AI featured textures:
 
-## Custom Cows — Entities
-
-| Entity | Identifier | Description |
-|--------|-----------|-------------|
-| Brindal Cow | `bgcow:brindal_cow` | Brown cow with white spots — for Brindal |
-| Grayson Cow | `bgcow:grayson_cow` | Gray cow with dark spots — for Grayson |
-
-Both support milking, breeding, aging, and cross-breeding.
-
-## Ultimate Chaos — Stats
-
-- 4,600+ cow-hide textures (blocks, items, entities, GUI, UI)
-- 170+ client entity overrides → all mobs look like cows
-- 120+ behavior entities transform to cows on spawn
-- Mob sounds redirected to cow moos
-- Script API backup cowifier
+```bash
+export VENICE_API_KEY='your-key'
+python3 variants/ultimate-chaos-pack/scripts/build_all.py --rebuild-textures --venice
+```
 
 ## Requirements
 
 - Minecraft Bedrock Edition 1.21.0+
-- Custom Cows: no experiments required
-- Ultimate Chaos: Holiday Creator Features + Beta APIs
+- Holiday Creator Features + Beta APIs (for full experience)
 
-## Ultimate Chaos — Venice AI textures (optional)
+## Resource Pack UUID
 
-Featured mob/block/UI textures can be generated via [Venice AI](https://venice.ai) for higher-quality comedy art:
-
-```bash
-export VENICE_API_KEY='your-key'   # see .env.example — never commit keys
-python3 variants/ultimate-chaos-pack/scripts/venice_generate_textures.py --category entity
-python3 variants/ultimate-chaos-pack/scripts/build_all.py --rebuild-textures --venice
 ```
-
-See [VENICE_PROMPTS.md](VENICE_PROMPTS.md) for all prompts and model recommendations.
+d36a0504-4533-4271-b115-a49c53b7bc97
+```
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Use the `bgcow:` namespace for custom identifiers.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

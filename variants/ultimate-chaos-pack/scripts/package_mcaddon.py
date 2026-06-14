@@ -12,7 +12,7 @@ from common import DIST, PACK_BP, PACK_RP
 
 def package_mcaddon(output: Path | None = None) -> Path:
     DIST.mkdir(parents=True, exist_ok=True)
-    out = output or DIST / "ultimate-chaos.mcaddon"
+    out = output or DIST / "brindal-grayson-cow-pack.mcaddon"
 
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
         for pack_dir in (PACK_RP, PACK_BP):

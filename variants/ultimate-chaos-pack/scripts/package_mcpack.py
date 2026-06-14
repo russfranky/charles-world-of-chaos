@@ -12,7 +12,7 @@ from common import DIST, PACK_RP
 
 def package_mcpack(output: Path | None = None) -> Path:
     DIST.mkdir(parents=True, exist_ok=True)
-    out = output or DIST / "ultimate-chaos.mcpack"
+    out = output or DIST / "brindal-grayson-cow-pack.mcpack"
 
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
         for path in sorted(PACK_RP.rglob("*")):
