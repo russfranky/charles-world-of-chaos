@@ -29,6 +29,17 @@ Summon the kids' cows:
 /summon bgcow:grayson_cow
 ```
 
+## Fun commands
+
+**19 commands** for Brindal & Grayson — cow parties, cow rain, healing, flying, and more!
+
+```
+/bgcow:party    /bgcow:rain    /bgcow:brindal    /bgcow:grayson
+/bgcow:help     !moo           !party            !b  !g
+```
+
+Full list: [docs/COMMANDS.md](docs/COMMANDS.md)
+
 ## Why one package?
 
 Earlier versions shipped two separate add-ons (custom cows vs. ultimate chaos). That meant two downloads, two installs, and kids had to pick one. **One `.mcaddon` is simpler** — tap once, get everything. The build pipeline merges custom cow entities into the full chaos pack automatically.

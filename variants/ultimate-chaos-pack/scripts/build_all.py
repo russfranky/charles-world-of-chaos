@@ -42,38 +42,11 @@ def ensure_vanilla_src() -> None:
 def write_script_api() -> None:
     script_dir = PACK_BP / "scripts"
     script_dir.mkdir(parents=True, exist_ok=True)
-    (script_dir / "main.js").write_text(SCRIPT_API_SOURCE, encoding="utf-8")
+    src = VARIANT_ROOT / "script_api" / "main.js"
+    if not src.exists():
+        raise FileNotFoundError(f"Script API source missing: {src}")
+    shutil.copy2(src, script_dir / "main.js")
     print(f"Wrote {script_dir / 'main.js'}")
-
-
-SCRIPT_API_SOURCE = '''/**
- * Brindal & Grayson Ultimate Cow Pack — Script API backup cowifier.
- * Transforms any non-cow mob into a cow on spawn (belt-and-suspenders with BP transforms).
- */
-import { world, system } from "@minecraft/server";
-
-const COW_TYPE = "minecraft:cow";
-const SKIP_TYPES = new Set(["minecraft:cow", "minecraft:mooshroom", "minecraft:player"]);
-
-function cowifyEntity(entity) {
-    const typeId = entity.typeId;
-    if (SKIP_TYPES.has(typeId)) return;
-    try {
-        const loc = entity.location;
-        const dim = entity.dimension;
-        entity.remove();
-        dim.spawnEntity(COW_TYPE, loc);
-    } catch (e) {
-        // Entity may have been removed already
-    }
-}
-
-world.afterEvents.entitySpawn.subscribe((event) => {
-    system.run(() => cowifyEntity(event.entity));
-});
-
-console.warn("[BG Cow Pack] Script API cowifier active — moo!");
-'''
 
 
 def build_all(rebuild_textures: bool = False, skip_package: bool = False, venice: bool = False) -> None:

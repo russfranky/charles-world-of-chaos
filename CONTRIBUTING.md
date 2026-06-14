@@ -30,7 +30,7 @@ Run `./scripts/build-mcaddon.sh` from the repo root.
 - [ ] Mobs appear as cows and make cow sounds
 - [ ] Brindal and Grayson cows spawn and are NOT transformed away
 - [ ] `/summon bgcow:brindal_cow` and `bgcow:grayson_cow` work
-- [ ] iPad import via Safari works
+- [ ] `/bgcow:party` and `!moo` work in-game (needs Beta APIs)
 
 ## Reporting Issues
 
