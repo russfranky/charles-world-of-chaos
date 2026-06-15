@@ -44,7 +44,9 @@ Visual catalog of every mob texture — custom cows plus the Venice entity catal
 - **Custom cows**: Edit `resource_packs/` and `behavior_packs/`; register new files in `merge_custom_cows.py`
 - **Pack icon**: Place `pack-icon.png` (or `pack_icon.png`, 256×256+ square PNG) in `resource_packs/brindal_grayson_cow_rp/` — used in-game and in docs
 - **GUI**: Edit `gui_overrides/` only — never commit built `pack/ui/` overrides
-- **Venice AI**: `VENICE_API_KEY` env var — never commit keys; CI does not run Venice by default
+- **Venice AI**: `VENICE_API_KEY` env var or `.env` file (see `.env.example`) — never commit keys
+- **Releases**: tag `v*` to publish `.mcaddon` / `.mcpack` via GitHub Releases
+- **Pre-commit**: `pip install -r requirements.txt && pre-commit install`
 
 ## Testing checklist
 

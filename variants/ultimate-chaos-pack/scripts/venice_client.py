@@ -9,6 +9,10 @@ from pathlib import Path
 
 import requests
 
+from env_loader import init_env
+
+init_env()
+
 API_URL = "https://api.venice.ai/api/v1/image/generate"
 DEFAULT_MODEL = "flux-2-pro"
 FALLBACK_MODEL = "venice-sd35"

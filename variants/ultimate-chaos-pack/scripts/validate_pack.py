@@ -147,8 +147,72 @@ def validate_custom_cows() -> list[str]:
         if not (PACK_RP / rel).exists():
             errors.append(f"Missing custom cow entity: {rel}")
     for name in ("brindal_cow.json", "grayson_cow.json"):
-        if not (PACK_BP / "entities" / name).exists():
+        bp_path = PACK_BP / "entities" / name
+        if not bp_path.exists():
             errors.append(f"Missing custom cow behavior: entities/{name}")
+            continue
+        data = load_json(bp_path)
+        groups = data.get("minecraft:entity", {}).get("component_groups", {})
+        if TRANSFORM_GROUP in groups:
+            errors.append(f"Custom cow must not have {TRANSFORM_GROUP}: entities/{name}")
+    return errors
+
+
+def validate_json_files() -> list[str]:
+    """Parse-check JSON and validate required top-level keys."""
+    errors: list[str] = []
+
+    for path in sorted(PACK_RP.rglob("*.json")):
+        rel = path.relative_to(PACK_RP)
+        try:
+            data = load_json(path)
+        except Exception as exc:
+            errors.append(f"Invalid JSON {rel}: {exc}")
+            continue
+
+        if path.name == "manifest.json":
+            if not isinstance(data, dict) or "format_version" not in data:
+                errors.append(f"manifest.json missing format_version: {rel}")
+            elif "header" not in data or "modules" not in data:
+                errors.append(f"manifest.json missing header/modules: {rel}")
+        elif path.name.endswith(".entity.json"):
+            if "minecraft:client_entity" not in data and "minecraft:attachable" not in data:
+                errors.append(
+                    f"RP entity missing minecraft:client_entity or attachable: {rel}"
+                )
+
+    entities_dir = PACK_BP / "entities"
+    if entities_dir.exists():
+        for path in sorted(entities_dir.glob("*.json")):
+            rel = path.relative_to(PACK_BP)
+            try:
+                data = load_json(path)
+            except Exception as exc:
+                errors.append(f"Invalid JSON {rel}: {exc}")
+                continue
+            if "minecraft:entity" not in data:
+                errors.append(f"BP entity missing minecraft:entity: {rel}")
+
+    for path in sorted(PACK_BP.rglob("*.json")):
+        if path.parent == entities_dir:
+            continue  # already checked
+        rel = path.relative_to(PACK_BP)
+        if path.name == "manifest.json":
+            try:
+                data = load_json(path)
+            except Exception as exc:
+                errors.append(f"Invalid JSON {rel}: {exc}")
+                continue
+            if not isinstance(data, dict) or "format_version" not in data:
+                errors.append(f"manifest.json missing format_version: {rel}")
+            elif "header" not in data or "modules" not in data:
+                errors.append(f"manifest.json missing header/modules: {rel}")
+            continue
+        try:
+            load_json(path)
+        except Exception as exc:
+            errors.append(f"Invalid JSON {rel}: {exc}")
+
     return errors
 
 
@@ -193,6 +257,7 @@ def validate() -> bool:
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
     errors.extend(validate_ui())
+    errors.extend(validate_json_files())
 
     textures = count_pngs(PACK_RP / "textures")
     custom_spawns = count_custom_spawn_rules(PACK_BP / "spawn_rules")

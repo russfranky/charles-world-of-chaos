@@ -23,7 +23,6 @@ import argparse
 import json
 import sys
 from io import BytesIO
-from pathlib import Path
 
 from PIL import Image
 
