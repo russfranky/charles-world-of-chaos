@@ -13,6 +13,7 @@ from common import (
     DIST,
     PACK_BP,
     PACK_RP,
+    REPO_ROOT,
     RP_HEADER_UUID,
     TRANSFORM_GROUP,
     load_json,
@@ -293,12 +294,32 @@ def count_custom_spawn_rules(spawn_dir: Path) -> int:
     return sum(1 for p in spawn_dir.glob("*.json") if "brindal" in p.name or "grayson" in p.name)
 
 
+def validate_barn_simulation() -> list[str]:
+    """Run offline Cow Barn flow simulation (mirrors script_api/main.js)."""
+    import subprocess
+
+    script = REPO_ROOT / "variants/ultimate-chaos-pack/scripts/simulate_barn.py"
+    if not script.exists():
+        return []
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        capture_output=True,
+        text=True,
+        cwd=REPO_ROOT,
+    )
+    if result.returncode != 0:
+        tail = (result.stdout + result.stderr).strip().splitlines()[-5:]
+        return [f"Barn simulation failed: {' | '.join(tail)}"]
+    return []
+
+
 def validate() -> bool:
     print("Validating Brindal & Grayson Cow World pack...")
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
     errors.extend(validate_gui_lang())
     errors.extend(validate_script_api())
+    errors.extend(validate_barn_simulation())
     errors.extend(validate_ui())
     errors.extend(validate_json_files())
     errors.extend(validate_dist_size())

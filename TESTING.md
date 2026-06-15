@@ -11,6 +11,7 @@
 | BP manifest mentions Beta APIs | Yes | `validate_pack.py` |
 | Script API file present | Yes | `behavior_pack/scripts/main.js` |
 | Cow Barn script markers | Yes | `loadBarn`, `tryBreed`, `onBellTap`, etc. |
+| Barn flow simulation | Yes | `simulate_barn.py` in `validate_pack.py` |
 | MCADDON size under 1.5 MB | Yes | `validate_pack.py` (lite ~750 KB) |
 | Package artifacts exist | Yes | `.mcaddon` and `.mcpack` in `dist/` |
 | Venice AI textures | Optional | Requires `VENICE_API_KEY` locally or in CI secret |
@@ -32,8 +33,11 @@
    - [ ] Blocks/items have cow-hide textures
    - [ ] Diamond block shows "B", gold block shows "G"
    - [ ] Cow title screen subtitle mentions Ranch Bell (after pack import)
-   - [ ] First join gives Ranch Bell + Feed Bag + starter cow message
-   - [ ] Tap **Ranch Bell** → cycles DEPLOY / FEED / BREED / RECALL (action bar updates)
+   - [ ] First join auto-deploys starter cow + Ranch Bell + Feed Bag
+   - [ ] Tap **Ranch Bell** → action bar shows mode done + next step
+   - [ ] Feed Bag does NOT catch your own deployed vanilla cow
+   - [ ] Can catch 3rd cow (Pen rank allows 3 slots) and unlock breeding
+   - [ ] Recall switches to next cow in herd
    - [ ] Tap **Feed Bag** near wild cow → cow caught into barn
    - [ ] Tap **Feed Bag** on deployed cow → hunger/mood rise
    - [ ] At 3+ cows, BREED mode produces calf with trait inheritance
@@ -76,8 +80,9 @@ CI builds algorithmic textures + cow GUI. Venice AI art requires `VENICE_API_KEY
 # Full rebuild
 ./scripts/build-mcaddon.sh
 
-# Validate structure
+# Validate structure + barn simulation
 python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
+python3 variants/ultimate-chaos-pack/scripts/simulate_barn.py
 
 # Lite sanity checks
 find variants/ultimate-chaos-pack/pack/textures -name '*.png' | wc -l

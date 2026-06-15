@@ -20,7 +20,7 @@ Each tap advances one step:
 1. **DEPLOY** — spawn your active cow beside you
 2. **FEED** — feed your active cow
 3. **BREED** — breed two happy adults (needs Yard rank: 3+ cows)
-4. **RECALL** — send deployed cow back to the barn
+4. **RECALL** — send deployed cow back to the barn (also switches to your next cow)
 
 The action bar shows your barn rank, herd size, catalog progress, and the **next** bell mode.
 
@@ -28,7 +28,7 @@ The action bar shows your barn rank, herd size, catalog progress, and the **next
 
 ## Cow Barn basics
 
-- Your herd lives in a **barn** saved on your player — up to 2 cows at Pen rank, more as you grow
+- Your herd lives in a **barn** saved on your player — up to 3 cows at Pen rank, more as you grow
 - Cows have **traits**: coat, horns, size, mark — new combos unlock **catalog entries** and **real loot** (gold, emerald, diamond, diamond block…)
 - **Breed** two adults with hunger 40+ and mood 55+ to get offspring with inherited (and sometimes mutated) traits
 - Hungry deployed cows **recall to the barn** automatically — they don't die
@@ -37,11 +37,11 @@ The action bar shows your barn rank, herd size, catalog progress, and the **next
 
 | Cows in barn | Rank | Max slots |
 |--------------|------|-----------|
-| 1–2 | Pen | 2 |
-| 3–7 | Yard | 4 |
-| 8–14 | Ranch | 8 |
-| 15–29 | Spread | 15 |
-| 30+ | Legend | 30 |
+| 1–2 | Pen | 3 |
+| 3–5 | Yard | 6 |
+| 6–9 | Ranch | 10 |
+| 10–17 | Spread | 18 |
+| 18+ | Legend | 30 |
 
 ### Custom cow types
 
@@ -62,6 +62,7 @@ The action bar shows your barn rank, herd size, catalog progress, and the **next
 | `/bgcow:help` | Cow Barn help |
 | `/bgcow:barn` | Show barn rank, herd, and catalog |
 | `/bgcow:breed` | Breed your two best ready adults |
+| `/bgcow:next` | Switch to your next cow |
 
 Type `/` in chat and search `bgcow:` to pick from the menu.
 
