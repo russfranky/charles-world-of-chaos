@@ -385,10 +385,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
   system.run(() => HANDLERS[fnName](player));
 });
 
-// ─── Auto-cowify on spawn (backup) ─────────────────────────────────────────
-
-world.afterEvents.entitySpawn.subscribe((event) => {
-  system.run(() => cowifyEntity(event.entity));
-});
+// ─── Opt-in cowify via !cowify command (no auto-transform on spawn) ──────────
 
 console.warn("[BG Cow World] Moo! 19 commands ready for Brindal & Grayson!");

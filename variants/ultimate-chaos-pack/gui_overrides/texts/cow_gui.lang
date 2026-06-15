@@ -1,28 +1,4 @@
-# Cow GUI lang overrides — merged into pack/texts/en_US.lang at build time
+# Minimal cow GUI lang — title screen branding only (vanilla controls/tips)
 
 menu.title=Brindal & Grayson's Moo World
 menu.moo_world_subtitle=Brindal & Grayson's Moo World
-
-# Loading / game tips — cow puns
-gameTip.cameraMovement.mouse=Moo around~LINEBREAK~Use your mouse to turn like a curious cow
-gameTip.cameraMovement.touch=Touch and drag to look around the pasture
-gameTip.playerMovement.mouse=Gallop with :_input_key.forward:, :_input_key.left:, :_input_key.back:, :_input_key.right:
-gameTip.playerMovement.touch=Use the joystick to roam the cow fields
-gameTip.breakBlock.mouse=Hold left click to break blocks (cows approve)
-gameTip.breakBlock.touch=Tap and hold to break blocks for hay
-gameTip.hotbar.selection.mouse=Scroll to select items from your cow belt
-gameTip.hotbar.selection.touch=Tap a hotbar slot — moo-ve items into your hooves
-gameTip.jump.mouse=Jump with :_input_key.jump: — leap like a happy calf!
-gameTip.swim.mouse=Hold :_input_key.jump: to swim through the milk river
-
-# Extra cow tips (new keys for splash-style messages)
-cow.tip.1=Cows are the real apex predators. Trust us.
-cow.tip.2=Every mob is a cow in disguise. Some are just bad at it.
-cow.tip.3=Diamonds? No — dig for cowbells.
-cow.tip.4=Brindal says: always share your wheat.
-cow.tip.5=Grayson says: press !party for maximum moo.
-cow.tip.6=The sun is a giant golden cowbell. Do not stare directly at it.
-cow.tip.7=TNT blocks say MOO before they go boom.
-cow.tip.8=If it moos, it's working correctly.
-cow.tip.9=Creepers are just milk cartons with anger issues.
-cow.tip.10=Welcome to Brindal & Grayson's Cow World!

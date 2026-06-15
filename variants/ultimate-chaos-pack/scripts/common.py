@@ -37,6 +37,7 @@ COW_IDENTIFIERS = {
 
 SKIP_TEXTURE_PREFIXES = (
     "textures/entity/cow/",
+    "textures/entity/",
 )
 
 SKIP_ENTITY_FILES = {

@@ -58,12 +58,14 @@ def register_ui_defs() -> None:
             print(f"  Registered {entry} in _ui_defs.json")
 
 
-def apply_ui_overrides() -> int:
+def apply_ui_overrides(*, minimal: bool = False) -> int:
     ui_src = OVERRIDES / "ui"
     if not ui_src.exists():
         return 0
     count = 0
     for src in sorted(ui_src.glob("*.json")):
+        if minimal and src.name == "_global_variables.json":
+            continue
         dest = PACK_RP / "ui" / src.name
         if src.name == "_global_variables.json":
             merge_json_file(src, dest)
@@ -135,19 +137,25 @@ def apply_sound_overrides() -> int:
     return count
 
 
-def apply_gui_overrides() -> None:
+def apply_gui_overrides(*, minimal: bool = False) -> None:
     if not PACK_RP.exists():
         raise SystemExit("pack/ not found — run build pipeline first")
     print("Applying GUI overrides...")
-    apply_ui_overrides()
+    apply_ui_overrides(minimal=minimal)
     apply_lang_overrides()
-    apply_sound_overrides()
+    if not minimal:
+        apply_sound_overrides()
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Apply cow GUI JSON/lang/sound overrides")
-    parser.parse_args()
-    apply_gui_overrides()
+    parser.add_argument(
+        "--minimal",
+        action="store_true",
+        help="Subtitle + pack name only — vanilla UI textures, controls, and click sounds",
+    )
+    args = parser.parse_args()
+    apply_gui_overrides(minimal=args.minimal)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove unused mob sound files after cowification (keeps only cow mob sounds)."""
+"""Remove bundled mob sound files — vanilla game provides them at runtime."""
 
 from __future__ import annotations
 

@@ -93,22 +93,23 @@ def cowify_loot_table(path: Path) -> bool:
     return False
 
 
-def cowify_behavior(rebuild: bool = False) -> dict[str, int]:
+def cowify_behavior(rebuild: bool = False, *, transform_mobs: bool = False) -> dict[str, int]:
     if rebuild or not PACK_BP.exists():
         copy_vanilla_bp()
 
     entity_count = 0
     entities_dir = PACK_BP / "entities"
-    for path in sorted(entities_dir.glob("*.json")):
-        data = load_json(path)
-        identifier = (
-            data.get("minecraft:entity", {})
-            .get("description", {})
-            .get("identifier", entity_id_from_filename(path.name))
-        )
-        if add_cow_transform(data, identifier):
-            save_json(path, data)
-            entity_count += 1
+    if transform_mobs:
+        for path in sorted(entities_dir.glob("*.json")):
+            data = load_json(path)
+            identifier = (
+                data.get("minecraft:entity", {})
+                .get("description", {})
+                .get("identifier", entity_id_from_filename(path.name))
+            )
+            if add_cow_transform(data, identifier):
+                save_json(path, data)
+                entity_count += 1
 
     spawn_count = 0
     spawn_dir = PACK_BP / "spawn_rules"
@@ -117,13 +118,14 @@ def cowify_behavior(rebuild: bool = False) -> dict[str, int]:
             spawn_count += 1
 
     loot_count = 0
-    loot_dir = PACK_BP / "loot_tables" / "entities"
-    if loot_dir.exists():
-        for path in sorted(loot_dir.glob("*.json")):
-            if path.name == "cow.json":
-                continue
-            if cowify_loot_table(path):
-                loot_count += 1
+    if transform_mobs:
+        loot_dir = PACK_BP / "loot_tables" / "entities"
+        if loot_dir.exists():
+            for path in sorted(loot_dir.glob("*.json")):
+                if path.name == "cow.json":
+                    continue
+                if cowify_loot_table(path):
+                    loot_count += 1
 
     stats = {
         "entities_transformed": entity_count,
@@ -137,8 +139,13 @@ def cowify_behavior(rebuild: bool = False) -> dict[str, int]:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Cowify behavior pack entities")
     parser.add_argument("--rebuild", action="store_true")
+    parser.add_argument(
+        "--transform-mobs",
+        action="store_true",
+        help="Transform all mobs into cows on spawn (off by default — too chaotic)",
+    )
     args = parser.parse_args()
-    cowify_behavior(rebuild=args.rebuild)
+    cowify_behavior(rebuild=args.rebuild, transform_mobs=args.transform_mobs)
 
 
 if __name__ == "__main__":

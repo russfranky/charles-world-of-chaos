@@ -19,8 +19,6 @@ from common import (
 
 # Expected minimums (vanilla counts may vary slightly by MC version)
 MIN_TEXTURES = 4000
-MIN_ENTITY_OVERRIDES = 100
-MIN_BP_ENTITIES = 100
 MIN_SPAWN_ZEROED = 50
 
 CUSTOM_COW_TEXTURES = (
@@ -214,10 +212,6 @@ def validate() -> bool:
 
     if textures < MIN_TEXTURES:
         errors.append(f"Too few textures: {textures} < {MIN_TEXTURES}")
-    if entity_overrides < MIN_ENTITY_OVERRIDES:
-        errors.append(f"Too few entity overrides: {entity_overrides} < {MIN_ENTITY_OVERRIDES}")
-    if bp_entities < MIN_BP_ENTITIES:
-        errors.append(f"Too few transformed entities: {bp_entities} < {MIN_BP_ENTITIES}")
     if spawn_zeroed < MIN_SPAWN_ZEROED:
         errors.append(f"Too few zeroed spawn rules: {spawn_zeroed} < {MIN_SPAWN_ZEROED}")
     if not script.exists():

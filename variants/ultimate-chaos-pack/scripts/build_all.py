@@ -13,6 +13,9 @@ from common import PACK_BP, PACK_RP, REPO_ROOT, VARIANT_ROOT, VANILLA_SRC
 
 SCRIPTS = VARIANT_ROOT / "scripts"
 
+# Venice categories that look good without breaking mobs or UI controls.
+VENICE_CATEGORIES = ("block", "item", "environment", "panorama")
+
 
 def run_script(name: str, *args: str) -> None:
     cmd = [sys.executable, str(SCRIPTS / name), *args]
@@ -64,8 +67,9 @@ def build_all(
                 shutil.rmtree(d)
 
     run_script("build_cow_pack.py", *(["--rebuild"] if rebuild_textures else []))
-    run_script("cowify_entity_models.py")
-    run_script("cowify_sounds.py")
+    # Skip cowify_entity_models — forcing cow geometry on every mob breaks visuals.
+    # Skip cowify_sounds — mobs use vanilla sound definitions (not cow moos).
+    # Prune bundled mob .ogg files — the game provides them; keeps dist under 100 MB.
     run_script("prune_sounds.py")
     run_script("cowify_behavior_entities.py", *(["--rebuild"] if rebuild_textures else []))
     run_script("personalize_pack.py")
@@ -73,13 +77,13 @@ def build_all(
         run_script("venice_generate_audio.py", "--batch", "1")
     run_script("merge_custom_cows.py")
     write_script_api()
-    # Procedural cow GUI textures + JSON UI/lang/sound overrides
-    run_script("cowify_gui.py")
-    run_script("apply_gui_overrides.py")
+    # Minimal GUI: JSON subtitle injection + pack name only (vanilla buttons/HUD/controls).
+    run_script("apply_gui_overrides.py", "--minimal")
     run_script("apply_audio_overrides.py")
-    # Venice AI runs last — overrides featured textures (mobs, panoramas, pack_icon, etc.)
+    # Venice AI — blocks, items, panoramas only (no mob skins or HUD textures).
     if venice:
-        run_script("venice_generate_textures.py", "--all")
+        for category in VENICE_CATEGORIES:
+            run_script("venice_generate_textures.py", "--category", category)
 
     if not skip_package:
         run_script("package_mcpack.py")

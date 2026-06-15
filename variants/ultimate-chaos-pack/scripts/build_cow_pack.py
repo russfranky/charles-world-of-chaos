@@ -25,6 +25,9 @@ def should_cowify(rel_path: str) -> bool:
     parts = Path(normalized).parts
     if parts and parts[0] in SKIP_TEXTURE_DIRS:
         return False
+    if parts and parts[0] == "entity":
+        # Keep vanilla mob textures; cow-hide tiling breaks mob UV sheets.
+        return False
     if len(parts) >= 2 and "/".join(parts[:2]) in EXCLUDE_DIRS:
         return False
     return True
