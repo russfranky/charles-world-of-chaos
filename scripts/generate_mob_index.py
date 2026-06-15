@@ -87,7 +87,7 @@ def merge_approval(approvals: dict, mob_id: str, *, shipped: bool) -> dict:
     shipped_ids = load_shipped_mob_ids()
     if mob_id not in mobs:
         entry = {
-            "approved": mob_id in shipped_ids,
+            "approved": False,
             "shipped": shipped,
             "reviewer": "",
             "note": "Auto-added — set approved true after visual review",

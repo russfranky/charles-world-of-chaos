@@ -46,7 +46,15 @@ python3 "$CHAOS/scripts/build_all.py" --rebuild-textures $VENICE_FLAG $VENICE_AU
 echo ""
 echo "Updating mob index for approval..."
 python3 "$ROOT/scripts/generate_mob_index.py"
-python3 "$ROOT/scripts/validate_mob_approvals.py"
+python3 "$ROOT/scripts/validate_mob_approvals.py" || {
+  echo "Warning: mob approval check failed — OK for dev builds, not for kid handoff" >&2
+}
+
+if ! python3 "$ROOT/scripts/validate_play_ready.py" 2>/dev/null; then
+  echo ""
+  echo "⚠  NOT PLAY-READY — fine for dev, do not hand to kids or tag a release yet."
+  echo "   See play_ready.json after iPad playtest."
+fi
 
 echo ""
 echo "=============================================="

@@ -31,6 +31,12 @@ jobs:
       - name: Validate pack
         run: python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
 
+      - name: Validate mob approvals
+        run: python3 scripts/validate_mob_approvals.py
+
+      - name: Validate play-ready sign-off
+        run: python3 scripts/validate_play_ready.py
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
