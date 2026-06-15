@@ -32,9 +32,13 @@ Backup `entitySpawn` handler that removes non-cow mobs and spawns cows at the sa
 ## iPad Requirements
 
 - Minecraft Bedrock 1.21.0+
-- Holiday Creator Features (for behavior pack transforms)
-- Beta APIs (for Script API backup)
+- Holiday Creator Features (for custom `bgcow:` cows)
+- Beta APIs (for Script API `!` commands)
 - Both packs must be active in world settings
+
+## Lite shipped build (current)
+
+The downloadable `dist/brindal-grayson-cow-pack.mcaddon` (~750 KB) uses `prepare_lite_pack.py` — featured textures + custom cows + script API. It does **not** ship full mob transforms or 100+ entity overrides. Optional chaos pipeline steps (`cowify_behavior_entities.py --transform-mobs`) remain in repo but are off by default.
 
 ## UUID Stability
 

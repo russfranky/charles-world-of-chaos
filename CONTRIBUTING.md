@@ -55,6 +55,9 @@ Visual catalog of every mob texture — custom cows plus the Venice entity catal
 - [ ] Brindal and Grayson cows present and NOT transformed away
 - [ ] `/summon bgcow:brindal_cow` and `bgcow:grayson_cow` work
 - [ ] `/bgcow:party` and `!moo` work (needs Beta APIs)
+- [ ] `!b` / `!g` with Holiday Creator Features OFF shows in-game HCF hint (negative test)
+- [ ] Mistyped `!mo` shows helpful hint
+- [ ] iPad install from [README mcaddon link](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)
 - [ ] Inventory shows cow-spot backgrounds (GUI layer)
 
 ## Reporting issues

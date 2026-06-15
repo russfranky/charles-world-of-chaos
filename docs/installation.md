@@ -99,7 +99,7 @@ Same process: download `.mcaddon` → open with Minecraft Bedrock → new world 
 | Packs don't appear | Re-import `.mcaddon`; force-quit and reopen Minecraft |
 | Missing textures (checkerboard) | Activate **both** resource AND behavior packs |
 | `!moo` does nothing | **Beta APIs** must be ON — create a **new** world; check behavior-pack description in world settings |
-| Brindal/Grayson cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world |
+| Brindal/Grayson cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world; in-game hint appears if spawn fails |
 | Brindal/Grayson cows missing in world | They won't auto-spawn everywhere — use `!b`, `!g`, or `/summon bgcow:brindal_cow` |
 | "Failed to import" | Update Minecraft to 1.21.0+; free up storage (~5 MB free is enough) |
 | Lag with `!mega` or `!rain` | Normal on older iPads — stick to `!moo` and `!party` |

@@ -77,6 +77,12 @@ function spawnNamed(dim, typeId, loc, name) {
   return entity;
 }
 
+function spawnCustomCow(player, typeId, loc, name) {
+  const entity = spawnNamed(playerDim(player), typeId, loc, name);
+  if (!entity) say(player, HCF_HINT);
+  return entity;
+}
+
 function spawnRing(player, typeId, count, radius = 4) {
   const dim = playerDim(player);
   const base = player.location;
@@ -127,20 +133,22 @@ const HANDLERS = {
 
   brindal(player) {
     mooSound(player);
-    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 0 }), "Brindal");
-    say(player, "Brindal's cow appeared! §6🐄");
+    if (spawnCustomCow(player, BRINDAL, near(player, { x: 2, y: 0, z: 0 }), "Brindal")) {
+      say(player, "Brindal's cow appeared! §6🐄");
+    }
   },
 
   grayson(player) {
     mooSound(player);
-    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 0 }), "Grayson");
-    say(player, "Grayson's cow appeared! §7🐄");
+    if (spawnCustomCow(player, GRAYSON, near(player, { x: -2, y: 0, z: 0 }), "Grayson")) {
+      say(player, "Grayson's cow appeared! §7🐄");
+    }
   },
 
   twins(player) {
     mooSound(player);
-    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 1 }), "Brindal");
-    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 1 }), "Grayson");
+    spawnCustomCow(player, BRINDAL, near(player, { x: 2, y: 0, z: 1 }), "Brindal");
+    spawnCustomCow(player, GRAYSON, near(player, { x: -2, y: 0, z: 1 }), "Grayson");
     title(player, "Brindal & Grayson cows!");
   },
 
@@ -296,25 +304,24 @@ const HANDLERS = {
   help(player) {
     const lines = [
       "§6═══ Cow World Commands ═══",
-      "§e/bgcow:moo §7— spawn a cow",
-      "§e/bgcow:brindal §7— Brindal's cow",
-      "§e/bgcow:grayson §7— Grayson's cow",
-      "§e/bgcow:twins §7— both cows!",
-      "§e/bgcow:party §7— cow party 🎉",
-      "§e/bgcow:rain §7— raining cows",
-      "§e/bgcow:stampede §7— cow stampede",
-      "§e/bgcow:mega §7— MEGA chaos",
-      "§e/bgcow:heal §7— cow magic heal",
-      "§e/bgcow:fly §7— cow levitation",
-      "§e/bgcow:jump §7— super jump",
-      "§e/bgcow:sunny §7— sunny day + cows",
-      "§e/bgcow:night §7— cheese moon night",
-      "§e/bgcow:milk §7— free milk bucket",
-      "§e/bgcow:feast §7— wheat + milk feast",
-      "§e/bgcow:bell §7— cowbell concert",
-      "§e/bgcow:love §7— Brindal & Grayson cows",
-      "§e/bgcow:cowify §7— turn nearby mobs into cows",
-      "§7Or type §e!moo !party !rain §7in chat!",
+      "§e!moo §7/ §e/bgcow:moo §7— spawn a cow",
+      "§e!b §7/ §e/bgcow:brindal §7— Brindal's cow",
+      "§e!g §7/ §e/bgcow:grayson §7— Grayson's cow",
+      "§e!twins §7/ §e/bgcow:twins §7— both cows!",
+      "§e!party §7/ §e/bgcow:party §7— cow party 🎉",
+      "§e!rain §7/ §e/bgcow:rain §7— raining cows",
+      "§e!stampede §7/ §e/bgcow:stampede §7— cow stampede",
+      "§e!mega §7/ §e/bgcow:mega §7— MEGA chaos",
+      "§e!heal §7/ §e/bgcow:heal §7— cow magic heal",
+      "§e!fly §7/ §e/bgcow:fly §7— cow levitation",
+      "§e!jump §7/ §e/bgcow:jump §7— super jump",
+      "§e!sunny §7/ §e/bgcow:sunny §7— sunny day + cows",
+      "§e!night §7/ §e/bgcow:night §7— cheese moon night",
+      "§e!milk §7/ §e/bgcow:milk §7— free milk bucket",
+      "§e!feast §7/ §e/bgcow:feast §7— wheat + milk feast",
+      "§e!bell §7/ §e/bgcow:bell §7— cowbell concert",
+      "§e!love §7/ §e/bgcow:love §7— Brindal & Grayson cows",
+      "§e!cowify §7/ §e/bgcow:cowify §7— turn nearby mobs into cows",
     ];
     for (const line of lines) say(player, line);
   },
@@ -326,6 +333,9 @@ let commandsReady = false;
 
 const BETA_APIS_HINT =
   "Fun commands need Beta APIs ON when you create the world. Ask a grown-up to make a NEW world with Beta APIs enabled.";
+
+const HCF_HINT =
+  "Custom cows need Holiday Creator Features ON. Ask a grown-up to make a NEW world with Holiday Creator Features enabled.";
 
 const UNKNOWN_CMD_HINT =
   "Unknown command. Try !moo !party !b !g — or !help for all commands.";
@@ -436,8 +446,8 @@ function welcomePlayer(player) {
   title(player, "Welcome to Moo World!");
   say(player, "Meet Brindal & Grayson! Try §e!moo §f§e!b §f§e!g §f§e!party §f— or §e/bgcow:help");
   const dim = playerDim(player);
-  spawnNamed(dim, BRINDAL, near(player, { x: 3, y: 0, z: 2 }), "Brindal");
-  spawnNamed(dim, GRAYSON, near(player, { x: -3, y: 0, z: 2 }), "Grayson");
+  spawnCustomCow(player, BRINDAL, near(player, { x: 3, y: 0, z: 2 }), "Brindal");
+  spawnCustomCow(player, GRAYSON, near(player, { x: -3, y: 0, z: 2 }), "Grayson");
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (inv) inv.addItem(new ItemStack("wheat", 8));

@@ -153,6 +153,32 @@ def validate_dist_size() -> list[str]:
     return errors
 
 
+def validate_gui_lang() -> list[str]:
+    errors = []
+    lang_path = PACK_RP / "texts" / "en_US.lang"
+    if not lang_path.exists():
+        errors.append("Missing pack/texts/en_US.lang")
+        return errors
+    text = lang_path.read_text(encoding="utf-8").lower()
+    if "menu.moo_world_subtitle" not in text:
+        errors.append("Missing menu.moo_world_subtitle in RP lang")
+    elif "beta api" not in text or "!moo" not in text:
+        errors.append("Title subtitle must mention Beta APIs and !moo shortcuts")
+    return errors
+
+
+def validate_script_api() -> list[str]:
+    errors = []
+    script = PACK_BP / "scripts" / "main.js"
+    if not script.exists():
+        return errors
+    text = script.read_text(encoding="utf-8")
+    for marker in ("sayBetaApisHint", "spawnCustomCow", "handleFirstJoin"):
+        if marker not in text:
+            errors.append(f"Script API missing reliability helper: {marker}")
+    return errors
+
+
 def validate_custom_cows() -> list[str]:
     errors = []
     for rel in CUSTOM_COW_TEXTURES:
@@ -271,6 +297,8 @@ def validate() -> bool:
     print("Validating Brindal & Grayson Cow World pack...")
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
+    errors.extend(validate_gui_lang())
+    errors.extend(validate_script_api())
     errors.extend(validate_ui())
     errors.extend(validate_json_files())
     errors.extend(validate_dist_size())
