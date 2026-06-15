@@ -10,13 +10,12 @@ from pathlib import Path
 from common import (
     COW_IDENTIFIERS,
     PACK_BP,
+    TRANSFORM_GROUP,
     copy_vanilla_bp,
     entity_id_from_filename,
     load_json,
     save_json,
 )
-
-from common import TRANSFORM_GROUP
 
 COW_LOOT_TABLE = "loot_tables/entities/cow.json"
 

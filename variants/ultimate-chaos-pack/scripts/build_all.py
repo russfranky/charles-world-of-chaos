@@ -7,9 +7,9 @@ import argparse
 import shutil
 import subprocess
 import sys
-from pathlib import Path
 
-from common import PACK_BP, PACK_RP, REPO_ROOT, VARIANT_ROOT, VANILLA_SRC
+from common import PACK_BP, PACK_RP, REPO_ROOT, VANILLA_SRC, VARIANT_ROOT
+from env_loader import init_env
 
 SCRIPTS = VARIANT_ROOT / "scripts"
 
@@ -79,6 +79,7 @@ def build_all(
             run_script("venice_generate_textures.py", "--category", category)
 
     if not skip_package:
+        run_script("optimize_pngs.py")
         run_script("package_mcpack.py")
         run_script("package_mcaddon.py")
 
@@ -96,6 +97,7 @@ def main() -> None:
     parser.add_argument("--venice-audio", action="store_true",
                         help="Generate batch-1 audio via Venice AI (requires VENICE_API_KEY)")
     args = parser.parse_args()
+    init_env()
     build_all(rebuild_textures=args.rebuild_textures, skip_package=args.skip_package,
               venice=args.venice, venice_audio=args.venice_audio)
 
