@@ -19,6 +19,8 @@ COW_SAY_SOUNDS = [
     "sounds/mob/cow/say4",
 ]
 
+MENU_MUSIC_TRACK = "sounds/music/menu/Bell_At_Twilight"
+
 
 def merge_json_file(src: Path, dest: Path) -> None:
     """Shallow-merge top-level keys from src into dest (for UI variable overrides)."""
@@ -100,6 +102,32 @@ def apply_lang_overrides() -> int:
     return len(overrides)
 
 
+def apply_menu_music() -> int:
+    path = PACK_RP / "sounds" / "sound_definitions.json"
+    music_file = PACK_RP / f"{MENU_MUSIC_TRACK}.ogg"
+    if not path.exists() or not music_file.exists():
+        return 0
+    data = load_json(path)
+    defs = data.get("sound_definitions", {})
+    defs["music.menu"] = {
+        "__use_legacy_max_distance": "true",
+        "category": "music",
+        "max_distance": None,
+        "min_distance": None,
+        "sounds": [
+            {
+                "name": MENU_MUSIC_TRACK,
+                "stream": True,
+                "volume": 0.30,
+            }
+        ],
+    }
+    data["sound_definitions"] = defs
+    save_json(path, data)
+    print(f"  Menu music: {MENU_MUSIC_TRACK}")
+    return 1
+
+
 def apply_sound_overrides() -> int:
     path = PACK_RP / "sounds" / "sound_definitions.json"
     if not path.exists():
@@ -131,6 +159,7 @@ def apply_gui_overrides() -> None:
     print("Applying GUI overrides...")
     apply_ui_overrides()
     apply_lang_overrides()
+    apply_menu_music()
     apply_sound_overrides()
 
 

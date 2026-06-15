@@ -27,6 +27,8 @@ BP_COPY = [
     ("spawn_rules/grayson_cow.json", "spawn_rules/grayson_cow.json"),
 ]
 
+MENU_MUSIC_REL = Path("sounds/music/menu/Bell_At_Twilight.ogg")
+
 
 def merge_lang(custom: Path, target: Path) -> None:
     if not custom.exists():
@@ -73,6 +75,15 @@ def merge_custom_cows() -> None:
 
     merge_lang(CUSTOM_RP / "texts/en_US.lang", PACK_RP / "texts/en_US.lang")
     merge_lang(CUSTOM_BP / "texts/en_US.lang", PACK_BP / "texts/en_US.lang")
+
+    menu_music = CUSTOM_RP / MENU_MUSIC_REL
+    if menu_music.exists():
+        dst = PACK_RP / MENU_MUSIC_REL
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(menu_music, dst)
+        print(f"  Copied menu music: {MENU_MUSIC_REL}")
+    else:
+        print(f"  Warning: menu music missing at {menu_music}", file=sys.stderr)
 
     print("Merged Brindal & Grayson custom cows into unified pack")
 

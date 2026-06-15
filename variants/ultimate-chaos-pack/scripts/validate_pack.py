@@ -31,6 +31,7 @@ CUSTOM_COW_ENTITIES = (
     "entity/brindal_cow.entity.json",
     "entity/grayson_cow.entity.json",
 )
+MENU_MUSIC = "sounds/music/menu/Bell_At_Twilight.ogg"
 
 
 def count_pngs(directory: Path) -> int:
@@ -144,6 +145,8 @@ def validate_custom_cows() -> list[str]:
     for name in ("brindal_cow.json", "grayson_cow.json"):
         if not (PACK_BP / "entities" / name).exists():
             errors.append(f"Missing custom cow behavior: entities/{name}")
+    if not (PACK_RP / MENU_MUSIC).exists():
+        errors.append(f"Missing menu music: {MENU_MUSIC}")
     return errors
 
 
