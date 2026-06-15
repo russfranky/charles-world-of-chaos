@@ -15,6 +15,8 @@ A free Minecraft add-on that turns the whole game into a silly cow world — wit
 
 Kids can spawn cows, throw cow parties, make it rain cows, heal themselves, and more with simple chat commands like `!moo` and `!party`.
 
+They'll also see cow-spot inventory backgrounds, a silly title screen, cow-themed mob art, and button clicks that **moo**.
+
 ## What you need
 
 - An **iPad** with **Minecraft Bedrock Edition** (the normal App Store Minecraft — not Java)
