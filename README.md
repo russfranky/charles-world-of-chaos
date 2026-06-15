@@ -6,16 +6,15 @@
 
 **A Minecraft Bedrock add-on for iPad** — built for Brindal and Grayson.
 
-Everything is cows. Zombies in cow suits, creeper milk cartons, a cowbell sun — plus two special cows named just for them.
+Meet two named family cows in the world, use easy chat commands for cow parties and silly fun, plus a handful of cow-themed blocks and custom menu music. Vanilla mobs and controls — no broken UI.
 
 | | |
 |---|---|
-| **Brindal Cow** | Brown with white spots — `/summon bgcow:brindal_cow` or type `!b` |
-| **Grayson Cow** | Gray with dark spots — `/summon bgcow:grayson_cow` or type `!g` |
-| **Cow chaos** | 4,600+ cow-hide textures, all mobs become cows, cow moos everywhere |
-| **Cow GUI** | Cow-spot inventory backgrounds, moo button clicks, MOOcraft title screen |
-| **Venice AI art** | Featured mob skins, blocks, panoramas (when built with `VENICE_API_KEY`) |
-| **19 fun commands** | Cow parties, cow rain, flying, healing — type `!moo` or `/bgcow:party` |
+| **Brindal Cow** | Brown with white spots — spawns in the world, or type `!b` |
+| **Grayson Cow** | Gray with dark spots — spawns in the world, or type `!g` |
+| **First join** | Brindal & Grayson greet you with wheat to feed them |
+| **Commands** | `!moo`, `!party`, `!rain`, and more — needs **Beta APIs** |
+| **Pack size** | Lite overlay (~750 KB) — fast on iPad |
 
 <p align="center">
   <img src="docs/assets/family-cows.png" alt="Brindal Cow and Grayson Cow" width="600">
@@ -123,7 +122,7 @@ If experiments cause trouble, use the lighter pack (textures only, no commands):
 | Problem | Fix |
 |---------|-----|
 | Commands don't work | Turn on **Beta APIs** in world settings |
-| Mobs aren't cows | Turn on **Holiday Creator Features**; make a **new** world |
+| Mobs aren't cows | Only Brindal & Grayson are special — vanilla zombies, creepers, etc. stay normal. Try `!cowify` for chaos. |
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |

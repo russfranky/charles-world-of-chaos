@@ -66,6 +66,17 @@ function spawn(dim, typeId, loc) {
   }
 }
 
+function spawnNamed(dim, typeId, loc, name) {
+  const entity = spawn(dim, typeId, loc);
+  if (!entity) return null;
+  try {
+    entity.nameTag = name;
+  } catch (_) {
+    /* older API */
+  }
+  return entity;
+}
+
 function spawnRing(player, typeId, count, radius = 4) {
   const dim = playerDim(player);
   const base = player.location;
@@ -116,20 +127,20 @@ const HANDLERS = {
 
   brindal(player) {
     mooSound(player);
-    spawn(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 0 }));
+    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 0 }), "Brindal");
     say(player, "Brindal's cow appeared! §6🐄");
   },
 
   grayson(player) {
     mooSound(player);
-    spawn(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 0 }));
+    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 0 }), "Grayson");
     say(player, "Grayson's cow appeared! §7🐄");
   },
 
   twins(player) {
     mooSound(player);
-    spawn(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 1 }));
-    spawn(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 1 }));
+    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 2, y: 0, z: 1 }), "Brindal");
+    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -2, y: 0, z: 1 }), "Grayson");
     title(player, "Brindal & Grayson cows!");
   },
 
@@ -259,8 +270,8 @@ const HANDLERS = {
   },
 
   love(player) {
-    spawn(playerDim(player), BRINDAL, near(player, { x: 1, y: 0, z: 1 }));
-    spawn(playerDim(player), GRAYSON, near(player, { x: -1, y: 0, z: 1 }));
+    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 1, y: 0, z: 1 }), "Brindal");
+    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -1, y: 0, z: 1 }), "Grayson");
     try {
       player.addEffect("village_hero", 30, { amplifier: 0, showParticles: true });
     } catch (_) {}
@@ -387,6 +398,27 @@ world.beforeEvents.chatSend.subscribe((event) => {
   system.run(() => HANDLERS[fnName](player));
 });
 
-// ─── Opt-in cowify via !cowify command (no auto-transform on spawn) ──────────
+// ─── Welcome new players ───────────────────────────────────────────────────
+
+function welcomePlayer(player) {
+  mooSound(player);
+  title(player, "Welcome to Moo World!");
+  say(player, "Meet Brindal & Grayson! Try §e!b §f§e!g §f§e!party §fin chat.");
+  const dim = playerDim(player);
+  spawnNamed(dim, BRINDAL, near(player, { x: 3, y: 0, z: 2 }), "Brindal");
+  spawnNamed(dim, GRAYSON, near(player, { x: -3, y: 0, z: 2 }), "Grayson");
+  try {
+    const inv = player.getComponent("minecraft:inventory")?.container;
+    if (inv) inv.addItem(new ItemStack("wheat", 8));
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+world.afterEvents.playerSpawn.subscribe((event) => {
+  if (!event.initialSpawn) return;
+  const player = event.player;
+  system.run(() => welcomePlayer(player));
+});
 
 console.warn("[BG Cow World] Moo! 19 commands ready for Brindal & Grayson!");
