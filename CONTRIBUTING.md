@@ -26,6 +26,7 @@ export VENICE_API_KEY='...'         # optional AI textures
 - **Namespace**: `bgcow:` for custom identifiers
 - **UUIDs**: Never change manifest UUIDs after release — see [docs/UUIDS.md](docs/UUIDS.md)
 - **Custom cows**: Edit `resource_packs/` and `behavior_packs/`; register new files in `merge_custom_cows.py`
+- **Pack icon**: Place `pack-icon.png` (or `pack_icon.png`, 256×256+ square PNG) in `resource_packs/brindal_grayson_cow_rp/` — used in-game and in docs
 - **GUI**: Edit `gui_overrides/` only — never commit built `pack/ui/` overrides
 - **Venice AI**: `VENICE_API_KEY` env var — never commit keys; CI does not run Venice by default
 
