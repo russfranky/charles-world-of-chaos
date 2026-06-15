@@ -32,6 +32,13 @@ CUSTOM_COW_ENTITIES = (
     "entity/grayson_cow.entity.json",
 )
 
+COW_UI_DEFS = (
+    "ui/cow_start.json",
+    "ui/cow_start_screen.json",
+)
+
+MIN_START_SCREEN_BYTES = 10_000
+
 
 def count_pngs(directory: Path) -> int:
     return len(list(directory.rglob("*.png"))) if directory.exists() else 0
@@ -147,10 +154,43 @@ def validate_custom_cows() -> list[str]:
     return errors
 
 
+def validate_ui() -> list[str]:
+    errors = []
+    defs_path = PACK_RP / "ui" / "_ui_defs.json"
+    if defs_path.exists():
+        ui_defs = load_json(defs_path).get("ui_defs", [])
+        for entry in COW_UI_DEFS:
+            if entry not in ui_defs:
+                errors.append(f"Missing UI def registration: {entry}")
+    else:
+        errors.append("Missing pack/ui/_ui_defs.json")
+
+    for rel in COW_UI_DEFS:
+        if not (PACK_RP / rel).exists():
+            errors.append(f"Missing cow UI file: {rel}")
+
+    start_screen = PACK_RP / "ui" / "start_screen.json"
+    if start_screen.exists():
+        if start_screen.stat().st_size < MIN_START_SCREEN_BYTES:
+            errors.append(
+                f"start_screen.json looks truncated ({start_screen.stat().st_size} bytes) "
+                "— use cow_start_screen.json modifications instead"
+            )
+    else:
+        errors.append("Missing pack/ui/start_screen.json (vanilla start screen)")
+
+    for rel in ("textures/ui/item_cell.png", "textures/ui/title.png"):
+        if not (PACK_RP / rel).exists():
+            errors.append(f"Missing GUI texture: {rel}")
+
+    return errors
+
+
 def validate() -> bool:
     print("Validating Brindal & Grayson Cow World pack...")
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
+    errors.extend(validate_ui())
 
     textures = count_pngs(PACK_RP / "textures")
     entity_overrides = count_entity_overrides(PACK_RP / "entity")

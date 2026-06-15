@@ -13,6 +13,8 @@ from common import PACK_RP, SKIP_TEXTURE_PREFIXES, VANILLA_RP, copy_vanilla_rp
 
 COW_TEXTURE = VANILLA_RP / "textures/entity/cow/cow_v2.png"
 EXCLUDE_DIRS = {"entity/cow"}
+# GUI textures need precise nine-slice art — handled by cowify_gui.py only.
+SKIP_TEXTURE_DIRS = {"ui", "gui"}
 
 
 def should_cowify(rel_path: str) -> bool:
@@ -21,6 +23,8 @@ def should_cowify(rel_path: str) -> bool:
         if normalized.startswith(prefix.lstrip("/")):
             return False
     parts = Path(normalized).parts
+    if parts and parts[0] in SKIP_TEXTURE_DIRS:
+        return False
     if len(parts) >= 2 and "/".join(parts[:2]) in EXCLUDE_DIRS:
         return False
     return True

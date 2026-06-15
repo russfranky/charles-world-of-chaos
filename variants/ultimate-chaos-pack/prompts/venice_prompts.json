@@ -153,7 +153,7 @@
       "model": "flux-2-pro",
       "generate_size": 1024,
       "target_size": 16,
-      "pack_path": "textures/ui/empty_slot.png",
+      "pack_path": "textures/ui/item_cell.png",
       "prompt": "Minecraft GUI texture, flat pixel art. Inventory slot background in cow-hide leather texture — tan with subtle brown cow spots. Border is a rope lasso pattern. Clean, readable, 16x16 tile for slots."
     },
     {
@@ -579,7 +579,7 @@
       "model": "flux-2-pro",
       "generate_size": 1024,
       "target_size": 9,
-      "pack_path": "textures/ui/heart.png",
+      "pack_path": "textures/ui/heart_background.png",
       "prompt": "Minecraft HUD icon. Red heart shape with subtle Holstein cow spots, full health heart. Tiny pixel art, transparent background."
     },
     {

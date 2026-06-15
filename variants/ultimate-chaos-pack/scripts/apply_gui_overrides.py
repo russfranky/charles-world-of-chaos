@@ -12,6 +12,12 @@ from common import PACK_RP, load_json, save_json
 
 OVERRIDES = Path(__file__).resolve().parent.parent / "gui_overrides"
 
+# Modification-only UI files — must be registered, never replace vanilla screen defs.
+COW_UI_DEFS = (
+    "ui/cow_start.json",
+    "ui/cow_start_screen.json",
+)
+
 COW_SAY_SOUNDS = [
     {"load_on_low_memory": True, "name": "sounds/mob/cow/say1"},
     "sounds/mob/cow/say2",
@@ -36,16 +42,20 @@ def merge_json_file(src: Path, dest: Path) -> None:
 def register_ui_defs() -> None:
     defs_path = PACK_RP / "ui" / "_ui_defs.json"
     if not defs_path.exists():
-        return
+        raise SystemExit("_ui_defs.json missing — cannot register cow UI modifications")
     data = load_json(defs_path)
     ui_defs = data.get("ui_defs", [])
-    entry = "ui/cow_start.json"
-    if entry not in ui_defs:
-        ui_defs.append(entry)
+    added = []
+    for entry in COW_UI_DEFS:
+        if entry not in ui_defs:
+            ui_defs.append(entry)
+            added.append(entry)
+    if added:
         ui_defs.sort()
         data["ui_defs"] = ui_defs
         save_json(defs_path, data)
-        print(f"  Registered {entry} in _ui_defs.json")
+        for entry in added:
+            print(f"  Registered {entry} in _ui_defs.json")
 
 
 def apply_ui_overrides() -> int:

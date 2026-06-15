@@ -45,6 +45,14 @@ BUTTON_PATTERNS = [
     "NormalButtonStroke*.png",
     "NormalButtonThin*.png",
     "disabledButton*.png",
+    "DarkButton*.png",
+    "ButtonWithBorder*.png",
+    "buttonNew.png",
+]
+
+GUI_CONTAINER_PATTERNS = CONTAINER_PATTERNS + [
+    "dialog-background*.png",
+    "dialog_background*.png",
 ]
 
 HUD_FILES = [
@@ -58,6 +66,8 @@ HUD_FILES = [
     "experience_bar_full_white.png",
     "selected_hotbar_slot.png",
     "thumbnail_crosshair.png",
+    "heart_background.png",
+    "hunger_full.png",
 ]
 
 TITLE_FILES = ["title.png"]
@@ -274,6 +284,22 @@ def cowify_icons(path: Path) -> None:
     img.save(path)
 
 
+def make_heart_icon(w: int, h: int) -> Image.Image:
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.ellipse([1, 2, w - 2, h - 1], fill=(180, 40, 40, 255), outline=BROWN_DARK)
+    draw.ellipse([w // 2 - 2, h // 2, w // 2 + 1, h // 2 + 3], fill=BROWN_DARK)
+    return img
+
+
+def make_hunger_icon(w: int, h: int) -> Image.Image:
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([2, 4, w - 3, h - 2], fill=HAY_GOLD, outline=BROWN_DARK)
+    draw.line([(2, h // 2), (w - 3, h // 2)], fill=BROWN_DARK)
+    return img
+
+
 def cowify_gui_texture(path: Path, rel: str) -> bool:
     name = path.name
     w, h = Image.open(path).size
@@ -297,6 +323,10 @@ def cowify_gui_texture(path: Path, rel: str) -> bool:
         img = make_hotbar_slot(w, h, seed)
     elif name == "thumbnail_crosshair.png":
         img = make_crosshair_texture(w, h)
+    elif name == "heart_background.png":
+        img = make_heart_icon(w, h)
+    elif name == "hunger_full.png":
+        img = make_hunger_icon(w, h)
     elif name == "title.png":
         img = make_title_texture(w, h)
     else:
@@ -318,7 +348,7 @@ def cowify_gui() -> dict[str, int]:
 
     ui_dir = PACK_RP / "textures" / "ui"
     if ui_dir.exists():
-        for path in _match_patterns(ui_dir, CONTAINER_PATTERNS):
+        for path in _match_patterns(ui_dir, GUI_CONTAINER_PATTERNS):
             if cowify_gui_texture(path, str(path.relative_to(PACK_RP))):
                 counts["containers"] += 1
         for path in _match_patterns(ui_dir, BUTTON_PATTERNS):
@@ -343,14 +373,14 @@ def cowify_gui() -> dict[str, int]:
         target = gui_dir / sub if sub else gui_dir
         if not target.exists():
             continue
-        for path in sorted(target.glob("*.png")):
+        for path in _match_patterns(target, GUI_CONTAINER_PATTERNS):
             if path.name == "icons.png":
                 continue
-            w, h = Image.open(path).size
-            rel = str(path.relative_to(PACK_RP))
-            img = make_container_texture(w, h, hash(rel) & 0xFFFFFFFF, watermark=w >= 32)
-            img.save(path)
-            counts["gui"] += 1
+            if cowify_gui_texture(path, str(path.relative_to(PACK_RP))):
+                counts["gui"] += 1
+        for path in _match_patterns(target, BUTTON_PATTERNS):
+            if cowify_gui_texture(path, str(path.relative_to(PACK_RP))):
+                counts["gui"] += 1
 
     total = sum(counts.values())
     print(f"Cow GUI textures: {total} files ({counts})")
