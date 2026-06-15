@@ -41,9 +41,10 @@ def merge_json_file(src: Path, dest: Path) -> None:
 
 def register_ui_defs() -> None:
     defs_path = PACK_RP / "ui" / "_ui_defs.json"
-    if not defs_path.exists():
-        raise SystemExit("_ui_defs.json missing — cannot register cow UI modifications")
-    data = load_json(defs_path)
+    if defs_path.exists():
+        data = load_json(defs_path)
+    else:
+        data = {"ui_defs": []}
     ui_defs = data.get("ui_defs", [])
     added = []
     for entry in COW_UI_DEFS:
@@ -56,6 +57,9 @@ def register_ui_defs() -> None:
         save_json(defs_path, data)
         for entry in added:
             print(f"  Registered {entry} in _ui_defs.json")
+    elif not defs_path.exists():
+        data["ui_defs"] = sorted(ui_defs)
+        save_json(defs_path, data)
 
 
 def apply_ui_overrides(*, minimal: bool = False) -> int:
@@ -67,6 +71,7 @@ def apply_ui_overrides(*, minimal: bool = False) -> int:
         if minimal and src.name == "_global_variables.json":
             continue
         dest = PACK_RP / "ui" / src.name
+        dest.parent.mkdir(parents=True, exist_ok=True)
         if src.name == "_global_variables.json":
             merge_json_file(src, dest)
         else:

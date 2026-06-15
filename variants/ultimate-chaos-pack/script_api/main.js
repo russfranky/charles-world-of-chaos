@@ -377,7 +377,9 @@ const CHAT_ALIASES = {
 };
 
 world.beforeEvents.chatSend.subscribe((event) => {
-  const key = event.message.trim().toLowerCase().split(/\s+/)[0];
+  const msg = event.message;
+  if (!msg.startsWith("!")) return;
+  const key = msg.trim().toLowerCase().split(/\s+/)[0];
   const fnName = CHAT_ALIASES[key];
   if (!fnName || !HANDLERS[fnName]) return;
   event.cancel = true;

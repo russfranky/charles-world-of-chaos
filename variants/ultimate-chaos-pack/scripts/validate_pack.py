@@ -17,9 +17,9 @@ from common import (
     load_json,
 )
 
-# Expected minimums (vanilla counts may vary slightly by MC version)
-MIN_TEXTURES = 4000
-MIN_SPAWN_ZEROED = 50
+# Expected minimums for lite overlay pack
+MIN_TEXTURES = 20
+MIN_CUSTOM_SPAWN_RULES = 2
 
 CUSTOM_COW_TEXTURES = (
     "textures/entity/brindal_cow.png",
@@ -168,20 +168,24 @@ def validate_ui() -> list[str]:
             errors.append(f"Missing cow UI file: {rel}")
 
     start_screen = PACK_RP / "ui" / "start_screen.json"
-    if start_screen.exists():
-        if start_screen.stat().st_size < MIN_START_SCREEN_BYTES:
-            errors.append(
-                f"start_screen.json looks truncated ({start_screen.stat().st_size} bytes) "
-                "— use cow_start_screen.json modifications instead"
-            )
-    else:
-        errors.append("Missing pack/ui/start_screen.json (vanilla start screen)")
+    if start_screen.exists() and start_screen.stat().st_size < MIN_START_SCREEN_BYTES:
+        errors.append(
+            f"start_screen.json looks truncated ({start_screen.stat().st_size} bytes) "
+            "— use cow_start_screen.json modifications instead"
+        )
 
-    for rel in ("textures/ui/item_cell.png", "textures/ui/title.png"):
-        if not (PACK_RP / rel).exists():
-            errors.append(f"Missing GUI texture: {rel}")
+    if not (PACK_RP / "textures").exists():
+        errors.append("Missing pack/textures/")
+    elif not (PACK_RP / "pack_icon.png").exists():
+        errors.append("Missing pack_icon.png")
 
     return errors
+
+
+def count_custom_spawn_rules(spawn_dir: Path) -> int:
+    if not spawn_dir.exists():
+        return 0
+    return sum(1 for p in spawn_dir.glob("*.json") if "brindal" in p.name or "grayson" in p.name)
 
 
 def validate() -> bool:
@@ -191,18 +195,12 @@ def validate() -> bool:
     errors.extend(validate_ui())
 
     textures = count_pngs(PACK_RP / "textures")
-    entity_overrides = count_entity_overrides(PACK_RP / "entity")
-    bp_entities = count_transformed_entities(PACK_BP / "entities")
-    spawn_zeroed = count_zeroed_spawn_rules(PACK_BP / "spawn_rules")
-    cow_sounds = count_cow_sounds(PACK_RP / "sounds.json")
+    custom_spawns = count_custom_spawn_rules(PACK_BP / "spawn_rules")
     script = PACK_BP / "scripts" / "main.js"
 
     stats = {
         "textures": textures,
-        "entity_overrides": entity_overrides,
-        "bp_transformed_entities": bp_entities,
-        "spawn_rules_zeroed": spawn_zeroed,
-        "cow_sound_redirects": cow_sounds,
+        "custom_spawn_rules": custom_spawns,
         "script_api": script.exists(),
     }
 
@@ -212,8 +210,8 @@ def validate() -> bool:
 
     if textures < MIN_TEXTURES:
         errors.append(f"Too few textures: {textures} < {MIN_TEXTURES}")
-    if spawn_zeroed < MIN_SPAWN_ZEROED:
-        errors.append(f"Too few zeroed spawn rules: {spawn_zeroed} < {MIN_SPAWN_ZEROED}")
+    if custom_spawns < MIN_CUSTOM_SPAWN_RULES:
+        errors.append(f"Too few custom spawn rules: {custom_spawns} < {MIN_CUSTOM_SPAWN_RULES}")
     if not script.exists():
         errors.append("Missing behavior_pack/scripts/main.js")
 

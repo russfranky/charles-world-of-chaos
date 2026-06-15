@@ -105,46 +105,54 @@ def patch_sound_definitions(grouped: dict[str, list[dict]]) -> int:
 
 def apply_menu_music() -> int:
     """Keep manual menu music override."""
-    path = PACK_RP / "sounds" / "sound_definitions.json"
     music_file = PACK_RP / f"{MENU_MUSIC_TRACK}.ogg"
-    if not path.exists() or not music_file.exists():
+    if not music_file.exists():
         return 0
-    data = load_json(path)
-    defs = data.get("sound_definitions", {})
-    defs["music.menu"] = {
-        "__use_legacy_max_distance": "true",
-        "category": "music",
-        "max_distance": None,
-        "min_distance": None,
-        "sounds": [
-            {
-                "name": MENU_MUSIC_TRACK,
-                "stream": True,
-                "volume": 0.30,
-            }
-        ],
+    path = PACK_RP / "sounds" / "sound_definitions.json"
+    defs = {
+        "music.menu": {
+            "__use_legacy_max_distance": "true",
+            "category": "music",
+            "max_distance": None,
+            "min_distance": None,
+            "sounds": [
+                {
+                    "name": MENU_MUSIC_TRACK,
+                    "stream": True,
+                    "volume": 0.30,
+                }
+            ],
+        }
     }
-    data["sound_definitions"] = defs
-    save_json(path, data)
+    save_json(path, {"format_version": "1.20.20", "sound_definitions": defs})
     print(f"  Menu music: {MENU_MUSIC_TRACK}")
     return 1
 
 
-def apply_audio_overrides() -> None:
+def apply_audio_overrides(*, lite: bool = False) -> None:
     if not PACK_RP.exists():
         raise SystemExit("pack/ not found — run build pipeline first")
 
+    print("Applying audio overrides...")
+    if lite:
+        apply_menu_music()
+        return
+
     manifest = load_manifest()
     grouped = collect_overrides(manifest)
-    print("Applying audio overrides...")
     apply_menu_music()
     patch_sound_definitions(grouped)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Apply custom audio into built pack")
-    parser.parse_args()
-    apply_audio_overrides()
+    parser.add_argument(
+        "--lite",
+        action="store_true",
+        help="Menu music only — minimal sound_definitions.json",
+    )
+    args = parser.parse_args()
+    apply_audio_overrides(lite=args.lite)
 
 
 if __name__ == "__main__":
