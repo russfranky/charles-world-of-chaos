@@ -10,7 +10,7 @@
 
 **[Download for iPad](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
 
-Includes: cow-themed blocks and items, cow GUI, menu music, Brindal & Grayson custom cows, and 19 fun commands (`!moo`, `!party`, and more).
+Includes: cow-themed blocks and items, cow GUI, menu music, Brindal & Grayson custom cows, and 26 fun commands (`!surprise`, `!dance`, `!moo`, and more).
 
 ---
 

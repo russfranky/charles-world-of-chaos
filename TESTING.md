@@ -33,7 +33,7 @@
    - [ ] Cow title screen subtitle mentions `!moo` shortcuts (after pack import)
    - [ ] Brindal and Grayson cows spawn via `!b` / `!g` and are NOT removed by `!cowify`
    - [ ] `!b` / `!g` with Holiday Creator Features OFF shows HCF hint (negative test)
-   - [ ] `!moo`, `!party`, `/bgcow:help` work
+   - [ ] `!moo`, `!party`, `!surprise`, `!dance`, `/bgcow:help` work
    - [ ] Typing `!mo` or another wrong shortcut shows a helpful hint (not silent)
    - [ ] First join welcome appears (not a false Beta APIs warning when experiments are ON)
    - [ ] Behavior-pack description in world settings mentions Beta APIs

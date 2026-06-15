@@ -75,7 +75,9 @@ Give the kids this list:
 
 | Type this | What happens |
 |-----------|--------------|
+| `!surprise` | Random cow chaos! |
 | `!moo` | Spawn a cow |
+| `!dance` | Cow dance party |
 | `!b` | Brindal's cow |
 | `!g` | Grayson's cow |
 | `!party` | Cow party! |

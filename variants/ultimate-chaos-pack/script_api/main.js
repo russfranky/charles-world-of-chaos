@@ -58,6 +58,36 @@ function mooSound(player) {
   } catch (_) {}
 }
 
+function mooChorus(player, count = 5, delay = 4) {
+  for (let i = 0; i < count; i++) {
+    system.runTimeout(() => mooSound(player), i * delay);
+  }
+}
+
+function cowParticles(player) {
+  try {
+    const l = player.location;
+    player.runCommandAsync(
+      `particle minecraft:villager_happy ${l.x} ${l.y + 1} ${l.z}`
+    );
+  } catch (_) {}
+}
+
+function fireworks(player) {
+  try {
+    player.runCommandAsync("summon fireworks_rocket ~ ~2 ~");
+  } catch (_) {}
+}
+
+const COW_JOKES = [
+  "Why did the cow cross the road? To get to the udder side!",
+  "What do you call a cow with no legs? Ground beef!",
+  "What do cows read? Cattle-logs!",
+  "Why do cows wear bells? Their horns don't work!",
+  "What do you call a sleeping bull? A bulldozer!",
+  "What's a cow's favorite party game? Moo-sical chairs!",
+];
+
 function spawn(dim, typeId, loc) {
   try {
     return dim.spawnEntity(typeId, loc);
@@ -126,8 +156,9 @@ function runFor(origin, fn) {
 
 const HANDLERS = {
   moo(player) {
-    mooSound(player);
+    mooChorus(player, 2, 6);
     spawn(playerDim(player), COW, near(player, { x: 1, y: 0, z: 0 }));
+    cowParticles(player);
     title(player, "MOOO!");
   },
 
@@ -153,10 +184,11 @@ const HANDLERS = {
   },
 
   party(player) {
-    mooSound(player);
+    mooChorus(player, 6, 4);
     spawnRing(player, COW, 10, 5);
     spawnRing(player, BRINDAL, 2, 3);
     spawnRing(player, GRAYSON, 2, 3);
+    cowParticles(player);
     title(player, "COW PARTY!");
     say(player, "Everyone's invited! 🎉🐄");
   },
@@ -278,13 +310,97 @@ const HANDLERS = {
   },
 
   love(player) {
-    spawnNamed(playerDim(player), BRINDAL, near(player, { x: 1, y: 0, z: 1 }), "Brindal");
-    spawnNamed(playerDim(player), GRAYSON, near(player, { x: -1, y: 0, z: 1 }), "Grayson");
+    spawnCustomCow(player, BRINDAL, near(player, { x: 1, y: 0, z: 1 }), "Brindal");
+    spawnCustomCow(player, GRAYSON, near(player, { x: -1, y: 0, z: 1 }), "Grayson");
     try {
       player.addEffect("village_hero", 30, { amplifier: 0, showParticles: true });
     } catch (_) {}
     say(player, "Brindal & Grayson love cows! ❤️🐄");
     mooSound(player);
+  },
+
+  surprise(player) {
+    const picks = ["dance", "joke", "party", "boom", "hug", "zoom", "disco"];
+    const pick = picks[Math.floor(Math.random() * picks.length)];
+    HANDLERS[pick](player);
+    say(player, `§d✨ SURPRISE! §fYou got §e!${pick}§f!`);
+  },
+
+  dance(player) {
+    mooChorus(player, 8, 3);
+    const dim = playerDim(player);
+    const base = player.location;
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const r = 2 + i * 0.5;
+      spawn(dim, COW, {
+        x: base.x + Math.cos(angle) * r,
+        y: base.y,
+        z: base.z + Math.sin(angle) * r,
+      });
+    }
+    try {
+      player.addEffect("speed", 100, { amplifier: 1, showParticles: true });
+    } catch (_) {}
+    title(player, "COW DANCE PARTY!");
+    cowParticles(player);
+  },
+
+  boom(player) {
+    fireworks(player);
+    mooChorus(player, 3, 6);
+    spawnRing(player, COW, 6, 4);
+    title(player, "MOO-BOOM!");
+  },
+
+  hug(player) {
+    spawnCustomCow(player, BRINDAL, near(player, { x: 1, y: 0, z: 0 }), "Brindal");
+    spawnCustomCow(player, GRAYSON, near(player, { x: -1, y: 0, z: 0 }), "Grayson");
+    try {
+      player.addEffect("village_hero", 60, { amplifier: 0, showParticles: true });
+      player.runCommandAsync("give @s cookie 5");
+    } catch (_) {}
+    say(player, "Group hug from Brindal & Grayson! 🤗🐄");
+    mooSound(player);
+  },
+
+  zoom(player) {
+    try {
+      player.addEffect("speed", 160, { amplifier: 3, showParticles: true });
+    } catch (_) {}
+    const dim = playerDim(player);
+    const base = player.location;
+    const rot = player.getRotation();
+    const yaw = (rot?.y ?? 0) * (Math.PI / 180);
+    for (let i = 1; i <= 5; i++) {
+      spawn(dim, COW, {
+        x: base.x - Math.sin(yaw) * i * 2,
+        y: base.y,
+        z: base.z + Math.cos(yaw) * i * 2,
+      });
+    }
+    title(player, "ZOOMY COW!");
+    mooSound(player);
+  },
+
+  joke(player) {
+    const joke = COW_JOKES[Math.floor(Math.random() * COW_JOKES.length)];
+    say(player, joke);
+    mooSound(player);
+    spawn(playerDim(player), COW, near(player, { x: 0, y: 0, z: 1 }));
+  },
+
+  disco(player) {
+    try {
+      world.setTimeOfDay(13000);
+    } catch (_) {}
+    try {
+      player.addEffect("glowing", 80, { amplifier: 0, showParticles: true });
+    } catch (_) {}
+    spawnRing(player, COW, 8, 5);
+    mooChorus(player, 6, 5);
+    title(player, "DISCO MOO!");
+    cowParticles(player);
   },
 
   cowify(player) {
@@ -322,6 +438,13 @@ const HANDLERS = {
       "§e!bell §7/ §e/bgcow:bell §7— cowbell concert",
       "§e!love §7/ §e/bgcow:love §7— Brindal & Grayson cows",
       "§e!cowify §7/ §e/bgcow:cowify §7— turn nearby mobs into cows",
+      "§e!surprise §7/ §e/bgcow:surprise §7— random cow chaos!",
+      "§e!dance §7/ §e/bgcow:dance §7— cow dance party",
+      "§e!boom §7/ §e/bgcow:boom §7— fireworks + cows",
+      "§e!hug §7/ §e/bgcow:hug §7— Brindal & Grayson hug",
+      "§e!zoom §7/ §e/bgcow:zoom §7— super speed + cow trail",
+      "§e!joke §7/ §e/bgcow:joke §7— silly cow joke",
+      "§e!disco §7/ §e/bgcow:disco §7— glowing disco cows",
     ];
     for (const line of lines) say(player, line);
   },
@@ -338,7 +461,7 @@ const HCF_HINT =
   "Custom cows need Holiday Creator Features ON. Ask a grown-up to make a NEW world with Holiday Creator Features enabled.";
 
 const UNKNOWN_CMD_HINT =
-  "Unknown command. Try !moo !party !b !g — or !help for all commands.";
+  "Unknown command. Try !surprise !moo !party !dance — or !help for all commands.";
 
 const STARTUP_WAIT_TICKS = 40;
 
@@ -365,6 +488,13 @@ const COMMANDS = [
   { name: "bgcow:bell", desc: "Cowbell concert!", fn: "bell" },
   { name: "bgcow:love", desc: "Spawn Brindal & Grayson cows with love", fn: "love" },
   { name: "bgcow:cowify", desc: "Turn nearby mobs into cows", fn: "cowify" },
+  { name: "bgcow:surprise", desc: "Random silly cow surprise!", fn: "surprise" },
+  { name: "bgcow:dance", desc: "Cow dance party with spiral herd!", fn: "dance" },
+  { name: "bgcow:boom", desc: "Fireworks and cow explosion!", fn: "boom" },
+  { name: "bgcow:hug", desc: "Brindal & Grayson group hug + cookies", fn: "hug" },
+  { name: "bgcow:zoom", desc: "Super speed with a cow trail!", fn: "zoom" },
+  { name: "bgcow:joke", desc: "Tell a silly cow joke", fn: "joke" },
+  { name: "bgcow:disco", desc: "Glowing disco cow party!", fn: "disco" },
   { name: "bgcow:help", desc: "List all Cow World commands", fn: "help" },
 ];
 
@@ -384,7 +514,7 @@ system.beforeEvents.startup.subscribe((init) => {
       );
     }
     commandsReady = true;
-    console.warn("[BG Cow World] Moo! 19 commands ready for Brindal & Grayson!");
+    console.warn("[BG Cow World] Moo! 26 commands ready for Brindal & Grayson!");
   } catch (err) {
     console.warn("[BG Cow World] Command registration failed:", err);
   }
@@ -411,6 +541,17 @@ const CHAT_ALIASES = {
   "!bell": "bell",
   "!love": "love",
   "!cowify": "cowify",
+  "!surprise": "surprise",
+  "!?": "surprise",
+  "!dance": "dance",
+  "!boom": "boom",
+  "!fireworks": "boom",
+  "!hug": "hug",
+  "!zoom": "zoom",
+  "!fast": "zoom",
+  "!joke": "joke",
+  "!lol": "joke",
+  "!disco": "disco",
   "!help": "help",
   "!cowhelp": "help",
   "!b": "brindal",
@@ -442,15 +583,20 @@ world.beforeEvents.chatSend.subscribe((event) => {
 // ─── Welcome new players ───────────────────────────────────────────────────
 
 function welcomePlayer(player) {
-  mooSound(player);
+  mooChorus(player, 3, 8);
+  fireworks(player);
   title(player, "Welcome to Moo World!");
-  say(player, "Meet Brindal & Grayson! Try §e!moo §f§e!b §f§e!g §f§e!party §f— or §e/bgcow:help");
-  const dim = playerDim(player);
+  say(player, "Meet Brindal & Grayson! Try §e!surprise §f§e!dance §f§e!party §f— or §e!help");
+  spawnRing(player, COW, 6, 4);
   spawnCustomCow(player, BRINDAL, near(player, { x: 3, y: 0, z: 2 }), "Brindal");
   spawnCustomCow(player, GRAYSON, near(player, { x: -3, y: 0, z: 2 }), "Grayson");
+  cowParticles(player);
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
-    if (inv) inv.addItem(new ItemStack("wheat", 8));
+    if (inv) {
+      inv.addItem(new ItemStack("wheat", 8));
+      inv.addItem(new ItemStack("cookie", 4));
+    }
   } catch (_) {
     /* ignore */
   }

@@ -34,6 +34,13 @@ Every chat shortcut, matching slash command, and what it does:
 | `!bell` | `/bgcow:bell` | Cowbell concert |
 | `!love` | `/bgcow:love` | Both cows + hearts |
 | `!cowify` | `/bgcow:cowify` | Turn nearby mobs into cows |
+| `!surprise`, `!?` | `/bgcow:surprise` | Random silly cow chaos! |
+| `!dance` | `/bgcow:dance` | Cow dance party spiral |
+| `!boom`, `!fireworks` | `/bgcow:boom` | Fireworks + cows |
+| `!hug` | `/bgcow:hug` | Brindal & Grayson hug + cookies |
+| `!zoom`, `!fast` | `/bgcow:zoom` | Super speed cow trail |
+| `!joke`, `!lol` | `/bgcow:joke` | Silly cow joke |
+| `!disco` | `/bgcow:disco` | Glowing disco cows |
 | `!help`, `!cowhelp` | `/bgcow:help` | Show all commands |
 
 **Tip for iPad:** The `!` shortcuts are easiest — kids just type in chat, no slash menu needed.

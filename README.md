@@ -13,7 +13,7 @@ Meet two named family cows in the world, use easy chat commands for cow parties 
 | **Brindal Cow** | Brown with white spots — spawns in the world, or type `!b` |
 | **Grayson Cow** | Gray with dark spots — spawns in the world, or type `!g` |
 | **First join** | Brindal & Grayson greet you with wheat to feed them |
-| **Commands** | `!moo`, `!party`, `!rain`, and more — needs **Beta APIs** |
+| **Commands** | `!surprise`, `!dance`, `!moo`, `!party`, and 23 more — needs **Beta APIs** |
 | **Pack size** | Lite overlay (~750 KB) — fast on iPad |
 
 <p align="center">
@@ -56,8 +56,10 @@ Then under world settings, activate **both** packs:
 Open chat and try:
 
 ```
+!surprise
 !moo
 !party
+!dance
 !b
 !g
 ```
