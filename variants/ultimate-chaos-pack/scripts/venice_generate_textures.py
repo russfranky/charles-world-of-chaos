@@ -27,6 +27,7 @@ from io import BytesIO
 from PIL import Image
 
 from common import PACK_RP, VARIANT_ROOT, find_custom_pack_icon
+from texture_polish import polish_image, profile_for_path
 from venice_client import VeniceError, generate_image, save_png
 
 PROMPTS_FILE = VARIANT_ROOT / "prompts" / "venice_prompts.json"
@@ -51,6 +52,11 @@ def downscale_nearest(data: bytes, target_size: int | tuple[int, int]) -> Image.
     return img.resize(size, Image.Resampling.NEAREST)
 
 
+def finalize_texture(img: Image.Image, entry: dict) -> Image.Image:
+    profile = entry.get("category") or profile_for_path(entry["pack_path"])
+    return polish_image(img, profile)
+
+
 def apply_to_pack(img: Image.Image, pack_path: str) -> None:
     dest = PACK_RP / pack_path
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -66,6 +72,7 @@ def generate_texture(entry: dict, manifest: dict, *, dry_run: bool = False, forc
     if cache_lo.exists() and not force:
         print(f"[cache] {tex_id} — applying cached {cache_lo.name}")
         img = Image.open(cache_lo).convert("RGBA")
+        img = finalize_texture(img, entry)
         apply_to_pack(img, entry["pack_path"])
         for extra in entry.get("also_apply", []):
             apply_to_pack(img, extra)
@@ -88,7 +95,7 @@ def generate_texture(entry: dict, manifest: dict, *, dry_run: bool = False, forc
         return False
 
     save_png(raw, cache_hi)
-    img = downscale_nearest(raw, entry["target_size"])
+    img = finalize_texture(downscale_nearest(raw, entry["target_size"]), entry)
     save_png(_img_to_bytes(img), cache_lo)
 
     if not PACK_RP.exists():

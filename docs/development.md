@@ -62,17 +62,19 @@ export VENICE_API_KEY='your-key'
 ## Build pipeline
 
 ```
-build_cow_pack.py          → clone vanilla, cowify 4600+ textures
-cowify_entity_models.py    → mobs use cow geometry
-cowify_sounds.py           → mob sounds → moo
-cowify_behavior_entities.py → transform on spawn
-personalize_pack.py        → branding, manifests, B/G blocks
-merge_custom_cows.py       → overlay Brindal & Grayson
-cowify_gui.py              → cow-themed UI textures
-apply_gui_overrides.py     → JSON UI, lang, UI sounds
-venice_generate_textures.py → optional AI art (--venice)
-package_mcaddon.py         → dist/
+prepare_lite_pack.py         → stage only featured textures + custom cows
+polish_textures.py --sources → polish Brindal/Grayson source PNGs
+personalize_pack.py          → branding, manifests, B/G blocks
+merge_custom_cows.py         → overlay custom cows + menu music
+apply_gui_overrides.py       → subtitle JSON UI (minimal)
+apply_audio_overrides.py     → menu music sound_definitions
+venice_generate_textures.py  → optional AI art (--venice), downscale + polish
+polish_textures.py           → alpha cleanup, quantize, despeckle all pack PNGs
+optimize_pngs.py             → lossless PNG squeeze
+package_mcaddon.py           → dist/
 ```
+
+Texture polish (`texture_polish.py`) runs after Venice/downscale: hard alpha, palette quantize, despeckle — similar in spirit to a 3D→pixel post pipeline.
 
 ## Local development workflow
 

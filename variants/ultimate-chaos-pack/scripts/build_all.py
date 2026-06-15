@@ -67,6 +67,7 @@ def build_all(
 
     # Lite overlay: only featured textures + custom cows (not 15k vanilla files).
     run_script("prepare_lite_pack.py")
+    run_script("polish_textures.py", "--sources")
     run_script("personalize_pack.py")
     if venice_audio:
         run_script("venice_generate_audio.py", "--batch", "1")
@@ -78,6 +79,7 @@ def build_all(
         for category in VENICE_CATEGORIES:
             run_script("venice_generate_textures.py", "--category", category)
 
+    run_script("polish_textures.py")
     if not skip_package:
         run_script("optimize_pngs.py")
         run_script("package_mcpack.py")
