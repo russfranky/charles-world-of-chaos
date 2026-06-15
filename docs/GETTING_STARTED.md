@@ -8,20 +8,20 @@ A plain-language guide to setting up **Brindal & Grayson Cow World** on an iPad.
 
 ## What is this?
 
-A free Minecraft add-on that turns the whole game into a silly cow world — with two special cows named after your kids:
+A free Minecraft add-on with two special cows named after your kids:
 
 - **Brindal Cow** — brown with white spots
 - **Grayson Cow** — gray with dark spots
 
 Kids can spawn cows, throw cow parties, make it rain cows, heal themselves, and more with simple chat commands like `!moo` and `!party`.
 
-They'll also see cow-spot inventory backgrounds, a silly title screen, cow-themed mob art, and button clicks that **moo**.
+They'll also see cow-spot textures on blocks and items, a silly title screen, and custom menu music.
 
 ## What you need
 
 - An **iPad** with **Minecraft Bedrock Edition** (the normal App Store Minecraft — not Java)
 - Minecraft updated to **version 1.21 or newer**
-- About **5 minutes** and Wi‑Fi to download the pack (~84 MB)
+- About **5 minutes** and Wi‑Fi to download the pack (~750 KB)
 
 ## Install step by step
 
@@ -53,8 +53,8 @@ This part matters — **don't use an old world**.
 2. Pick any world name (e.g. "Cow World")
 3. Before creating, tap **Game Settings** or the experiments section
 4. Turn **ON**:
-   - **Holiday Creator Features**
-   - **Beta APIs**
+   - **Holiday Creator Features** — needed for Brindal & Grayson custom cows
+   - **Beta APIs** — needed for `!moo` and other fun commands
 5. Scroll to **Resource Packs** → activate **Brindal & Grayson Cow World**
 6. Scroll to **Behavior Packs** → activate **Brindal & Grayson Cow World BP**
 7. Tap **Create**
@@ -85,7 +85,7 @@ Give the kids this list:
 | `!fly` | Float up |
 | `!help` | See all commands |
 
-Full list: [COMMANDS.md](COMMANDS.md)
+Full list with every shortcut: [COMMANDS.md](COMMANDS.md)
 
 ## Is it safe?
 
@@ -99,9 +99,9 @@ Full list: [COMMANDS.md](COMMANDS.md)
 | Symptom | What to try |
 |---------|-------------|
 | `!moo` does nothing | Beta APIs must be ON — create a **new** world |
-| Zombies still look like zombies | Holiday Creator Features must be ON — **new** world |
-| Purple/black checkerboard cows | Both packs must be active in world settings |
-| Can't download | Check iPad storage (~100 MB free) and Minecraft version |
+| Brindal/Grayson cows won't appear | Holiday Creator Features must be ON — **new** world |
+| Purple/black checkerboard textures | Both packs must be active in world settings |
+| Can't download | Check iPad storage and Minecraft version (1.21+) |
 
 See [installation.md](installation.md) for more troubleshooting.
 

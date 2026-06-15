@@ -10,6 +10,7 @@ from pathlib import Path
 
 from common import (
     COW_IDENTIFIERS,
+    DIST,
     PACK_BP,
     PACK_RP,
     RP_HEADER_UUID,
@@ -36,6 +37,7 @@ COW_UI_DEFS = (
 )
 
 MIN_START_SCREEN_BYTES = 10_000
+MAX_MCADDON_BYTES = 1_500_000
 
 
 def count_pngs(directory: Path) -> int:
@@ -134,7 +136,20 @@ def validate_manifests() -> list[str]:
         modules = bp.get("modules", [])
         if not any(m.get("type") == "script" for m in modules):
             errors.append("BP missing script module")
+        description = bp.get("header", {}).get("description", "")
+        if "beta api" not in description.lower():
+            errors.append("BP manifest description must mention Beta APIs")
 
+    return errors
+
+
+def validate_dist_size() -> list[str]:
+    errors = []
+    mcaddon = DIST / "brindal-grayson-cow-pack.mcaddon"
+    if mcaddon.exists() and mcaddon.stat().st_size > MAX_MCADDON_BYTES:
+        errors.append(
+            f"MCADDON too large: {mcaddon.stat().st_size:,} bytes > {MAX_MCADDON_BYTES:,}"
+        )
     return errors
 
 
@@ -258,6 +273,7 @@ def validate() -> bool:
     errors.extend(validate_custom_cows())
     errors.extend(validate_ui())
     errors.extend(validate_json_files())
+    errors.extend(validate_dist_size())
 
     textures = count_pngs(PACK_RP / "textures")
     custom_spawns = count_custom_spawn_rules(PACK_BP / "spawn_rules")

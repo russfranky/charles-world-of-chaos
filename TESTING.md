@@ -5,18 +5,15 @@
 | Check | Automated | Notes |
 |-------|-----------|-------|
 | Build pipeline completes | Yes | `./scripts/build-mcaddon.sh` |
-| Texture count (4000+) | Yes | `validate_pack.py` |
-| Entity override count (100+) | Yes | Client entities use `geometry.cow.v2` |
-| BP transform count (100+) | Yes | `bgcow:transform_to_cow` component group |
-| Spawn rules zeroed (50+) | Yes | Non-cow weight = 0 |
+| Lite texture count (20+) | Yes | `validate_pack.py` |
 | Custom Brindal/Grayson cows present | Yes | Textures + entity files after merge |
 | Manifest UUID linkage | Yes | BP depends on RP UUID `d36a0504-...` |
+| BP manifest mentions Beta APIs | Yes | `validate_pack.py` |
 | Script API file present | Yes | `behavior_pack/scripts/main.js` |
+| MCADDON size under 1.5 MB | Yes | `validate_pack.py` (lite ~750 KB) |
 | Package artifacts exist | Yes | `.mcaddon` and `.mcpack` in `dist/` |
 | Venice AI textures | Optional | Requires `VENICE_API_KEY` locally or in CI secret |
 | Sounds play as cow moos | No | Requires in-game testing |
-| Mobs visually render as cows | No | Requires Bedrock client |
-| Transform-on-spawn works | No | Requires world with BP + experiments |
 | Script API commands | No | Requires Beta APIs enabled |
 | iPad import via Safari | No | Requires physical iPad |
 
@@ -33,13 +30,18 @@
 4. Verify:
    - [ ] Blocks/items have cow-hide textures
    - [ ] Diamond block shows "B", gold block shows "G"
-   - [ ] Zombies, creepers, etc. appear as cows
-   - [ ] Mobs make cow sounds
-   - [ ] Button clicks moo (cow GUI sounds)
-   - [ ] Inventory/chest backgrounds show cow spots
-   - [ ] Non-cow mobs transform to cows on spawn
-   - [ ] Brindal and Grayson cows spawn and are NOT transformed away
+   - [ ] Cow GUI / menu music (if applicable on device)
+   - [ ] Brindal and Grayson cows spawn via `!b` / `!g` and are NOT removed by `!cowify`
    - [ ] `!moo`, `!party`, `/bgcow:help` work
+   - [ ] Behavior-pack description in world settings mentions Beta APIs
+
+### Beta APIs OFF (negative test)
+
+1. Create a **new** world with Beta APIs **OFF** (Holiday Creator Features still ON)
+2. Verify:
+   - [ ] `!moo` does nothing (expected)
+   - [ ] `/summon bgcow:brindal_cow` still works
+   - [ ] Pack description warned about Beta APIs before creating world
 
 ### macOS Minecraft Bedrock
 
@@ -69,14 +71,10 @@ CI builds algorithmic textures + cow GUI. Venice AI art requires `VENICE_API_KEY
 # Validate structure
 python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
 
-# Count cowified textures
+# Lite sanity checks
 find variants/ultimate-chaos-pack/pack/textures -name '*.png' | wc -l
-
-# Count entity overrides
-grep -rl 'geometry.cow.v2' variants/ultimate-chaos-pack/pack/entity/ | wc -l
-
-# Count BP transforms
-grep -rl 'bgcow:transform_to_cow' variants/ultimate-chaos-pack/behavior_pack/entities/ | wc -l
+grep -rl 'geometry.cow.v2' variants/ultimate-chaos-pack/pack/entity/ 2>/dev/null | wc -l
+grep -rl 'bgcow:transform_to_cow' variants/ultimate-chaos-pack/behavior_pack/ 2>/dev/null | wc -l
 
 # Check dist sizes
 ls -lh dist/
@@ -85,10 +83,16 @@ ls -lh dist/
 ./scripts/clean.sh
 ```
 
+Expected lite counts after build:
+- Textures: ~34 PNGs
+- Entity geometry overrides: 0 (lite intentional)
+- BP transforms (`bgcow:transform_to_cow`): 0 (lite intentional)
+- MCADDON: ~700–900 KB
+
 ## Known Limitations
 
 - Linux CI cannot run Minecraft Bedrock
 - Default CI build uses algorithmic cow-hide + procedural GUI (not Venice AI)
-- Some complex mobs may have visual glitches when forced to cow geometry
+- Lite pack does not auto-transform all mobs — use `!cowify` for nearby mobs
 - Script API requires Beta APIs experimental toggle
 - JSON UI modifications may need updates after major Bedrock releases

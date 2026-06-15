@@ -32,7 +32,10 @@ def write_rp_manifest() -> None:
         "format_version": 2,
         "header": {
             "name": PACK_NAME_RP,
-            "description": "Cow-themed world for Brindal & Grayson — blocks, cows, and fun commands",
+            "description": (
+                "Cow-themed blocks, GUI, and Brindal & Grayson cows. "
+                "Turn ON Holiday Creator Features + Beta APIs in a NEW world."
+            ),
             "uuid": RP_HEADER_UUID,
             "version": PACK_VERSION,
             "min_engine_version": MIN_ENGINE,
@@ -50,7 +53,10 @@ def write_bp_manifest() -> None:
         "format_version": 2,
         "header": {
             "name": PACK_NAME_BP,
-            "description": "Cow world behavior pack — spawn cows, fun commands, Brindal & Grayson",
+            "description": (
+                "Brindal & Grayson cows and !commands. "
+                "Beta APIs required — turn ON when creating a NEW world."
+            ),
             "uuid": BP_HEADER_UUID,
             "version": PACK_VERSION,
             "min_engine_version": MIN_ENGINE,
@@ -166,8 +172,8 @@ def personalize_lang() -> None:
         if lang_path.exists():
             lines = lang_path.read_text(encoding="utf-8").splitlines()
         extra = [
-            "pack.name=Brindal & Grayson Ultimate Cow Pack",
-            "pack.description=Cow-themed fun for Brindal & Grayson!",
+            "pack.name=Brindal & Grayson Cow World",
+            "pack.description=Cow fun for Brindal & Grayson! NEW world + Holiday Creator Features + Beta APIs for !commands.",
         ]
         existing_keys = {l.split("=")[0] for l in lines if "=" in l}
         for line in extra:

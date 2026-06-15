@@ -322,6 +322,15 @@ const HANDLERS = {
 
 // ─── Register slash commands ───────────────────────────────────────────────
 
+let commandsReady = false;
+
+const BETA_APIS_HINT =
+  "Fun commands need Beta APIs ON when you create the world. Ask a grown-up to make a NEW world with Beta APIs enabled.";
+
+function sayBetaApisHint(player) {
+  say(player, BETA_APIS_HINT);
+}
+
 const COMMANDS = [
   { name: "bgcow:moo", desc: "Spawn a cow and moo!", fn: "moo" },
   { name: "bgcow:brindal", desc: "Summon Brindal's special cow", fn: "brindal" },
@@ -345,18 +354,24 @@ const COMMANDS = [
 ];
 
 system.beforeEvents.startup.subscribe((init) => {
-  const reg = init.customCommandRegistry;
-  for (const cmd of COMMANDS) {
-    const handler = HANDLERS[cmd.fn];
-    reg.registerCommand(
-      {
-        name: cmd.name,
-        description: cmd.desc,
-        permissionLevel: CommandPermissionLevel.Any,
-        cheatsRequired: false,
-      },
-      (origin) => runFor(origin, handler)
-    );
+  try {
+    const reg = init.customCommandRegistry;
+    for (const cmd of COMMANDS) {
+      const handler = HANDLERS[cmd.fn];
+      reg.registerCommand(
+        {
+          name: cmd.name,
+          description: cmd.desc,
+          permissionLevel: CommandPermissionLevel.Any,
+          cheatsRequired: false,
+        },
+        (origin) => runFor(origin, handler)
+      );
+    }
+    commandsReady = true;
+    console.warn("[BG Cow World] Moo! 19 commands ready for Brindal & Grayson!");
+  } catch (err) {
+    console.warn("[BG Cow World] Command registration failed:", err);
   }
 });
 
@@ -403,7 +418,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
 function welcomePlayer(player) {
   mooSound(player);
   title(player, "Welcome to Moo World!");
-  say(player, "Meet Brindal & Grayson! Try §e!b §f§e!g §f§e!party §fin chat.");
+  say(player, "Meet Brindal & Grayson! Try §e!moo §f§e!b §f§e!g §f§e!party §f— or §e/bgcow:help");
   const dim = playerDim(player);
   spawnNamed(dim, BRINDAL, near(player, { x: 3, y: 0, z: 2 }), "Brindal");
   spawnNamed(dim, GRAYSON, near(player, { x: -3, y: 0, z: 2 }), "Grayson");
@@ -418,7 +433,11 @@ function welcomePlayer(player) {
 world.afterEvents.playerSpawn.subscribe((event) => {
   if (!event.initialSpawn) return;
   const player = event.player;
-  system.run(() => welcomePlayer(player));
+  system.run(() => {
+    if (!commandsReady) {
+      sayBetaApisHint(player);
+      return;
+    }
+    welcomePlayer(player);
+  });
 });
-
-console.warn("[BG Cow World] Moo! 19 commands ready for Brindal & Grayson!");

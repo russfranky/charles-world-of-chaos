@@ -10,45 +10,41 @@ Fun commands for **Brindal** and **Grayson**!
 
 ---
 
-## Easy mode — chat shortcuts (best for iPad)
+## Full command list
 
-Just open chat and type:
+Every chat shortcut, matching slash command, and what it does:
 
-| Shortcut | Effect |
-|----------|--------|
-| `!moo` | Spawn a cow + moo sound |
-| `!b` | Brindal's special cow |
-| `!g` | Grayson's special cow |
-| `!twins` | Both cows at once |
-| `!party` | Ring of cows around you 🎉 |
-| `!rain` | Cows fall from the sky |
-| `!stampede` | Cow stampede |
-| `!mega` | MEGA cow chaos |
-| `!heal` | Full heal + regeneration |
-| `!fly` | Levitation + slow fall |
-| `!jump` | Super jump boost |
-| `!sunny` | Clear sunny day + cows |
-| `!night` | Cheese moon night |
-| `!milk` | Free milk bucket |
-| `!feast` | Wheat, milk, cookies |
-| `!bell` | Cowbell concert |
-| `!love` | Both cows + hearts |
-| `!cowify` | Turn nearby mobs into cows |
-| `!help` | List all commands |
+| Chat shortcut | Slash command | What happens |
+|---------------|---------------|--------------|
+| `!moo` | `/bgcow:moo` | A cow pops in and moos |
+| `!b`, `!brindal` | `/bgcow:brindal` | Brindal's brown cow appears |
+| `!g`, `!grayson` | `/bgcow:grayson` | Grayson's gray cow appears |
+| `!twins` | `/bgcow:twins` | Both cows at once |
+| `!party` | `/bgcow:party` | Ring of cows around you 🎉 |
+| `!rain` | `/bgcow:rain` | Cows fall from the sky |
+| `!stampede` | `/bgcow:stampede` | Cows charge toward you |
+| `!mega` | `/bgcow:mega` | SO many cows (can lag older iPads) |
+| `!heal` | `/bgcow:heal` | Full heal + regeneration glow |
+| `!fly` | `/bgcow:fly` | Float up, fall down slow |
+| `!jump` | `/bgcow:jump` | Super jump boost |
+| `!sunny` | `/bgcow:sunny` | Clear sunny day + cows |
+| `!night` | `/bgcow:night` | Nighttime cheese moon |
+| `!milk` | `/bgcow:milk` | Free milk bucket |
+| `!feast` | `/bgcow:feast` | Wheat, milk, and cookies |
+| `!bell` | `/bgcow:bell` | Cowbell concert |
+| `!love` | `/bgcow:love` | Both cows + hearts |
+| `!cowify` | `/bgcow:cowify` | Turn nearby mobs into cows |
+| `!help`, `!cowhelp` | `/bgcow:help` | Show all commands |
+
+**Tip for iPad:** The `!` shortcuts are easiest — kids just type in chat, no slash menu needed.
 
 ---
 
 ## Slash commands (autocomplete)
 
-Type `/` in chat and search `bgcow:`:
+Type `/` in chat and search `bgcow:` to pick a command from the menu.
 
-```
-/bgcow:moo        /bgcow:brindal     /bgcow:grayson
-/bgcow:party      /bgcow:rain        /bgcow:mega
-/bgcow:heal       /bgcow:fly         /bgcow:help
-```
-
-Full list: `/bgcow:help`
+Or type `/bgcow:help` in chat for the full list.
 
 ---
 
@@ -64,7 +60,7 @@ Full list: `/bgcow:help`
 | **Brindal** | `!b` | `/summon bgcow:brindal_cow` |
 | **Grayson** | `!g` | `/summon bgcow:grayson_cow` |
 
-These cows are special — they won't get transformed into regular cows by the pack.
+These cows are special — they won't get removed or turned into regular cows by `!cowify`.
 
 ---
 
@@ -74,6 +70,7 @@ These cows are special — they won't get transformed into regular cows by the p
 - Any player in the world can use them
 - `!mega` and `!rain` spawn many cows — can lag older iPads
 - If commands don't work, check **Beta APIs** is ON (requires new world)
+- The behavior-pack description in Minecraft world settings also mentions the Beta APIs requirement
 
 ---
 

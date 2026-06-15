@@ -54,5 +54,5 @@ echo " Build complete — dist/"
 ls -lh "$DIST"/brindal-grayson-cow-pack.mcaddon "$DIST"/brindal-grayson-cow-pack.mcpack 2>/dev/null || ls -lh "$DIST"/
 echo "=============================================="
 echo ""
-echo "  brindal-grayson-cow-pack.mcaddon — full add-on (chaos + Brindal & Grayson cows)"
-echo "  brindal-grayson-cow-pack.mcpack  — visual-only (no behavior/scripts)"
+echo "  brindal-grayson-cow-pack.mcaddon — lite overlay (~750 KB) + Brindal & Grayson cows + Script API commands"
+echo "  brindal-grayson-cow-pack.mcpack  — visual-only resource pack (no behavior/scripts)"

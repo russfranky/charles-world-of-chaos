@@ -106,7 +106,7 @@ Or type `/` and search for `bgcow:` commands.
 | **Minecraft Bedrock** on iPad | This is not Java Edition |
 | **Version 1.21.0+** | Update the app if import fails |
 | **New world** | Experiments must be set at world creation |
-| **Holiday Creator Features** | Mob transforms, behavior pack |
+| **Holiday Creator Features** | Custom Brindal & Grayson cows (behavior pack) |
 | **Beta APIs** | Fun commands (`!moo`, `/bgcow:party`) |
 
 ### Visual-only fallback
@@ -121,8 +121,9 @@ If experiments cause trouble, use the lighter pack (textures only, no commands):
 
 | Problem | Fix |
 |---------|-----|
-| Commands don't work | Turn on **Beta APIs** in world settings |
-| Mobs aren't cows | Only Brindal & Grayson are special — vanilla zombies, creepers, etc. stay normal. Try `!cowify` for chaos. |
+| Commands don't work | Turn on **Beta APIs** in world settings — create a **new** world |
+| Brindal/Grayson cows won't spawn | Turn on **Holiday Creator Features** — create a **new** world |
+| Vanilla mobs stay normal | Expected in lite pack — kids can type `!cowify` to turn nearby mobs into cows |
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |
