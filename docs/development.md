@@ -47,7 +47,7 @@ export VENICE_API_KEY='your-key'
 | `spawn_rules/` | Natural spawn conditions |
 | `texts/` | Localization |
 
-`merge_custom_cows.py` copies these into the built unified pack. **Do not install the source packs alone** — they lack chaos textures, script API, and GUI.
+`merge_custom_cows.py` copies these into the built unified pack. **Do not install the source packs alone** — they lack the lite overlay textures, script API, and GUI.
 
 ## Adding a new cow variant
 

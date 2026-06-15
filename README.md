@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero-banner.png" alt="Brindal & Grayson Cow World — zombies, creepers, and skeletons in cow costumes" width="100%">
+  <img src="docs/assets/hero-banner.png" alt="Brindal & Grayson Cow World — cow-themed fun for kids on iPad" width="100%">
 </p>
 
 # Brindal & Grayson Cow World
@@ -44,8 +44,8 @@ When the download finishes, tap the file → **Open in Minecraft**. Both packs i
 
 When creating the world, turn **ON**:
 
-- **Holiday Creator Features**
-- **Beta APIs**
+- **Holiday Creator Features** — custom Brindal & Grayson cows
+- **Beta APIs** — `!moo`, `!party`, and other chat commands
 
 Then under world settings, activate **both** packs:
 - Brindal & Grayson Cow World (resource)

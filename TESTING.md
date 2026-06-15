@@ -30,7 +30,7 @@
 4. Verify:
    - [ ] Blocks/items have cow-hide textures
    - [ ] Diamond block shows "B", gold block shows "G"
-   - [ ] Cow GUI / menu music (if applicable on device)
+   - [ ] Cow title screen subtitle mentions `!moo` shortcuts (after pack import)
    - [ ] Brindal and Grayson cows spawn via `!b` / `!g` and are NOT removed by `!cowify`
    - [ ] `!moo`, `!party`, `/bgcow:help` work
    - [ ] Typing `!mo` or another wrong shortcut shows a helpful hint (not silent)

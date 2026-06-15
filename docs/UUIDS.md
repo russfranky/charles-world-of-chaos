@@ -9,7 +9,7 @@ Built into `dist/brindal-grayson-cow-pack.mcaddon`:
 | Pack | Header UUID | Role |
 |------|-------------|------|
 | Resource pack | `d36a0504-4533-4271-b115-a49c53b7bc97` | Shipped RP — textures, sounds, UI |
-| Behavior pack | `26cbe6c2-9ac3-464e-a6cd-08bfef85c38d` | Shipped BP — transforms, script API |
+| Behavior pack | `26cbe6c2-9ac3-464e-a6cd-08bfef85c38d` | Shipped BP — custom cows, script API |
 
 Defined in `variants/ultimate-chaos-pack/scripts/common.py` and written by `personalize_pack.py`.
 
