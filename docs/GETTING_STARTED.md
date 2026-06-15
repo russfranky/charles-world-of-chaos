@@ -8,14 +8,12 @@ A plain-language guide to setting up **Brindal & Grayson Cow World** on an iPad.
 
 ## What is this?
 
-A free Minecraft add-on with two special cows named after your kids:
+A free Minecraft add-on with a **Cow Barn** mini-game — breed cows, collect rare traits, and earn real Minecraft loot. Kids tap items in their bag; no typing required.
 
-- **Brindal Cow** — brown with white spots
-- **Grayson Cow** — gray with dark spots
-
-Kids can spawn cows, throw cow parties, make it rain cows, heal themselves, and more with simple chat commands like `!moo` and `!party`.
-
-They'll also see cow-spot textures on blocks and items, a silly title screen, and custom menu music.
+- **Ranch Bell** — deploy, feed, breed, and recall your herd
+- **Feed Bag** — feed your cows or catch wild ones nearby
+- **Spot Cow** and **Storm Cow** — special coats you can breed for
+- Cow-spot textures on blocks, a silly title screen, and custom menu music
 
 ## What you need
 
@@ -53,34 +51,33 @@ This part matters — **don't use an old world**.
 2. Pick any world name (e.g. "Cow World")
 3. Before creating, tap **Game Settings** or the experiments section
 4. Turn **ON**:
-   - **Holiday Creator Features** — needed for Brindal & Grayson custom cows
-   - **Beta APIs** — needed for `!moo` and other fun commands
+   - **Holiday Creator Features** — needed for Spot Cow and Storm Cow
+   - **Beta APIs** — needed for Cow Barn (Ranch Bell, Feed Bag, breeding)
 5. Scroll to **Resource Packs** → activate **Brindal & Grayson Cow World**
 6. Scroll to **Behavior Packs** → activate **Brindal & Grayson Cow World BP**
 7. Tap **Create**
 
 ### 4. Let the kids play!
 
-Open the **inventory** (⋯ at bottom of screen) and **tap the Cow Bell** — a random cow surprise happens!
+Open the **inventory** (⋯ at bottom of screen):
 
-Kids can also:
-- **Tap Cow Snack** (wheat) for a moo and a new cow
-- **Walk up and tap Brindal or Grayson** for a hug and cookies
-- Just explore — silly cow surprises pop up about every minute
+1. **Tap Ranch Bell** — cycles DEPLOY → FEED → BREED → RECALL
+2. **Tap Feed Bag** near a wild cow to catch it, or on your deployed cow to feed it
+3. Get to **3 cows** (Yard rank) to unlock breeding
+4. Discover new traits for gold, emeralds, diamonds, and more
 
-> **Parents:** chat commands like `!moo` still work if you want them. See [COMMANDS.md](COMMANDS.md).
+> **Parents:** slash commands `/bgcow:help`, `/bgcow:barn`, `/bgcow:breed` work if you want them. See [COMMANDS.md](COMMANDS.md).
 
-## Commands cheat sheet (printable)
+## Quick reference (printable)
 
-Give the kids this list:
+| What to do | What happens |
+|------------|--------------|
+| Tap **Ranch Bell** | Cycle deploy / feed / breed / recall |
+| Tap **Feed Bag** on cow | Feed active cow |
+| Tap **Feed Bag** near wild cow | Catch into barn |
+| `/bgcow:barn` | See herd status (parents) |
 
-| Type this | What happens |
-|-----------|--------------|
-| Tap **Cow Bell** | Random surprise! |
-| Tap **Cow Snack** | Spawn a cow |
-| Pet **Brindal** or **Grayson** | Hug + cookies |
-
-Full list with every shortcut: [COMMANDS.md](COMMANDS.md)
+Full details: [COMMANDS.md](COMMANDS.md)
 
 ## Is it safe?
 
@@ -93,8 +90,8 @@ Full list with every shortcut: [COMMANDS.md](COMMANDS.md)
 
 | Symptom | What to try |
 |---------|-------------|
-| `!moo` does nothing | Beta APIs must be ON — create a **new** world |
-| Brindal/Grayson cows won't appear | Holiday Creator Features must be ON — **new** world |
+| Ranch Bell does nothing | Beta APIs must be ON — create a **new** world |
+| Spot/Storm cows won't appear | Holiday Creator Features must be ON — **new** world |
 | Purple/black checkerboard textures | Both packs must be active in world settings |
 | Can't download | Check iPad storage and Minecraft version (1.21+) |
 

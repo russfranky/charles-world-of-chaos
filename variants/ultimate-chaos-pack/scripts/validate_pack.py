@@ -162,8 +162,8 @@ def validate_gui_lang() -> list[str]:
     text = lang_path.read_text(encoding="utf-8").lower()
     if "menu.moo_world_subtitle" not in text:
         errors.append("Missing menu.moo_world_subtitle in RP lang")
-    elif "beta api" not in text or "cow bell" not in text:
-        errors.append("Title subtitle must mention Beta APIs and Cow Bell")
+    elif "beta api" not in text or "ranch bell" not in text:
+        errors.append("Title subtitle must mention Beta APIs and Ranch Bell")
     return errors
 
 
@@ -173,7 +173,7 @@ def validate_script_api() -> list[str]:
     if not script.exists():
         return errors
     text = script.read_text(encoding="utf-8")
-    for marker in ("sayBetaApisHint", "spawnCustomCow", "handleFirstJoin", "mooChorus", "givePlayItems"):
+    for marker in ("loadBarn", "tryBreed", "BARN_KEY", "onBellTap", "catchWildCow"):
         if marker not in text:
             errors.append(f"Script API missing reliability helper: {marker}")
     return errors

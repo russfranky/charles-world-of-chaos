@@ -4,20 +4,19 @@
 
 # Brindal & Grayson Cow World
 
-**A Minecraft Bedrock add-on for iPad** — built for Brindal and Grayson.
+**A Minecraft Bedrock add-on for iPad** — breed cows, collect traits, earn loot.
 
-Meet two named family cows in the world, use easy chat commands for cow parties and silly fun, plus a handful of cow-themed blocks and custom menu music. Vanilla mobs and controls — no broken UI.
+Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and recall your herd. Catch wild cows with the **Feed Bag**, chase rare coats like **Spot Cow** and **Storm Cow**, and unlock real Minecraft rewards (gold, emerald, diamond) as you fill your trait catalog.
 
 | | |
 |---|---|
-| **Brindal Cow** | Brown with white spots — spawns in the world, or type `!b` |
-| **Grayson Cow** | Gray with dark spots — spawns in the world, or type `!g` |
-| **First join** | Brindal & Grayson greet you with wheat to feed them |
-| **Commands** | Tap **Cow Bell** in bag — or optional `!` chat for parents |
+| **Cow Barn** | Tap Ranch Bell — no typing needed |
+| **Feed Bag** | Feed your cows or catch wild ones nearby |
+| **Breeding** | Inherit traits, discover new combos, earn loot |
 | **Pack size** | Lite overlay (~750 KB) — fast on iPad |
 
 <p align="center">
-  <img src="docs/assets/family-cows.png" alt="Brindal Cow and Grayson Cow" width="600">
+  <img src="docs/assets/family-cows.png" alt="Spot Cow and Storm Cow" width="600">
 </p>
 
 ---
@@ -44,8 +43,8 @@ When the download finishes, tap the file → **Open in Minecraft**. Both packs i
 
 When creating the world, turn **ON**:
 
-- **Holiday Creator Features** — custom Brindal & Grayson cows
-- **Beta APIs** — `!moo`, `!party`, and other chat commands
+- **Holiday Creator Features** — Spot Cow & Storm Cow entities
+- **Beta APIs** — Cow Barn (Ranch Bell, Feed Bag, breeding)
 
 Then under world settings, activate **both** packs:
 - Brindal & Grayson Cow World (resource)
@@ -53,50 +52,30 @@ Then under world settings, activate **both** packs:
 
 ### Step 4 — Play!
 
-Open inventory → **tap the Cow Bell** for a random cow surprise!
-
-Kids can also tap **Cow Snack**, pet **Brindal & Grayson**, or just play — fun happens automatically.
+Open inventory → **tap the Ranch Bell** to cycle barn modes.
 
 ```
-Cow Bell  →  surprise!
-Cow Snack →  moo!
-Pet cows  →  hug!
+Ranch Bell  →  DEPLOY · FEED · BREED · RECALL
+Feed Bag    →  feed cow or catch wild cow
 ```
 
-Optional chat commands for parents: `!moo`, `!party`, `!help` — see [docs/COMMANDS.md](docs/COMMANDS.md).
+Optional slash commands for parents: `/bgcow:help`, `/bgcow:barn`, `/bgcow:breed` — see [docs/COMMANDS.md](docs/COMMANDS.md).
 
 📖 **Full install guide:** [docs/installation.md](docs/installation.md)  
-🎮 **All commands:** [docs/COMMANDS.md](docs/COMMANDS.md)
+🎮 **Cow Barn guide:** [docs/COMMANDS.md](docs/COMMANDS.md)
 
 ---
 
-## Fun commands
+## Cow Barn at a glance
 
-<p align="center">
-  <img src="docs/assets/commands-card.png" alt="Fun commands: !moo, !party, !rain, !brindal, !grayson" width="700">
-</p>
+| Control | What happens |
+|---------|--------------|
+| **Ranch Bell** (tap) | Cycle deploy → feed → breed → recall |
+| **Feed Bag** (tap) | Feed active cow, or catch wild cow within 5 blocks |
+| `/bgcow:barn` | Show rank, herd, catalog progress |
+| `/bgcow:breed` | Breed two ready adults |
 
-| Easy (chat) | Slash command | What happens |
-|-------------|---------------|--------------|
-| `!moo` | `/bgcow:moo` | Spawn a cow |
-| `!b` | `/bgcow:brindal` | Brindal's cow |
-| `!g` | `/bgcow:grayson` | Grayson's cow |
-| `!party` | `/bgcow:party` | Cow party ring |
-| `!rain` | `/bgcow:rain` | Cows fall from sky |
-| `!mega` | `/bgcow:mega` | MEGA cow chaos |
-| `!heal` | `/bgcow:heal` | Cow magic heal |
-| `!help` | `/bgcow:help` | List all commands |
-
-**Tip for iPad:** The `!` shortcuts are easiest — kids just type in chat, no slash menu needed.
-
----
-
-## Meet the cows
-
-<p align="center">
-  <img src="docs/assets/brindal-cow.png" alt="Brindal Cow" width="200">
-  <img src="docs/assets/grayson-cow.png" alt="Grayson Cow" width="200">
-</p>
+Barn ranks grow with herd size (Pen → Yard → Ranch → Spread → Legend). New trait discoveries drop gold, emeralds, diamonds, and more.
 
 ---
 
@@ -107,12 +86,12 @@ Optional chat commands for parents: `!moo`, `!party`, `!help` — see [docs/COMM
 | **Minecraft Bedrock** on iPad | This is not Java Edition |
 | **Version 1.21.0+** | Update the app if import fails |
 | **New world** | Experiments must be set at world creation |
-| **Holiday Creator Features** | Custom Brindal & Grayson cows (behavior pack) |
-| **Beta APIs** | Fun commands (`!moo`, `/bgcow:party`) |
+| **Holiday Creator Features** | Spot Cow & Storm Cow (behavior pack) |
+| **Beta APIs** | Cow Barn scripts |
 
 ### Visual-only fallback
 
-If experiments cause trouble, use the lighter pack (textures only, no commands):
+If experiments cause trouble, use the lighter pack (textures only, no scripts):
 
 **[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)**
 
@@ -122,9 +101,9 @@ If experiments cause trouble, use the lighter pack (textures only, no commands):
 
 | Problem | Fix |
 |---------|-----|
-| Commands don't work | Turn on **Beta APIs** in world settings — create a **new** world |
-| Brindal/Grayson cows won't spawn | Turn on **Holiday Creator Features** — create a **new** world |
-| Vanilla mobs stay normal | Expected in lite pack — kids can type `!cowify` to turn nearby mobs into cows |
+| Ranch Bell does nothing | Turn on **Beta APIs** — create a **new** world |
+| Spot/Storm cows won't spawn | Turn on **Holiday Creator Features** — create a **new** world |
+| Can't breed yet | Need 3+ cows (Yard rank) and two happy adults |
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |
@@ -134,7 +113,7 @@ If experiments cause trouble, use the lighter pack (textures only, no commands):
 ## For parents
 
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** — plain-language walkthrough
-- **[Command List](docs/COMMANDS.md)** — every command explained
+- **[Cow Barn Guide](docs/COMMANDS.md)** — bell cycle, breeding, loot
 - **[Install Guide](docs/installation.md)** — detailed iPad steps
 
 ---

@@ -43,7 +43,7 @@ Open [`index.html`](index.html) in a browser for the full gallery.
 
 ### ⏳ Blaze (`blaze`)
 
-![Blaze](previews/blaze.png)
+_no preview_
 
 - **Identifier:** `minecraft:blaze`
 - **Texture:** `textures/entity/blaze.png`
@@ -91,7 +91,7 @@ Open [`index.html`](index.html) in a browser for the full gallery.
 
 ### ⏳ Enderman (`enderman`)
 
-![Enderman](previews/enderman.png)
+_no preview_
 
 - **Identifier:** `minecraft:enderman`
 - **Texture:** `textures/entity/enderman/enderman.png`
@@ -171,7 +171,7 @@ Open [`index.html`](index.html) in a browser for the full gallery.
 
 ### ⏳ Spider (`spider`)
 
-![Spider](previews/spider.png)
+_no preview_
 
 - **Identifier:** `minecraft:spider`
 - **Texture:** `textures/entity/spider/spider.png`
