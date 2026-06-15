@@ -49,7 +49,12 @@ def write_script_api() -> None:
     print(f"Wrote {script_dir / 'main.js'}")
 
 
-def build_all(rebuild_textures: bool = False, skip_package: bool = False, venice: bool = False) -> None:
+def build_all(
+    rebuild_textures: bool = False,
+    skip_package: bool = False,
+    venice: bool = False,
+    venice_audio: bool = False,
+) -> None:
     ensure_vanilla_src()
 
     # Clean output dirs on full rebuild
@@ -64,11 +69,14 @@ def build_all(rebuild_textures: bool = False, skip_package: bool = False, venice
     run_script("prune_sounds.py")
     run_script("cowify_behavior_entities.py", *(["--rebuild"] if rebuild_textures else []))
     run_script("personalize_pack.py")
+    if venice_audio:
+        run_script("venice_generate_audio.py", "--batch", "1")
     run_script("merge_custom_cows.py")
     write_script_api()
     # Procedural cow GUI textures + JSON UI/lang/sound overrides
     run_script("cowify_gui.py")
     run_script("apply_gui_overrides.py")
+    run_script("apply_audio_overrides.py")
     # Venice AI runs last — overrides featured textures (mobs, panoramas, pack_icon, etc.)
     if venice:
         run_script("venice_generate_textures.py", "--all")
@@ -88,9 +96,11 @@ def main() -> None:
                         help="Skip packaging .mcpack/.mcaddon")
     parser.add_argument("--venice", action="store_true",
                         help="Generate featured textures via Venice AI (requires VENICE_API_KEY)")
+    parser.add_argument("--venice-audio", action="store_true",
+                        help="Generate batch-1 audio via Venice AI (requires VENICE_API_KEY)")
     args = parser.parse_args()
     build_all(rebuild_textures=args.rebuild_textures, skip_package=args.skip_package,
-              venice=args.venice)
+              venice=args.venice, venice_audio=args.venice_audio)
 
 
 if __name__ == "__main__":

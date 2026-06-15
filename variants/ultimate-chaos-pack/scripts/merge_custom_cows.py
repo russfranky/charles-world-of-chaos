@@ -74,6 +74,18 @@ def merge_custom_cows() -> None:
     merge_lang(CUSTOM_RP / "texts/en_US.lang", PACK_RP / "texts/en_US.lang")
     merge_lang(CUSTOM_BP / "texts/en_US.lang", PACK_BP / "texts/en_US.lang")
 
+    sounds_src = CUSTOM_RP / "sounds"
+    if sounds_src.exists():
+        copied = 0
+        for src in sounds_src.rglob("*"):
+            if src.is_file():
+                rel = src.relative_to(sounds_src)
+                dst = PACK_RP / "sounds" / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+                copied += 1
+        print(f"  Copied {copied} custom sound file(s)")
+
     print("Merged Brindal & Grayson custom cows into unified pack")
 
 

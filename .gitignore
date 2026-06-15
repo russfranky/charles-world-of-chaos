@@ -2,6 +2,7 @@
 vanilla_src/
 variants/ultimate-chaos-pack/vanilla_src/
 variants/ultimate-chaos-pack/venice_cache/
+variants/ultimate-chaos-pack/venice_audio_cache/
 .env
 
 # Build outputs (rebuilt locally; dist/ committed for iPad install)

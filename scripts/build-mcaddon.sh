@@ -22,12 +22,26 @@ if [[ -f "$ROOT/requirements.txt" ]]; then
 fi
 
 VENICE_FLAG=""
-if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
-  echo ">>> Venice API key detected — generating featured AI textures"
-  VENICE_FLAG="--venice"
+if [[ "${VENICE_TEXTURES:-}" == "1" ]]; then
+  if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
+    echo "VENICE_TEXTURES=1: generating featured AI textures"
+    VENICE_FLAG="--venice"
+  else
+    echo "Warning: VENICE_TEXTURES=1 but no API key set — skipping texture generation" >&2
+  fi
 fi
 
-python3 "$CHAOS/scripts/build_all.py" --rebuild-textures $VENICE_FLAG
+VENICE_AUDIO_FLAG=""
+if [[ "${VENICE_AUDIO:-}" == "1" ]]; then
+  if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
+    echo "VENICE_AUDIO=1: generating batch-1 AI audio"
+    VENICE_AUDIO_FLAG="--venice-audio"
+  else
+    echo "Warning: VENICE_AUDIO=1 but no API key set — skipping audio generation" >&2
+  fi
+fi
+
+python3 "$CHAOS/scripts/build_all.py" --rebuild-textures $VENICE_FLAG $VENICE_AUDIO_FLAG
 
 echo ""
 echo "=============================================="
