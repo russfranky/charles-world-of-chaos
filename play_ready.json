@@ -1,0 +1,13 @@
+{
+  "ready": false,
+  "note": "Keep false until an iPad playtest passes and you sign off. Do not tag a release or tell the kids to install until ready is true.",
+  "signed_off_by": "",
+  "signed_off_at": "",
+  "criteria": {
+    "mob_index_approved": "All shipped mobs approved in docs/mob-index/mob-approvals.json",
+    "ipad_playtest": "New world on iPad: both packs, Beta APIs, commands work, no broken UI, feels fun",
+    "performance_ok": "Loads fast, no stutter (lite pack on device)",
+    "readme_honest": "README matches what the pack actually does",
+    "parent_review": "You looked at mob-index gallery and said yes"
+  }
+}

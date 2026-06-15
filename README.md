@@ -4,18 +4,20 @@
 
 # Brindal & Grayson Cow World
 
+> **Work in progress** — not ready for kids yet. See [`play_ready.json`](play_ready.json) and the [mob index](docs/mob-index/index.html) before installing on an iPad.
+
 **A Minecraft Bedrock add-on for iPad** — built for Brindal and Grayson.
 
-Everything is cows. Zombies in cow suits, creeper milk cartons, a cowbell sun — plus two special cows named just for them.
+Two special cows, fun chat commands, a few cow-themed blocks, and custom menu music. Vanilla mobs and UI — no chaos mode.
 
 | | |
 |---|---|
 | **Brindal Cow** | Brown with white spots — `/summon bgcow:brindal_cow` or type `!b` |
 | **Grayson Cow** | Gray with dark spots — `/summon bgcow:grayson_cow` or type `!g` |
-| **Cow chaos** | 4,600+ cow-hide textures, all mobs become cows, cow moos everywhere |
-| **Cow GUI** | Cow-spot inventory backgrounds, moo button clicks, MOOcraft title screen |
-| **Venice AI art** | Featured mob skins, blocks, panoramas (when built with `VENICE_API_KEY`) |
-| **19 fun commands** | Cow parties, cow rain, flying, healing — type `!moo` or `/bgcow:party` |
+| **Commands** | `!moo`, `!party`, `!rain`, and more — needs **Beta APIs** |
+| **Textures** | Lite overlay (~750 KB): custom cows + selected block/item art |
+| **UI** | Vanilla controls; title screen subtitle only |
+| **Music** | Custom menu track when the resource pack is active globally |
 
 <p align="center">
   <img src="docs/assets/family-cows.png" alt="Brindal Cow and Grayson Cow" width="600">
@@ -23,17 +25,20 @@ Everything is cows. Zombies in cow suits, creeper milk cartons, a cowbell sun �
 
 ---
 
-## iPad install (5 minutes)
+## iPad install (when play-ready)
+
+Check [`play_ready.json`](play_ready.json) — only install on the kids' iPad after `"ready": true`.
 
 <p align="center">
   <img src="docs/assets/install-steps.png" alt="Install steps: Download, Open, New World, Play" width="900">
 </p>
 
-### Step 1 — Download
+### Step 1 — Download (dev build)
 
-Tap this link on the iPad in **Safari**:
+Maintainers: `./scripts/build-mcaddon.sh` then use `dist/`.  
+When play-ready, this link will be the release build:
 
-**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
+**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)** *(dev artifact — verify play_ready first)*
 
 ### Step 2 — Open in Minecraft
 
@@ -123,7 +128,7 @@ If experiments cause trouble, use the lighter pack (textures only, no commands):
 | Problem | Fix |
 |---------|-----|
 | Commands don't work | Turn on **Beta APIs** in world settings |
-| Mobs aren't cows | Turn on **Holiday Creator Features**; make a **new** world |
+| Mobs aren't cows | **By design** — only Brindal & Grayson are custom; use `!cowify` if you want chaos |
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |

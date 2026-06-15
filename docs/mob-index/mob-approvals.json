@@ -2,16 +2,16 @@
   "version": 1,
   "mobs": {
     "brindal_cow": {
-      "approved": true,
+      "approved": false,
       "shipped": true,
       "reviewer": "",
-      "note": "Auto-added — set approved true after visual review"
+      "note": "Review in docs/mob-index — set true after you like how it looks in-game"
     },
     "grayson_cow": {
-      "approved": true,
+      "approved": false,
       "shipped": true,
       "reviewer": "",
-      "note": "Auto-added — set approved true after visual review"
+      "note": "Review in docs/mob-index — set true after you like how it looks in-game"
     },
     "bee": {
       "approved": false,
