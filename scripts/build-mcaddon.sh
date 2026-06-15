@@ -44,6 +44,11 @@ fi
 python3 "$CHAOS/scripts/build_all.py" --rebuild-textures $VENICE_FLAG $VENICE_AUDIO_FLAG
 
 echo ""
+echo "Updating mob index for approval..."
+python3 "$ROOT/scripts/generate_mob_index.py"
+python3 "$ROOT/scripts/validate_mob_approvals.py"
+
+echo ""
 echo "=============================================="
 echo " Build complete — dist/"
 ls -lh "$DIST"/brindal-grayson-cow-pack.mcaddon "$DIST"/brindal-grayson-cow-pack.mcpack 2>/dev/null || ls -lh "$DIST"/

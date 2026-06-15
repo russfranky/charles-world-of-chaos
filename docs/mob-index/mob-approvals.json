@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "mobs": {
+    "brindal_cow": {
+      "approved": true,
+      "shipped": true,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "grayson_cow": {
+      "approved": true,
+      "shipped": true,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "bee": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "blaze": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "breeze": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "cat": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "chicken": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "creeper": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "elder_guardian": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "enderman": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "ghast": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "guardian": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "horse": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "iron_golem": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "pig": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "pillager": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "ravager": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "skeleton": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "slime": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "spider": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "villager": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "warden": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "witch": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "wither_boss": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "wither_skeleton": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "wolf": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    },
+    "zombie": {
+      "approved": false,
+      "shipped": false,
+      "reviewer": "",
+      "note": "Auto-added — set approved true after visual review"
+    }
+  }
+}

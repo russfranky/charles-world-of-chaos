@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brindal &amp; Grayson — Mob Index</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; background: #1a1d24; color: #e8eaef; }
+    body { margin: 0; padding: 1.5rem; max-width: 1400px; margin-inline: auto; }
+    h1 { margin-top: 0; }
+    .toolbar { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
+    button { background: #2d3548; color: inherit; border: 1px solid #4a5568; padding: .45rem .9rem; border-radius: 8px; cursor: pointer; }
+    button.active { background: #4a7c59; border-color: #6aa87a; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .card { background: #232833; border-radius: 12px; overflow: hidden; border: 2px solid #333a48; }
+    .card.approved { border-color: #4a7c59; }
+    .card.blocked { border-color: #a44; }
+    .card img { width: 100%; display: block; background: #111; }
+    .missing { padding: 4rem 1rem; text-align: center; color: #888; }
+    .meta { padding: .75rem 1rem 1rem; }
+    .meta h2 { margin: 0 0 .25rem; font-size: 1.1rem; }
+    .id { margin: 0; font-size: .8rem; color: #9aa3b5; word-break: break-all; }
+    .tags { margin: .5rem 0 0; display: flex; gap: .35rem; flex-wrap: wrap; }
+    .tag { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; padding: .15rem .45rem; border-radius: 4px; background: #3a4254; }
+    .tag.approved { background: #2d5a3a; }
+    .tag.blocked { background: #6b2d2d; }
+    .tag.shipped { background: #2d4a6b; }
+    .tag.catalog { background: #4a4a2d; }
+    .note { font-size: .8rem; color: #b0b8c8; margin: .5rem 0 0; }
+    .help { background: #2a3140; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: .95rem; }
+    code { background: #11151c; padding: .1rem .35rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Mob Index</h1>
+  <div class="help">
+    Approve mobs in <code>docs/mob-index/mob-approvals.json</code>, then run
+    <code>python3 scripts/validate_mob_approvals.py</code> before publishing.
+    Regenerate previews: <code>python3 scripts/generate_mob_index.py</code>
+  </div>
+  <div class="toolbar">
+    <button class="active" data-filter="all">All</button>
+    <button data-filter="shipped">In pack</button>
+    <button data-filter="pending">Needs approval</button>
+    <button data-filter="catalog">Catalog only</button>
+  </div>
+  <div class="grid" id="grid">
+    
+        <article class="card approved" data-shipped="1">
+          <img src="previews/brindal_cow.png" alt="Brindal Cow" loading="lazy">
+          <div class="meta">
+            <h2>Brindal Cow</h2>
+            <p class="id">bgcow:brindal_cow</p>
+            <p class="tags">
+              <span class="tag approved">approved</span>
+              <span class="tag shipped">in pack</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card approved" data-shipped="1">
+          <img src="previews/grayson_cow.png" alt="Grayson Cow" loading="lazy">
+          <div class="meta">
+            <h2>Grayson Cow</h2>
+            <p class="id">bgcow:grayson_cow</p>
+            <p class="tags">
+              <span class="tag approved">approved</span>
+              <span class="tag shipped">in pack</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/bee.png" alt="Bee" loading="lazy">
+          <div class="meta">
+            <h2>Bee</h2>
+            <p class="id">minecraft:bee</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/blaze.png" alt="Blaze" loading="lazy">
+          <div class="meta">
+            <h2>Blaze</h2>
+            <p class="id">minecraft:blaze</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/breeze.png" alt="Breeze" loading="lazy">
+          <div class="meta">
+            <h2>Breeze</h2>
+            <p class="id">minecraft:breeze</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/cat.png" alt="Cat" loading="lazy">
+          <div class="meta">
+            <h2>Cat</h2>
+            <p class="id">minecraft:cat</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/chicken.png" alt="Chicken" loading="lazy">
+          <div class="meta">
+            <h2>Chicken</h2>
+            <p class="id">minecraft:chicken</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/creeper.png" alt="Creeper" loading="lazy">
+          <div class="meta">
+            <h2>Creeper</h2>
+            <p class="id">minecraft:creeper</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/elder_guardian.png" alt="Elder Guardian" loading="lazy">
+          <div class="meta">
+            <h2>Elder Guardian</h2>
+            <p class="id">minecraft:elder_guardian</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/enderman.png" alt="Enderman" loading="lazy">
+          <div class="meta">
+            <h2>Enderman</h2>
+            <p class="id">minecraft:enderman</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/ghast.png" alt="Ghast" loading="lazy">
+          <div class="meta">
+            <h2>Ghast</h2>
+            <p class="id">minecraft:ghast</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/guardian.png" alt="Guardian" loading="lazy">
+          <div class="meta">
+            <h2>Guardian</h2>
+            <p class="id">minecraft:guardian</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/horse.png" alt="Horse" loading="lazy">
+          <div class="meta">
+            <h2>Horse</h2>
+            <p class="id">minecraft:horse</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/iron_golem.png" alt="Iron Golem" loading="lazy">
+          <div class="meta">
+            <h2>Iron Golem</h2>
+            <p class="id">minecraft:iron_golem</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/pig.png" alt="Pig" loading="lazy">
+          <div class="meta">
+            <h2>Pig</h2>
+            <p class="id">minecraft:pig</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/pillager.png" alt="Pillager" loading="lazy">
+          <div class="meta">
+            <h2>Pillager</h2>
+            <p class="id">minecraft:pillager</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/ravager.png" alt="Ravager" loading="lazy">
+          <div class="meta">
+            <h2>Ravager</h2>
+            <p class="id">minecraft:ravager</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/skeleton.png" alt="Skeleton" loading="lazy">
+          <div class="meta">
+            <h2>Skeleton</h2>
+            <p class="id">minecraft:skeleton</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/slime.png" alt="Slime" loading="lazy">
+          <div class="meta">
+            <h2>Slime</h2>
+            <p class="id">minecraft:slime</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/spider.png" alt="Spider" loading="lazy">
+          <div class="meta">
+            <h2>Spider</h2>
+            <p class="id">minecraft:spider</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/villager.png" alt="Villager" loading="lazy">
+          <div class="meta">
+            <h2>Villager</h2>
+            <p class="id">minecraft:villager</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/warden.png" alt="Warden" loading="lazy">
+          <div class="meta">
+            <h2>Warden</h2>
+            <p class="id">minecraft:warden</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/witch.png" alt="Witch" loading="lazy">
+          <div class="meta">
+            <h2>Witch</h2>
+            <p class="id">minecraft:witch</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/wither_boss.png" alt="Wither Boss" loading="lazy">
+          <div class="meta">
+            <h2>Wither Boss</h2>
+            <p class="id">minecraft:wither_boss</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/wither_skeleton.png" alt="Wither Skeleton" loading="lazy">
+          <div class="meta">
+            <h2>Wither Skeleton</h2>
+            <p class="id">minecraft:wither_skeleton</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/wolf.png" alt="Wolf" loading="lazy">
+          <div class="meta">
+            <h2>Wolf</h2>
+            <p class="id">minecraft:wolf</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+        <article class="card pending" data-shipped="0">
+          <img src="previews/zombie.png" alt="Zombie" loading="lazy">
+          <div class="meta">
+            <h2>Zombie</h2>
+            <p class="id">minecraft:zombie</p>
+            <p class="tags">
+              <span class="tag pending">pending</span>
+              <span class="tag catalog">catalog</span>
+            </p>
+            <p class="note">Auto-added — set approved true after visual review</p>
+          </div>
+        </article>
+  </div>
+  <script>
+    const buttons = document.querySelectorAll('.toolbar button');
+    const cards = document.querySelectorAll('.card');
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c => {
+        const shipped = c.dataset.shipped === '1';
+        const approved = c.classList.contains('approved');
+        let show = true;
+        if (f === 'shipped') show = shipped;
+        else if (f === 'catalog') show = !shipped;
+        else if (f === 'pending') show = shipped && !approved;
+        c.style.display = show ? '' : 'none';
+      });
+    }));
+  </script>
+</body>
+</html>

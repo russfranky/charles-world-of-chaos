@@ -19,7 +19,23 @@ Everything builds into a single distributable:
 ./scripts/clean.sh                  # remove local build artifacts
 export VENICE_API_KEY='...'         # optional AI textures
 ./scripts/build-mcaddon.sh          # rebuilds with Venice when key set
+python3 scripts/generate_mob_index.py   # refresh mob preview gallery
+python3 scripts/validate_mob_approvals.py  # gate before publishing dist
 ```
+
+### Mob index (approve before publish)
+
+Visual catalog of every mob texture — custom cows plus the Venice entity catalog:
+
+| File | Purpose |
+|------|---------|
+| [`docs/mob-index/index.html`](docs/mob-index/index.html) | Browser gallery (open locally or from repo) |
+| [`docs/mob-index/MOB_INDEX.md`](docs/mob-index/MOB_INDEX.md) | Markdown gallery on GitHub |
+| [`docs/mob-index/mob-approvals.json`](docs/mob-index/mob-approvals.json) | Set `"approved": true` per mob you sign off on |
+| [`variants/ultimate-chaos-pack/shipped_mobs.json`](variants/ultimate-chaos-pack/shipped_mobs.json) | Which mob IDs are in the downloadable pack |
+
+`./scripts/build-mcaddon.sh` regenerates the index and runs the approval check at the end.
+
 
 ## Conventions
 
@@ -33,6 +49,7 @@ export VENICE_API_KEY='...'         # optional AI textures
 ## Testing checklist
 
 - [ ] `python3 variants/ultimate-chaos-pack/scripts/validate_pack.py` passes
+- [ ] **Mob index:** open [`docs/mob-index/index.html`](docs/mob-index/index.html) — approve shipped mobs in [`mob-approvals.json`](docs/mob-index/mob-approvals.json), then `python3 scripts/validate_mob_approvals.py`
 - [ ] Brindal and Grayson cows present and NOT transformed away
 - [ ] `/summon bgcow:brindal_cow` and `bgcow:grayson_cow` work
 - [ ] `/bgcow:party` and `!moo` work (needs Beta APIs)
