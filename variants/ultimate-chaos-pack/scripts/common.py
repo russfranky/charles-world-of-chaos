@@ -10,6 +10,7 @@ import json5
 
 VARIANT_ROOT = Path(__file__).resolve().parent.parent
 REPO_ROOT = VARIANT_ROOT.parent.parent
+CUSTOM_RP = REPO_ROOT / "resource_packs" / "brindal_grayson_cow_rp"
 VANILLA_SRC = VARIANT_ROOT / "vanilla_src"
 VANILLA_RP = VANILLA_SRC / "resource_pack"
 VANILLA_BP = VANILLA_SRC / "behavior_pack"
@@ -46,6 +47,18 @@ SKIP_ENTITY_FILES = {
 }
 
 TRANSFORM_GROUP = "bgcow:transform_to_cow"
+
+PACK_ICON_NAMES = ("pack-icon.png", "pack_icon.png")
+PACK_ICON_SIZE = 256
+
+
+def find_custom_pack_icon() -> Path | None:
+    """Custom in-game pack icon from brindal_grayson_cow_rp source."""
+    for name in PACK_ICON_NAMES:
+        path = CUSTOM_RP / name
+        if path.exists():
+            return path
+    return None
 
 
 def load_json(path: Path) -> dict | list:

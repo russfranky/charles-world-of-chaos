@@ -13,11 +13,13 @@ from common import (
     BP_HEADER_UUID,
     BP_SCRIPT_MODULE_UUID,
     PACK_BP,
+    PACK_ICON_SIZE,
     PACK_NAME_BP,
     PACK_NAME_RP,
     PACK_RP,
     RP_HEADER_UUID,
     RP_MODULE_UUID,
+    find_custom_pack_icon,
     save_json,
 )
 
@@ -175,11 +177,26 @@ def personalize_lang() -> None:
         lang_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def apply_pack_icon() -> None:
+    """Use custom pack-icon.png from source RP, or fall back to generated B/G icons."""
+    src = find_custom_pack_icon()
+    if src:
+        img = Image.open(src).convert("RGBA")
+        if img.size != (PACK_ICON_SIZE, PACK_ICON_SIZE):
+            img = img.resize((PACK_ICON_SIZE, PACK_ICON_SIZE), Image.Resampling.LANCZOS)
+        for pack in (PACK_RP, PACK_BP):
+            pack.mkdir(parents=True, exist_ok=True)
+            img.save(pack / "pack_icon.png")
+        print(f"Applied custom pack icon from {src.name}")
+        return
+    create_pack_icon(PACK_RP / "pack_icon.png", "B", (135, 206, 235, 255), (255, 255, 255, 255))
+    create_pack_icon(PACK_BP / "pack_icon.png", "G", (255, 215, 0, 255), (80, 40, 0, 255))
+
+
 def personalize(rebuild: bool = False) -> None:
     write_rp_manifest()
     write_bp_manifest()
-    create_pack_icon(PACK_RP / "pack_icon.png", "B", (135, 206, 235, 255), (255, 255, 255, 255))
-    create_pack_icon(PACK_BP / "pack_icon.png", "G", (255, 215, 0, 255), (80, 40, 0, 255))
+    apply_pack_icon()
     personalize_painting()
     personalize_blocks()
     personalize_lang()

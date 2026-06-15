@@ -183,8 +183,15 @@ def draw_install_steps(out: Path) -> None:
 
 
 def copy_pack_icon(out: Path) -> None:
-    src = RP / "pack_icon.png"
-    if src.exists():
+    src = None
+    for candidate in (
+        RP / "pack-icon.png",
+        RP / "pack_icon.png",
+    ):
+        if candidate.exists():
+            src = candidate
+            break
+    if src:
         icon = Image.open(src).convert("RGBA")
         upscale(icon, 4).save(out)
 

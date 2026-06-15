@@ -27,7 +27,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from common import PACK_RP, VARIANT_ROOT
+from common import PACK_RP, VARIANT_ROOT, find_custom_pack_icon
 from venice_client import VeniceError, generate_image, save_png
 
 PROMPTS_FILE = VARIANT_ROOT / "prompts" / "venice_prompts.json"
@@ -183,7 +183,12 @@ def main() -> None:
 
     ok = 0
     fail = 0
+    custom_icon = find_custom_pack_icon()
     for entry in selected:
+        if entry["id"] == "pack_icon" and custom_icon:
+            print(f"[skip] pack_icon — using custom icon ({custom_icon.name})")
+            ok += 1
+            continue
         if generate_texture(entry, manifest, dry_run=args.dry_run, force=args.force):
             ok += 1
         else:
