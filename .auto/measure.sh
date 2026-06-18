@@ -42,6 +42,13 @@ median_of() {
 MCADDON_KB=$(median_of "${sizes[@]}")
 BUILD_SEC=$(median_of "${times[@]}")
 
+MUSIC_KB=0
+MUSIC_FILE="$ROOT/variants/ultimate-chaos-pack/pack/sounds/music/menu/Bell_At_Twilight.ogg"
+if [[ -f "$MUSIC_FILE" ]]; then
+  MUSIC_BYTES=$(stat -c%s "$MUSIC_FILE")
+  MUSIC_KB=$(awk -v b="$MUSIC_BYTES" 'BEGIN { printf "%.2f", b / 1024 }')
+fi
+
 TEXTURE_COUNT=0
 if [[ -d "$ROOT/variants/ultimate-chaos-pack/pack/textures" ]]; then
   TEXTURE_COUNT=$(find "$ROOT/variants/ultimate-chaos-pack/pack/textures" -name '*.png' | wc -l | tr -d ' ')
@@ -59,6 +66,7 @@ fi
 
 echo "METRIC mcaddon_kb=$MCADDON_KB"
 echo "METRIC build_sec=$BUILD_SEC"
+echo "METRIC music_kb=$MUSIC_KB"
 echo "METRIC texture_count=$TEXTURE_COUNT"
 echo "METRIC barn_sim_ok=$BARN_SIM_OK"
 echo "METRIC validate_ok=$VALIDATE_OK"

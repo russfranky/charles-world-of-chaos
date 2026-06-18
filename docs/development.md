@@ -70,6 +70,7 @@ apply_gui_overrides.py       → subtitle JSON UI (minimal)
 apply_audio_overrides.py     → menu music sound_definitions
 venice_generate_textures.py  → optional AI art (--venice), downscale + polish
 polish_textures.py           → alpha cleanup, quantize, despeckle all pack PNGs
+optimize_audio.py            → lite menu music re-encode (ffmpeg)
 optimize_pngs.py             → lossless PNG squeeze
 package_mcaddon.py           → dist/
 ```

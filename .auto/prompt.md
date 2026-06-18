@@ -46,10 +46,16 @@ python3 scripts/autoresearch/summarize.py
 
 ## What's Been Tried
 
-### Baseline (main, post PR #21)
+### Baseline (main, post PR #22 autoresearch setup)
 
-- ~713 KB mcaddon, Cow Barn ActionForm UI, Bayer dither texture polish
-- Lite overlay only; Venice optional via `VENICE_TEXTURES=1`
+- ~713 KB mcaddon (`mcaddon_kb=712.97`), menu music ~575 KB raw
+
+### Experiment 1 — KEEP (audio + icon + zip)
+
+- `optimize_audio.py`: mono 44.1kHz 64k vorbis menu music (~588→336 KB)
+- Pack icon: 128px palette-quantized PNG (was 256px full-color)
+- `compresslevel=9` on mcaddon/mcpack zips
+- **Result: mcaddon_kb=395** (−318 KB, ~45%), all checks pass
 
 ### Key wins (merged)
 
@@ -70,3 +76,4 @@ python3 scripts/autoresearch/summarize.py
 - Commit cached Venice PNGs for kid-visible blocks without API at CI time
 - Hubzz-3d-pipeline stage alignment when repo is accessible
 - Herd picker form with coat previews
+- Further music trim (shorter loop) if parents want sub-350 KB
