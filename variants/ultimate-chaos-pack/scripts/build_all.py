@@ -52,15 +52,6 @@ def write_script_api() -> None:
     print(f"Wrote {script_dir / 'main.js'}")
 
 
-def sync_pack_icons() -> None:
-    """BP icon matches polished RP icon (smaller, consistent)."""
-    src = PACK_RP / "pack_icon.png"
-    dst = PACK_BP / "pack_icon.png"
-    if src.exists() and PACK_BP.exists():
-        shutil.copy2(src, dst)
-        print("Synced pack_icon.png → behavior pack")
-
-
 def build_all(
     rebuild_textures: bool = False,
     skip_package: bool = False,
@@ -90,7 +81,6 @@ def build_all(
             run_script("venice_generate_textures.py", "--category", category)
 
     run_script("polish_textures.py")
-    sync_pack_icons()
     if not skip_package:
         run_script("optimize_pngs.py")
         run_script("package_mcpack.py")

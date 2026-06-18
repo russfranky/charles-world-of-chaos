@@ -692,6 +692,40 @@ function onBellTapCycle(player) {
   showBarnStatus(player, barn, `${modeLabel} done · Next: ${BELL_MODES[barn.bellMode].toUpperCase()}`);
 }
 
+async function showHerdPicker(player) {
+  const barn = loadBarn(player);
+  if (barn.cows.length === 0) {
+    say(player, "Your barn is empty — catch a wild cow!");
+    return;
+  }
+
+  const form = new ActionFormData()
+    .title("§6My Herd")
+    .body(
+      `Tap a cow to make it active.\n` +
+        `${barnRank(barn).label} · ${barn.cows.length}/${maxSlots(barn)} · Catalog ${barn.catalog.length}/${CATALOG_SLOTS}`
+    );
+
+  const listed = barn.cows.slice(0, 15);
+  for (const cow of listed) {
+    const star = cow.id === barn.activeId ? "★ " : "";
+    const hungry = cow.hunger < 40 ? " §c!" : "";
+    form.button(`${star}${cowLabel(cow)} · H${cow.hunger}${hungry}`);
+  }
+
+  const response = await form.show(player);
+  if (response.canceled || response.selection === undefined) return;
+
+  const picked = listed[response.selection];
+  if (!picked) return;
+
+  recallDeployed(player, barn);
+  barn.activeId = picked.id;
+  saveBarn(player, barn);
+  say(player, `§eActive cow:§f ${cowLabel(picked)}`);
+  showBarnStatus(player, barn);
+}
+
 async function showBarnMenu(player) {
   const barn = loadBarn(player);
   const rank = barnRank(barn);
@@ -739,7 +773,7 @@ async function showBarnMenu(player) {
       recallActive(player, barn);
       break;
     case 4:
-      HANDLERS.barn(player);
+      await showHerdPicker(player);
       break;
     default:
       break;

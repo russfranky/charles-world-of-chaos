@@ -203,10 +203,15 @@ def apply_pack_icon() -> None:
     src = find_custom_pack_icon()
     if src:
         img = Image.open(src).convert("RGBA")
-        for pack in (PACK_RP, PACK_BP):
-            pack.mkdir(parents=True, exist_ok=True)
-            _save_pack_icon(img, pack / "pack_icon.png")
-        print(f"Applied custom pack icon from {src.name} ({PACK_ICON_SIZE}px, quantized)")
+        _save_pack_icon(img, PACK_RP / "pack_icon.png")
+        # Tiny procedural icon on BP — kids see the nice art on the RP / world list.
+        create_pack_icon(
+            PACK_BP / "pack_icon.png",
+            "G",
+            (255, 215, 0, 255),
+            (80, 40, 0, 255),
+        )
+        print(f"Applied custom pack icon from {src.name} (RP {PACK_ICON_SIZE}px, BP letter)")
         return
     create_pack_icon(PACK_RP / "pack_icon.png", "B", (135, 206, 235, 255), (255, 255, 255, 255))
     create_pack_icon(PACK_BP / "pack_icon.png", "G", (255, 215, 0, 255), (80, 40, 0, 255))

@@ -6,23 +6,24 @@
 
 | What to do | What happens |
 |------------|--------------|
-| **Tap Ranch Bell** in your bag | Cycles: **DEPLOY** → **FEED** → **BREED** → **RECALL** |
+| **Tap Ranch Bell** in your bag | Opens the **barn menu** — Deploy, Feed, Breed, Recall, or pick from **My herd** |
 | **Tap Feed Bag** (wheat) on your cow | Feeds active cow — raises hunger & mood |
 | **Tap Feed Bag near a wild cow** (within 5 blocks) | Catches the cow into your barn |
 | **Just play** | Hunger/mood decay over time — feed your herd! |
 
 On first join you get a **Ranch Bell**, **Feed Bag**, cookies, and one starter cow in your barn.
 
-### Ranch Bell cycle
+### Ranch Bell menu
 
-Each tap advances one step:
+Tap the bell to open a menu:
 
-1. **DEPLOY** — spawn your active cow beside you
-2. **FEED** — feed your active cow
-3. **BREED** — breed two happy adults (needs Yard rank: 3+ cows)
-4. **RECALL** — send deployed cow back to the barn (also switches to your next cow)
+1. **Deploy my cow** — spawn your active cow beside you
+2. **Feed my cow** — feed your active cow
+3. **Breed cows** — breed two happy adults (needs Yard rank: 3+ cows)
+4. **Recall / next cow** — send deployed cow back and switch to the next one
+5. **My herd** — tap any cow in a list to make it active (great for kids!)
 
-The action bar shows your barn rank, herd size, catalog progress, and the **next** bell mode.
+The action bar shows your barn rank, herd size, and catalog progress.
 
 ---
 

@@ -76,10 +76,13 @@ python3 scripts/autoresearch/summarize.py
 - Play-ready bureaucratic gate — user rejected
 - Full Venice entity/GUI ship in lite build — too heavy for iPad
 
+### Experiment 3 — herd picker + tiny BP icon
+
+- ActionForm herd list (tap cow to switch active) — replaces chat wall for kids
+- BP pack_icon: procedural "G" letter (~1 KB) vs duplicating RP art
+
 ### Next ideas (backlog)
 
-- Custom item icons for Ranch Bell / Feed Bag (not renamed vanilla items)
-- Commit cached Venice PNGs for kid-visible blocks without API at CI time
 - Hubzz-3d-pipeline stage alignment when repo is accessible
-- Herd picker form with coat previews
+- Custom item icons for Ranch Bell / Feed Bag (not renamed vanilla items)
 - Further music trim (shorter loop) if parents want sub-350 KB
