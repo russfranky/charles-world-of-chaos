@@ -61,8 +61,8 @@ This part matters — **don't use an old world**.
 
 Open the **inventory** (⋯ at bottom of screen):
 
-1. **Tap Ranch Bell** — cycles DEPLOY → FEED → BREED → RECALL
-2. **Tap Feed Bag** near a wild cow to catch it, or on your deployed cow to feed it
+1. **Tap the golden Ranch Bell** — opens the barn menu (Deploy, Feed, Breed, My herd)
+2. **Tap the wheat Feed Bag** near a wild cow to catch it, or use it to feed your cow
 3. Get to **3 cows** (Yard rank) to unlock breeding
 4. Discover new traits for gold, emeralds, diamonds, and more
 
@@ -72,8 +72,8 @@ Open the **inventory** (⋯ at bottom of screen):
 
 | What to do | What happens |
 |------------|--------------|
-| Tap **Ranch Bell** | Cycle deploy / feed / breed / recall |
-| Tap **Feed Bag** on cow | Feed active cow |
+| Tap **Ranch Bell** (golden bell icon) | Open barn menu |
+| Tap **Feed Bag** (wheat sack icon) on cow | Feed active cow |
 | Tap **Feed Bag** near wild cow | Catch into barn |
 | `/bgcow:barn` | See herd status (parents) |
 

@@ -69,6 +69,7 @@ def build_all(
     run_script("prepare_lite_pack.py")
     run_script("polish_textures.py", "--sources")
     run_script("personalize_pack.py")
+    run_script("cowify_kid_textures.py")
     if venice_audio:
         run_script("venice_generate_audio.py", "--batch", "1")
     run_script("merge_custom_cows.py")
