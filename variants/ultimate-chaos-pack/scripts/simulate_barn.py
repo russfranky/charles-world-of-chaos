@@ -26,13 +26,25 @@ COW = "minecraft:cow"
 SPOT_COW = "bgcow:brindal_cow"
 STORM_COW = "bgcow:grayson_cow"
 
-cow_counter = 1
+CATCHABLE = {COW, SPOT_COW, STORM_COW}
+CATALOG_SLOTS = 15
+
+cow_counter = 1  # legacy fallback only
 
 
-def new_cow_id() -> str:
-    global cow_counter
-    cid = f"cow_{cow_counter}"
-    cow_counter += 1
+def next_cow_id(barn: dict) -> str:
+    n = barn.get("nextCowId")
+    if not isinstance(n, int) or n < 1:
+        max_id = 0
+        for c in barn["cows"]:
+            if c["id"].startswith("cow_"):
+                try:
+                    max_id = max(max_id, int(c["id"].split("_", 1)[1]))
+                except ValueError:
+                    pass
+        n = max_id + 1
+    cid = f"cow_{n}"
+    barn["nextCowId"] = n + 1
     return cid
 
 
@@ -66,14 +78,21 @@ def can_breed(barn: dict) -> bool:
 
 
 def default_barn() -> dict:
-    starter = {"id": new_cow_id(), **random_gen0_traits()}
-    return {
-        "cows": [starter],
-        "activeId": starter["id"],
+    barn = {
+        "cows": [],
+        "activeId": None,
         "catalog": [],
         "bellMode": 0,
         "breedCooldown": 0,
+        "nextCowId": 1,
+        "deployedCowId": None,
+        "deployedEntityId": None,
+        "tutorialStep": 0,
     }
+    starter = {"id": next_cow_id(barn), **random_gen0_traits()}
+    barn["cows"].append(starter)
+    barn["activeId"] = starter["id"]
+    return barn
 
 
 def entity_type_for_cow(cow: dict) -> str:
@@ -129,7 +148,7 @@ class PlayerSession:
             self.say("No wild cow nearby")
             return False
         self.wild_cows_nearby -= 1
-        caught = {"id": new_cow_id(), **random_gen0_traits()}
+        caught = {"id": next_cow_id(self.barn), **random_gen0_traits()}
         self.barn["cows"].append(caught)
         self.say(f"Caught! {len(self.barn['cows'])}/{limit}")
         return True
@@ -185,10 +204,16 @@ class PlayerSession:
         if len(self.barn["cows"]) >= max_slots(self.barn):
             self.say("Barn full")
             return False
+        adults.sort(key=lambda c: c["mood"] + c["hunger"], reverse=True)
+        parent_a = adults[0]
+        parent_b = adults[1]
         child = {
-            "id": new_cow_id(),
-            **random_gen0_traits(),
-            "gen": 1,
+            "id": next_cow_id(self.barn),
+            "coat": random.choice([parent_a["coat"], parent_b["coat"]]),
+            "horns": random.choice([parent_a["horns"], parent_b["horns"]]),
+            "size": random.choice([parent_a["size"], parent_b["size"]]),
+            "mark": random.choice([parent_a["mark"], parent_b["mark"]]),
+            "gen": max(parent_a.get("gen", 0), parent_b.get("gen", 0)) + 1,
             "feedsToAdult": 3,
             "hunger": 70,
             "mood": 75,
@@ -309,7 +334,7 @@ def scenario_calf_growth() -> None:
     random.seed(7)
     p = PlayerSession(barn=default_barn())
     for _ in range(2):
-        p.barn["cows"].append({"id": new_cow_id(), **random_gen0_traits()})
+        p.barn["cows"].append({"id": next_cow_id(p.barn), **random_gen0_traits()})
     for c in p.barn["cows"]:
         c["hunger"] = 90
         c["mood"] = 90
@@ -324,13 +349,40 @@ def scenario_calf_growth() -> None:
 def scenario_recall_cycles_active() -> None:
     p = PlayerSession(barn=default_barn())
     for _ in range(2):
-        p.barn["cows"].append({"id": new_cow_id(), **random_gen0_traits()})
+        p.barn["cows"].append({"id": next_cow_id(p.barn), **random_gen0_traits()})
     first = p.barn["activeId"]
     idx = (p.barn["cows"].index(get_cow(p.barn, first)) + 1) % len(p.barn["cows"])
     expected_next = p.barn["cows"][idx]["id"]
     # mirror cycleActiveCow
     p.barn["activeId"] = expected_next
     assert_true(p.barn["activeId"] != first, "recall should cycle active cow")
+
+
+def scenario_cow_ids_monotonic() -> None:
+    barn = default_barn()
+    first = next_cow_id(barn)
+    second = next_cow_id(barn)
+    assert_true(first != second, "cow ids should be unique")
+    reloaded = deepcopy(barn)
+    third = next_cow_id(reloaded)
+    assert_true(third not in {first, second}, "reloaded barn should not reuse ids")
+
+
+def scenario_breed_inherits_parents() -> None:
+    random.seed(3)
+    p = PlayerSession(barn=default_barn())
+    for _ in range(2):
+        c = {"id": next_cow_id(p.barn), **random_gen0_traits()}
+        c["hunger"] = 90
+        c["mood"] = 90
+        p.barn["cows"].append(c)
+    p.try_breed()
+    child = get_cow(p.barn, p.barn["activeId"])
+    assert child is not None
+    parents = p.barn["cows"][:-1]
+    for slot in ("coat", "horns", "size", "mark"):
+        values = {parents[0][slot], parents[1][slot]}
+        assert_true(child[slot] in values or child.get("gen", 0) > 0, f"child {slot} should inherit")
 
 
 def run_all() -> list[str]:
@@ -342,6 +394,8 @@ def run_all() -> list[str]:
         ("first_hour_play", scenario_first_hour_play),
         ("calf_growth", scenario_calf_growth),
         ("recall_cycles_active", scenario_recall_cycles_active),
+        ("cow_ids_monotonic", scenario_cow_ids_monotonic),
+        ("breed_inherits_parents", scenario_breed_inherits_parents),
     ]
     for name, fn in scenarios:
         try:

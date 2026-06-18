@@ -54,11 +54,10 @@ Visual catalog of every mob texture — custom cows plus the Venice entity catal
 - [ ] **Mob index:** open [`docs/mob-index/index.html`](docs/mob-index/index.html) — approve shipped mobs in [`mob-approvals.json`](docs/mob-index/mob-approvals.json), then `python3 scripts/validate_mob_approvals.py`
 - [ ] Brindal and Grayson cows present and NOT transformed away
 - [ ] `/summon bgcow:brindal_cow` and `bgcow:grayson_cow` work
-- [ ] `/bgcow:party` and `!moo` work (needs Beta APIs)
-- [ ] `!b` / `!g` with Holiday Creator Features OFF shows in-game HCF hint (negative test)
-- [ ] Mistyped `!mo` shows helpful hint
+- [ ] Ranch Bell opens barn menu; Feed Bag catches wild cows (needs Beta APIs)
+- [ ] `/bgcow:barn`, `/bgcow:breed`, `/bgcow:next` work for parents
+- [ ] Holiday Creator Features OFF shows in-game HCF hint when deploying custom coats (negative test)
 - [ ] iPad install from [README mcaddon link](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)
-- [ ] Inventory shows cow-spot backgrounds (GUI layer)
 
 ## Reporting issues
 

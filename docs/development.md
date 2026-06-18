@@ -74,7 +74,7 @@ optimize_pngs.py             → lossless PNG squeeze
 package_mcaddon.py           → dist/
 ```
 
-Texture polish (`texture_polish.py`) runs after Venice/downscale: hard alpha, palette quantize, despeckle — similar in spirit to a 3D→pixel post pipeline.
+Texture polish (`texture_polish.py`) runs after Venice/downscale: alpha cleanup, palette quantize, Bayer dither, despeckle, edge-snap — similar to retro shader / 3D→pixel post pipelines (ditherpunk, hubzz-3d-pipeline).
 
 ## Local development workflow
 
@@ -100,8 +100,9 @@ See [UUIDS.md](UUIDS.md). **Never change shipped UUIDs** after release.
 ```
 /summon bgcow:brindal_cow
 /summon bgcow:grayson_cow
-/bgcow:party
-!moo
+/bgcow:barn
+/bgcow:breed
+/bgcow:help
 ```
 
 ## References

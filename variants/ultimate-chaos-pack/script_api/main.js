@@ -8,10 +8,13 @@ import {
   CommandPermissionLevel,
   ItemStack,
 } from "@minecraft/server";
+import { ActionFormData } from "@minecraft/server-ui";
 
 const COW = "minecraft:cow";
 const SPOT_COW = "bgcow:brindal_cow";
 const STORM_COW = "bgcow:grayson_cow";
+const CATCHABLE_COWS = new Set([COW, SPOT_COW, STORM_COW]);
+const CATALOG_SLOTS = 15; // coats(5) + horns(3) + sizes(3) + marks(4)
 
 const BARN_KEY = "bgcow:barn_v1";
 const RANCH_BELL = "Ranch Bell";
@@ -56,7 +59,6 @@ const HCF_HINT =
 const deployedEntities = new Map();
 const lastUiTick = new Map();
 let commandsReady = false;
-let cowCounter = 1;
 let simTick = 0;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -163,10 +165,35 @@ function cowsToNextRank(barn) {
   return Math.max(0, RANKS[idx + 1].minCows - barn.cows.length);
 }
 
-function newCowId() {
-  const id = `cow_${cowCounter}`;
-  cowCounter += 1;
+function nextCowId(barn) {
+  if (typeof barn.nextCowId !== "number" || barn.nextCowId < 1) {
+    let max = 0;
+    for (const c of barn.cows) {
+      const m = /^cow_(\d+)$/.exec(c.id);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    }
+    barn.nextCowId = max + 1;
+  }
+  const id = `cow_${barn.nextCowId}`;
+  barn.nextCowId += 1;
   return id;
+}
+
+function breedCooldownLabel(ticks) {
+  const sec = Math.max(1, Math.ceil(ticks / 20));
+  return `${sec}s`;
+}
+
+function hornPrefix(horns) {
+  if (horns === "gold") return "§6⌇ ";
+  if (horns === "short") return "§7⌇ ";
+  return "";
+}
+
+function markSuffix(mark) {
+  if (mark === "star") return " §e★";
+  if (mark === "diamond") return " §b◆";
+  return "";
 }
 
 function randomGen0Traits() {
@@ -183,14 +210,20 @@ function randomGen0Traits() {
 }
 
 function defaultBarn() {
-  const starter = { id: newCowId(), ...randomGen0Traits() };
   const barn = {
-    cows: [starter],
-    activeId: starter.id,
+    cows: [],
+    activeId: null,
     catalog: [],
     bellMode: 0,
     breedCooldown: 0,
+    nextCowId: 1,
+    deployedCowId: null,
+    deployedEntityId: null,
+    tutorialStep: 0,
   };
+  const starter = { id: nextCowId(barn), ...randomGen0Traits() };
+  barn.cows.push(starter);
+  barn.activeId = starter.id;
   registerCatalog(barn, starter);
   return barn;
 }
@@ -204,6 +237,18 @@ function loadBarn(player) {
         if (!barn.catalog) barn.catalog = [];
         if (typeof barn.bellMode !== "number") barn.bellMode = 0;
         if (typeof barn.breedCooldown !== "number") barn.breedCooldown = 0;
+        if (typeof barn.nextCowId !== "number") {
+          let max = 0;
+          for (const c of barn.cows) {
+            const m = /^cow_(\d+)$/.exec(c.id);
+            if (m) max = Math.max(max, parseInt(m[1], 10));
+          }
+          barn.nextCowId = max + 1;
+        }
+        if (!("deployedCowId" in barn)) barn.deployedCowId = null;
+        if (!("deployedEntityId" in barn)) barn.deployedEntityId = null;
+        if (typeof barn.tutorialStep !== "number") barn.tutorialStep = 3;
+        if (barn.deployedEntityId) deployedEntities.set(player.id, barn.deployedEntityId);
         return barn;
       }
     }
@@ -230,11 +275,9 @@ function getCow(barn, id) {
 function cowLabel(cow) {
   const shine = cow.coat === "shine" ? "§b✦ " : "";
   const coat = COAT_LABELS[cow.coat] ?? cow.coat;
-  const parts = [coat, cow.horns !== "none" ? cow.horns : null, cow.mark !== "none" ? cow.mark : null]
-    .filter(Boolean)
-    .join(" ");
+  const sizeTag = cow.size === "chunk" ? "§6Big " : cow.size === "small" ? "§7Lil " : "";
   const calf = cow.feedsToAdult > 0 ? " §7(calf)" : "";
-  return `${shine}Gen${cow.gen} ${parts}${calf}`;
+  return `${shine}${hornPrefix(cow.horns)}${sizeTag}${coat}${markSuffix(cow.mark)}${calf}`;
 }
 
 function entityTypeForCow(cow) {
@@ -243,7 +286,42 @@ function entityTypeForCow(cow) {
   return COW;
 }
 
-function spawnCowEntity(player, cow) {
+function applyCowVisuals(entity, cow) {
+  entity.nameTag = cowLabel(cow);
+  try {
+    if (cow.size === "small") entity.setScale(0.78);
+    else if (cow.size === "chunk") entity.setScale(1.32);
+    else entity.setScale(1.0);
+  } catch (_) {
+    /* scale API unavailable on older engines */
+  }
+  if (cow.coat === "shine" || cow.mark === "star") {
+    try {
+      const l = entity.location;
+      entity.runCommandAsync(
+        `particle minecraft:villager_happy ${l.x} ${l.y + 1} ${l.z}`
+      );
+    } catch (_) {
+      /* ignore */
+    }
+  }
+}
+
+function persistDeployed(player, barn, cow, entityId) {
+  barn.deployedCowId = cow.id;
+  barn.deployedEntityId = entityId;
+  deployedEntities.set(player.id, entityId);
+  saveBarn(player, barn);
+}
+
+function clearDeployed(player, barn) {
+  barn.deployedCowId = null;
+  barn.deployedEntityId = null;
+  deployedEntities.delete(player.id);
+  saveBarn(player, barn);
+}
+
+function spawnCowEntity(player, barn, cow) {
   const dim = playerDim(player);
   const loc = near(player, { x: 2, y: 0, z: 1 });
   try {
@@ -252,9 +330,8 @@ function spawnCowEntity(player, cow) {
       say(player, HCF_HINT);
       return null;
     }
-    entity.nameTag = cowLabel(cow);
-    if (cow.coat === "shine") cowParticles(player);
-    deployedEntities.set(player.id, entity.id);
+    applyCowVisuals(entity, cow);
+    persistDeployed(player, barn, cow, entity.id);
     return entity;
   } catch (_) {
     say(player, HCF_HINT);
@@ -262,8 +339,8 @@ function spawnCowEntity(player, cow) {
   }
 }
 
-function recallDeployed(player) {
-  const eid = deployedEntities.get(player.id);
+function recallDeployed(player, barn) {
+  const eid = deployedEntities.get(player.id) ?? barn?.deployedEntityId;
   if (!eid) return false;
   try {
     for (const entity of playerDim(player).getEntities()) {
@@ -275,8 +352,37 @@ function recallDeployed(player) {
   } catch (_) {
     /* ignore */
   }
-  deployedEntities.delete(player.id);
+  if (barn) clearDeployed(player, barn);
+  else deployedEntities.delete(player.id);
   return true;
+}
+
+function traitsFromWildEntity(entity) {
+  if (entity.typeId === SPOT_COW) {
+    return {
+      coat: "spot",
+      horns: randomOf(HORNS),
+      size: randomOf(SIZES),
+      mark: randomOf(["none", "none", "star"]),
+      gen: 0,
+      feedsToAdult: 0,
+      hunger: 85,
+      mood: 80,
+    };
+  }
+  if (entity.typeId === STORM_COW) {
+    return {
+      coat: Math.random() < 0.2 ? "shine" : "storm",
+      horns: randomOf(HORNS),
+      size: randomOf(SIZES),
+      mark: randomOf(MARKS),
+      gen: 0,
+      feedsToAdult: 0,
+      hunger: 85,
+      mood: 80,
+    };
+  }
+  return randomGen0Traits();
 }
 
 function findWildCow(player) {
@@ -284,11 +390,35 @@ function findWildCow(player) {
   const dim = playerDim(player);
   const loc = player.location;
   for (const entity of dim.getEntities({ location: loc, maxDistance: 5 })) {
-    if (entity.typeId !== COW) continue;
+    if (!CATCHABLE_COWS.has(entity.typeId)) continue;
     if (deployedId && entity.id === deployedId) continue;
     return entity;
   }
   return null;
+}
+
+function spawnTutorialWildCow(player) {
+  try {
+    playerDim(player).spawnEntity(COW, near(player, { x: 4, y: 0, z: 2 }));
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+function reconcileDeployed(player, barn) {
+  const eid = barn.deployedEntityId;
+  if (!eid) return;
+  try {
+    for (const entity of playerDim(player).getEntities()) {
+      if (entity.id === eid) {
+        deployedEntities.set(player.id, eid);
+        return;
+      }
+    }
+  } catch (_) {
+    /* ignore */
+  }
+  clearDeployed(player, barn);
 }
 
 function cycleActiveCow(player, barn) {
@@ -380,7 +510,7 @@ function showBarnStatus(player, barn, extra = "") {
   const hungry = active && active.hunger < 40 ? " §c· feed me!" : "";
   title(
     player,
-    extra || `${rank.label} · ${barn.cows.length}/${maxSlots(barn)} · Catalog ${barn.catalog.length}${activeTxt}${hungry} · Bell: ${next}`
+    extra || `${rank.label} · ${barn.cows.length}/${maxSlots(barn)} · Catalog ${barn.catalog.length}/${CATALOG_SLOTS}${activeTxt}${hungry} · Tap Bell`
   );
 }
 
@@ -402,15 +532,15 @@ function deployActive(player, barn) {
     say(player, "No active cow. Your barn is empty.");
     return;
   }
-  recallDeployed(player);
-  if (spawnCowEntity(player, cow)) {
+  recallDeployed(player, barn);
+  if (spawnCowEntity(player, barn, cow)) {
     say(player, `Deployed ${cowLabel(cow)}`);
     showBarnStatus(player, barn);
   }
 }
 
 function recallActive(player, barn) {
-  const hadDeployed = recallDeployed(player);
+  const hadDeployed = recallDeployed(player, barn);
   const next = cycleActiveCow(player, barn);
   mooSound(player);
   if (next) {
@@ -433,7 +563,7 @@ function tryBreed(player, barn) {
     return;
   }
   if (barn.breedCooldown > 0) {
-    say(player, `Breed cooling down (${barn.breedCooldown} ticks) — feed your cows!`);
+    say(player, `Breed cooling down (${breedCooldownLabel(barn.breedCooldown)}) — feed your cows!`);
     return;
   }
   const adults = adultsReady(barn);
@@ -451,7 +581,7 @@ function tryBreed(player, barn) {
   }
 
   const child = {
-    id: newCowId(),
+    id: nextCowId(barn),
     coat: inheritTrait(parentA, parentB, "coat", barn),
     horns: inheritTrait(parentA, parentB, "horns", barn),
     size: inheritTrait(parentA, parentB, "size", barn),
@@ -501,12 +631,15 @@ function catchWildCow(player, barn) {
     say(player, "Stand near a §lwild§f cow (not your deployed cow) to catch it.");
     return;
   }
+  let caughtTraits;
   try {
+    caughtTraits = traitsFromWildEntity(target);
     target.remove();
   } catch (_) {
-    /* ignore */
+    say(player, "Could not catch that cow — try again.");
+    return;
   }
-  const caught = { id: newCowId(), ...randomGen0Traits() };
+  const caught = { id: nextCowId(barn), ...caughtTraits };
   barn.cows.push(caught);
   const discovered = registerCatalog(barn, caught);
   if (discovered.length) {
@@ -515,13 +648,17 @@ function catchWildCow(player, barn) {
   }
   maybeRankUpMessage(player, barn, beforeRank);
   say(player, `§aCaught ${cowLabel(caught)}!§f Barn: ${barn.cows.length}/${limit}`);
+  if (barn.tutorialStep < 2) {
+    barn.tutorialStep = 2;
+    say(player, "§eNice catch!§f Tap Ranch Bell → Breed when you have 3 cows.");
+  }
   progressHint(player, barn);
   mooSound(player);
   saveBarn(player, barn);
   showBarnStatus(player, barn);
 }
 
-function onBellTap(player) {
+function onBellTapCycle(player) {
   const barn = loadBarn(player);
   const mode = BELL_MODES[barn.bellMode];
   const modeLabel = mode.toUpperCase();
@@ -555,6 +692,70 @@ function onBellTap(player) {
   showBarnStatus(player, barn, `${modeLabel} done · Next: ${BELL_MODES[barn.bellMode].toUpperCase()}`);
 }
 
+async function showBarnMenu(player) {
+  const barn = loadBarn(player);
+  const rank = barnRank(barn);
+  const active = getCow(barn, barn.activeId);
+  const activeLine = active
+    ? `${cowLabel(active)} · H${active.hunger} M${active.mood}`
+    : "No active cow";
+
+  const form = new ActionFormData()
+    .title("§6Cow Barn")
+    .body(
+      `${rank.label} · ${barn.cows.length}/${maxSlots(barn)} cows\n` +
+        `Catalog ${barn.catalog.length}/${CATALOG_SLOTS}\n` +
+        `${activeLine}\n\n` +
+        `Feed Bag near wild cows catches them.`
+    )
+    .button("Deploy my cow")
+    .button("Feed my cow")
+    .button("Breed cows")
+    .button("Recall / next cow")
+    .button("My herd");
+
+  const response = await form.show(player);
+  if (response.canceled) return;
+
+  switch (response.selection) {
+    case 0:
+      deployActive(player, barn);
+      break;
+    case 1: {
+      const cow = getCow(barn, barn.activeId);
+      if (cow) {
+        feedCow(player, barn, cow);
+        say(player, `Fed ${cowLabel(cow)} · hunger ${cow.hunger} · mood ${cow.mood}`);
+        showBarnStatus(player, barn);
+      } else {
+        say(player, "No active cow — deploy one first.");
+      }
+      break;
+    }
+    case 2:
+      tryBreed(player, barn);
+      break;
+    case 3:
+      recallActive(player, barn);
+      break;
+    case 4:
+      HANDLERS.barn(player);
+      break;
+    default:
+      break;
+  }
+}
+
+function onBellTap(player) {
+  system.run(async () => {
+    try {
+      await showBarnMenu(player);
+    } catch (_) {
+      onBellTapCycle(player);
+    }
+  });
+}
+
 function giveStarterKit(player) {
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
@@ -573,11 +774,23 @@ function giveStarterKit(player) {
 
 function welcomePlayer(player) {
   const barn = loadBarn(player);
+  reconcileDeployed(player, barn);
   giveStarterKit(player);
   const starter = getCow(barn, barn.activeId);
-  say(player, "§eCow Barn§f — tap Ranch Bell: DEPLOY · FEED · BREED · RECALL");
-  say(player, "Feed Bag near a §lwild§f cow catches it. Need 3 cows to breed!");
+  try {
+    player.onScreenDisplay.setTitle("§6Cow Barn!");
+  } catch (_) {
+    /* ignore */
+  }
+  say(player, "§eTap Ranch Bell§f for a menu — Deploy, Feed, Breed, Recall.");
+  say(player, "§eFeed Bag§f near a wild cow catches it. Need 3 cows to breed!");
   if (starter) say(player, `Starter: ${cowLabel(starter)}`);
+  if (barn.tutorialStep < 1) {
+    barn.tutorialStep = 1;
+    spawnTutorialWildCow(player);
+    say(player, "§aA wild cow appeared nearby!§f Use Feed Bag on it.");
+    saveBarn(player, barn);
+  }
   progressHint(player, barn);
   mooSound(player);
   deployActive(player, barn);
@@ -589,15 +802,15 @@ function welcomePlayer(player) {
 const HANDLERS = {
   help(player) {
     say(player, "§6══ Cow Barn ══");
-    say(player, "§eRanch Bell§f cycles: DEPLOY → FEED → BREED → RECALL");
+    say(player, "§eRanch Bell§f opens the barn menu (Deploy · Feed · Breed · Recall)");
     say(player, "§eFeed Bag§f feeds your cow. Near a wild cow = catch.");
     say(player, "Recall also switches to your next cow.");
-    say(player, "/bgcow:barn — barn status · /bgcow:next — switch active cow");
+    say(player, "/bgcow:barn — herd list · /bgcow:next — switch active cow");
   },
   barn(player) {
     const barn = loadBarn(player);
     const rank = barnRank(barn);
-    say(player, `Rank ${rank.label} · ${barn.cows.length}/${maxSlots(barn)} cows · Catalog ${barn.catalog.length}/24`);
+    say(player, `Rank ${rank.label} · ${barn.cows.length}/${maxSlots(barn)} cows · Catalog ${barn.catalog.length}/${CATALOG_SLOTS}`);
     for (const cow of barn.cows.slice(0, 8)) {
       const active = cow.id === barn.activeId ? " §e★" : "";
       say(player, `  ${cowLabel(cow)} · H${cow.hunger} M${cow.mood}${active}`);
@@ -610,7 +823,7 @@ const HANDLERS = {
   },
   next(player) {
     const barn = loadBarn(player);
-    recallDeployed(player);
+    recallDeployed(player, barn);
     const nextCow = cycleActiveCow(player, barn);
     if (nextCow) {
       say(player, `Active cow: ${cowLabel(nextCow)}`);
@@ -709,7 +922,7 @@ system.runInterval(() => {
       if (cow.hunger < 35) cow.mood = Math.max(0, cow.mood - 2);
       if (cow.hunger !== prevH || cow.mood < 100) changed = true;
       if (cow.hunger < 15 && deployedEntities.has(player.id) && barn.activeId === cow.id) {
-        recallDeployed(player);
+        recallDeployed(player, barn);
         say(player, `${cowLabel(cow)} got hungry and returned to the barn.`);
       }
     }
@@ -735,6 +948,10 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     }
     loadBarn(player);
     if (event.initialSpawn) welcomePlayer(player);
-    else showBarnStatus(player, loadBarn(player));
+    else {
+      const barn = loadBarn(player);
+      reconcileDeployed(player, barn);
+      showBarnStatus(player, barn);
+    }
   });
 });

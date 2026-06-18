@@ -134,17 +134,15 @@ def draw_commands_card(out: Path) -> None:
 
     title_font = font(28, True)
     body_font = font(17)
-    draw.text((400, 35), "Fun Commands for Kids", fill=(255, 220, 100), font=title_font, anchor="mm")
+    draw.text((400, 35), "Cow Barn — Tap to Play", fill=(255, 220, 100), font=title_font, anchor="mm")
 
     commands = [
-        ("!moo", "Spawn a cow"),
-        ("!b / !brindal", "Brindal's cow"),
-        ("!g / !grayson", "Grayson's cow"),
-        ("!party", "Cow party ring"),
-        ("!rain", "Raining cows!"),
-        ("!mega", "MEGA chaos"),
-        ("!heal", "Cow magic heal"),
-        ("!fly", "Levitation fun"),
+        ("Ranch Bell", "Open barn menu"),
+        ("Feed Bag", "Feed or catch wild cows"),
+        ("Breed", "Mix two happy adults"),
+        ("/bgcow:barn", "See your herd"),
+        ("/bgcow:next", "Switch active cow"),
+        ("Catalog", "Discover traits + loot"),
     ]
     y = 75
     for cmd, desc in commands:
@@ -152,7 +150,7 @@ def draw_commands_card(out: Path) -> None:
         draw.text((280, y), desc, fill=(220, 220, 220), font=body_font)
         y += 38
 
-    draw.text((400, 390), "Type in chat  •  Needs Beta APIs ON", fill=(180, 180, 180), font=font(14), anchor="mm")
+    draw.text((400, 390), "Ranch Bell + Feed Bag  •  Beta APIs ON", fill=(180, 180, 180), font=font(14), anchor="mm")
     card.save(out)
 
 
@@ -166,7 +164,7 @@ def draw_install_steps(out: Path) -> None:
         ("1", "Download", ".mcaddon\nin Safari"),
         ("2", "Open", "Tap →\nOpen in\nMinecraft"),
         ("3", "New World", "Holiday Creator\n+ Beta APIs"),
-        ("4", "Play!", "!moo  !party\n!b  !g"),
+        ("4", "Play!", "Ranch Bell\nFeed Bag\nBreed cows"),
     ]
     colors = [(93, 173, 226), (100, 180, 100), (255, 180, 80), (200, 120, 200)]
 

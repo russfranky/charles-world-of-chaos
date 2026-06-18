@@ -54,8 +54,8 @@ def write_bp_manifest() -> None:
         "header": {
             "name": PACK_NAME_BP,
             "description": (
-                "Brindal & Grayson cows and !commands. "
-                "Beta APIs required — turn ON when creating a NEW world."
+                "Cow Barn — breed and collect cows with Ranch Bell + Feed Bag. "
+                "Beta APIs + Holiday Creator Features in a NEW world."
             ),
             "uuid": BP_HEADER_UUID,
             "version": PACK_VERSION,
@@ -73,6 +73,10 @@ def write_bp_manifest() -> None:
                 "uuid": BP_SCRIPT_MODULE_UUID,
                 "version": PACK_VERSION,
                 "entry": "scripts/main.js",
+                "dependencies": [
+                    {"module_name": "@minecraft/server", "version": "2.0.0"},
+                    {"module_name": "@minecraft/server-ui", "version": "2.0.0"},
+                ],
             },
         ],
         "dependencies": [{

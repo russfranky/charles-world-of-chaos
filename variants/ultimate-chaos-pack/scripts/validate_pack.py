@@ -174,7 +174,7 @@ def validate_script_api() -> list[str]:
     if not script.exists():
         return errors
     text = script.read_text(encoding="utf-8")
-    for marker in ("loadBarn", "tryBreed", "BARN_KEY", "onBellTap", "catchWildCow"):
+    for marker in ("loadBarn", "tryBreed", "BARN_KEY", "onBellTap", "catchWildCow", "showBarnMenu"):
         if marker not in text:
             errors.append(f"Script API missing reliability helper: {marker}")
     return errors
