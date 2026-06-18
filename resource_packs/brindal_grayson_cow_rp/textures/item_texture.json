@@ -1,5 +1,12 @@
 {
   "resource_pack_name": "brindal_grayson_cow_rp",
   "texture_name": "atlas.items",
-  "texture_data": {}
+  "texture_data": {
+    "bgcow_ranch_bell": {
+      "textures": "textures/items/ranch_bell"
+    },
+    "bgcow_feed_bag": {
+      "textures": "textures/items/feed_bag"
+    }
+  }
 }

@@ -12,6 +12,11 @@ from PIL import Image, ImageDraw
 
 from common import PACK_RP, VARIANT_ROOT
 
+PROCEDURAL_CREATE = frozenset({
+    "textures/items/ranch_bell.png",
+    "textures/items/feed_bag.png",
+})
+
 BAKED_DIR = VARIANT_ROOT / "baked_textures"
 
 # Cow palette
@@ -141,8 +146,8 @@ def apply_kid_textures(pack_rp: Path = PACK_RP, *, refresh_baked: bool = False) 
         ("textures/blocks/grass_top.png", cowify_grass_top),
         ("textures/blocks/dirt.png", cowify_dirt),
         ("textures/items/bread.png", cowify_bread),
-        ("textures/items/wheat.png", draw_feed_bag),
-        ("textures/items/villagebell.png", draw_ranch_bell),
+        ("textures/items/ranch_bell.png", draw_ranch_bell),
+        ("textures/items/feed_bag.png", draw_feed_bag),
         ("textures/blocks/cobblestone.png", cowify_cobblestone),
         ("textures/blocks/crafting_table_top.png", cowify_crafting_table),
     ]
@@ -156,9 +161,11 @@ def apply_kid_textures(pack_rp: Path = PACK_RP, *, refresh_baked: bool = False) 
             print(f"  baked [{rel}]")
             count += 1
             continue
-        if not path.exists():
+        if not path.exists() and rel not in PROCEDURAL_CREATE:
             print(f"  skip missing {rel}")
             continue
+        if not path.parent.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
         fn(path)
         baked.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, baked)

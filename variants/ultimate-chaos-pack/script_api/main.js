@@ -17,8 +17,8 @@ const CATCHABLE_COWS = new Set([COW, SPOT_COW, STORM_COW]);
 const CATALOG_SLOTS = 15; // coats(5) + horns(3) + sizes(3) + marks(4)
 
 const BARN_KEY = "bgcow:barn_v1";
-const RANCH_BELL = "Ranch Bell";
-const FEED_BAG = "Feed Bag";
+const RANCH_BELL_ID = "bgcow:ranch_bell";
+const FEED_BAG_ID = "bgcow:feed_bag";
 
 const BELL_MODES = ["deploy", "feed", "breed", "recall"];
 const COATS = ["brown", "gray", "spot", "storm", "shine"];
@@ -135,11 +135,16 @@ function traitKey(slot, value) {
 }
 
 function isRanchBell(stack) {
-  return stack?.typeId === "minecraft:bell" && (stack.nameTag ?? "").includes(RANCH_BELL);
+  if (!stack) return false;
+  if (stack.typeId === RANCH_BELL_ID) return true;
+  // Legacy worlds: renamed vanilla bell before custom item migration
+  return stack.typeId === "minecraft:bell" && (stack.nameTag ?? "").includes("Ranch Bell");
 }
 
 function isFeedBag(stack) {
-  return stack?.typeId === "minecraft:wheat" && (stack.nameTag ?? "").includes(FEED_BAG);
+  if (!stack) return false;
+  if (stack.typeId === FEED_BAG_ID) return true;
+  return stack.typeId === "minecraft:wheat" && (stack.nameTag ?? "").includes("Feed Bag");
 }
 
 function barnRank(barn) {
@@ -799,12 +804,8 @@ function giveStarterKit(player) {
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (!inv) return;
-    const bell = new ItemStack("minecraft:bell", 1);
-    bell.nameTag = RANCH_BELL;
-    inv.addItem(bell);
-    const bag = new ItemStack("wheat", 16);
-    bag.nameTag = FEED_BAG;
-    inv.addItem(bag);
+    inv.addItem(new ItemStack(RANCH_BELL_ID, 1));
+    inv.addItem(new ItemStack(FEED_BAG_ID, 16));
     inv.addItem(new ItemStack("cookie", 4));
   } catch (_) {
     /* ignore */
@@ -821,7 +822,7 @@ function welcomePlayer(player) {
   } catch (_) {
     /* ignore */
   }
-  say(player, "§eTap the golden §lRanch Bell§f and §lwheat Feed Bag§f in your hotbar!");
+  say(player, "§eTap the §lRanch Bell§f and §lFeed Bag§f in your hotbar!");
   say(player, "§eFeed Bag§f near a wild cow catches it. Need 3 cows to breed!");
   if (starter) say(player, `Starter: ${cowLabel(starter)}`);
   if (barn.tutorialStep < 1) {

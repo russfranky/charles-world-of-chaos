@@ -177,7 +177,11 @@ def personalize_lang() -> None:
             lines = lang_path.read_text(encoding="utf-8").splitlines()
         extra = [
             "pack.name=Brindal & Grayson Cow World",
-            "pack.description=Cow fun for Brindal & Grayson! NEW world + Holiday Creator Features + Beta APIs for !commands.",
+            "pack.description=Cow fun for Brindal & Grayson! NEW world + Holiday Creator Features + Beta APIs for Cow Barn.",
+            "menu.title=Brindal & Grayson's Moo World",
+            "menu.moo_world_subtitle=Cow Barn · Tap Ranch Bell · My Herd to switch cows",
+            "item.bgcow:ranch_bell.name=Ranch Bell",
+            "item.bgcow:feed_bag.name=Feed Bag",
         ]
         existing_keys = {l.split("=")[0] for l in lines if "=" in l}
         for line in extra:

@@ -18,6 +18,7 @@ RP_COPY = [
     ("entity/grayson_cow.entity.json", "entity/grayson_cow.entity.json"),
     ("textures/entity/brindal_cow.png", "textures/entity/brindal_cow.png"),
     ("textures/entity/grayson_cow.png", "textures/entity/grayson_cow.png"),
+    ("textures/item_texture.json", "textures/item_texture.json"),
 ]
 
 BP_COPY = [
@@ -25,6 +26,8 @@ BP_COPY = [
     ("entities/grayson_cow.json", "entities/grayson_cow.json"),
     ("spawn_rules/brindal_cow.json", "spawn_rules/brindal_cow.json"),
     ("spawn_rules/grayson_cow.json", "spawn_rules/grayson_cow.json"),
+    ("items/ranch_bell.json", "items/ranch_bell.json"),
+    ("items/feed_bag.json", "items/feed_bag.json"),
 ]
 
 

@@ -113,6 +113,7 @@ If experiments cause trouble, use the lighter pack (textures only, no scripts):
 ## For parents
 
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** — plain-language walkthrough
+- **[Marketplace Checklist](docs/MARKETPLACE.md)** — path to store readiness (in progress)
 - **[Cow Barn Guide](docs/COMMANDS.md)** — bell cycle, breeding, loot
 - **[Install Guide](docs/installation.md)** — detailed iPad steps
 

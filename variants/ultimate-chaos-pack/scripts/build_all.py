@@ -74,7 +74,7 @@ def build_all(
         run_script("venice_generate_audio.py", "--batch", "1")
     run_script("merge_custom_cows.py")
     write_script_api()
-    run_script("apply_gui_overrides.py", "--minimal")
+    run_script("apply_pack_lang.py")
     run_script("apply_audio_overrides.py", "--lite")
     run_script("optimize_audio.py")
     if venice:

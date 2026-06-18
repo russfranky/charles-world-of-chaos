@@ -19,12 +19,10 @@ from common import (
 PROMPTS_FILE = Path(__file__).resolve().parent.parent / "prompts" / "venice_prompts.json"
 CUSTOM_BP = REPO_ROOT / "behavior_packs" / "brindal_grayson_cow_bp"
 
-# Extra block/item textures personalized at build time (not in venice manifest).
+# Custom item icons (procedural at build — not vanilla copies).
 EXTRA_TEXTURES = (
     "textures/blocks/diamond_block.png",
     "textures/blocks/gold_block.png",
-    "textures/items/wheat.png",
-    "textures/items/villagebell.png",
 )
 
 LITE_RP_COPY: tuple[str, ...] = ()
@@ -83,7 +81,7 @@ def prepare_lite_bp() -> int:
     """Empty BP workspace with only custom cow entities + spawn rules."""
     _reset_dir(PACK_BP)
     count = 0
-    for sub in ("entities", "spawn_rules", "texts"):
+    for sub in ("entities", "spawn_rules", "items", "texts"):
         src_dir = CUSTOM_BP / sub
         if not src_dir.exists():
             continue
