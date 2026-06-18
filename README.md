@@ -13,7 +13,7 @@ Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and reca
 | **Cow Barn** | Tap Ranch Bell — no typing needed |
 | **Feed Bag** | Feed your cows or catch wild ones nearby |
 | **Breeding** | Inherit traits, discover new combos, earn loot |
-| **Pack size** | Lite overlay (~400 KB) — fast on iPad |
+| **Pack size** | Lite overlay (~230 KB) — fast on iPad |
 
 <p align="center">
   <img src="docs/assets/family-cows.png" alt="Spot Cow and Storm Cow" width="600">
