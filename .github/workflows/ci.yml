@@ -27,8 +27,8 @@ jobs:
       - name: Build unified cow pack
         run: ./scripts/build-mcaddon.sh
 
-      - name: Validate pack structure
-        run: python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
+      - name: Autoresearch backpressure checks
+        run: ./.auto/checks.sh
 
       - name: Upload distributables
         uses: actions/upload-artifact@v4
