@@ -76,10 +76,15 @@ python3 scripts/autoresearch/summarize.py
 - Play-ready bureaucratic gate — user rejected
 - Full Venice entity/GUI ship in lite build — too heavy for iPad
 
-### Experiment 3 — herd picker + tiny BP icon
+### Experiment 3 — KEEP (herd picker + tiny BP icon)
 
-- ActionForm herd list (tap cow to switch active) — replaces chat wall for kids
-- BP pack_icon: procedural "G" letter (~1 KB) vs duplicating RP art
+- mcaddon_kb≈217
+
+### Experiment 4 — polish loop (UX, no size regression)
+
+- Title screen subtitle: Ranch Bell + My Herd hints
+- Big `setTitle` on barn rank-up
+- TESTING.md iPad checklist for barn menu
 
 ### Next ideas (backlog)
 

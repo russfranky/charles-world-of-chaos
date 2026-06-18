@@ -12,7 +12,7 @@
 | Script API file present | Yes | `behavior_pack/scripts/main.js` |
 | Cow Barn script markers | Yes | `loadBarn`, `tryBreed`, `onBellTap`, etc. |
 | Barn flow simulation | Yes | `simulate_barn.py` in `validate_pack.py` |
-| MCADDON size under 1.5 MB | Yes | `validate_pack.py` (lite ~750 KB) |
+| MCADDON size under 1.5 MB | Yes | `validate_pack.py` (lite ~220 KB) |
 | Package artifacts exist | Yes | `.mcaddon` and `.mcpack` in `dist/` |
 | Venice AI textures | Optional | Requires `VENICE_API_KEY` locally or in CI secret |
 | Sounds play as cow moos | No | Requires in-game testing |
@@ -34,13 +34,14 @@
    - [ ] Diamond block shows "B", gold block shows "G"
    - [ ] Cow title screen subtitle mentions Ranch Bell (after pack import)
    - [ ] First join auto-deploys starter cow + Ranch Bell + Feed Bag
-   - [ ] Tap **Ranch Bell** → action bar shows mode done + next step
+   - [ ] Tap **Ranch Bell** → barn menu opens (Deploy, Feed, Breed, Recall, My herd)
+   - [ ] **My herd** → tap a cow to switch active cow
    - [ ] Feed Bag does NOT catch your own deployed vanilla cow
    - [ ] Can catch 3rd cow (Pen rank allows 3 slots) and unlock breeding
    - [ ] Recall switches to next cow in herd
    - [ ] Tap **Feed Bag** near wild cow → cow caught into barn
    - [ ] Tap **Feed Bag** on deployed cow → hunger/mood rise
-   - [ ] At 3+ cows, BREED mode produces calf with trait inheritance
+   - [ ] At 3+ cows, Breed produces calf with trait inheritance
    - [ ] New trait discovery grants loot (gold/emerald/diamond)
    - [ ] Hungry deployed cow recalls to barn (no death)
    - [ ] Spot Cow appears when deploying `spot` coat; Storm Cow for `storm`/`shine`

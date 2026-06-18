@@ -432,9 +432,14 @@ function cycleActiveCow(player, barn) {
 function maybeRankUpMessage(player, barn, beforeRank) {
   const after = barnRank(barn);
   if (after.id !== beforeRank.id) {
+    try {
+      player.onScreenDisplay.setTitle(`§a§l${after.label.toUpperCase()} BARN!`);
+    } catch (_) {
+      /* ignore */
+    }
     say(player, `§a§lBARN UP!§f ${after.label} rank — room for ${after.slots} cows!`);
     if (after.id === "yard") {
-      say(player, "§eYou can breed now!§f Bell → BREED when two adults are happy.");
+      say(player, "§eYou can breed now!§f Ranch Bell → Breed cows.");
     }
     mooSound(player);
     cowParticles(player);
