@@ -14,9 +14,7 @@ from env_loader import init_env
 
 SCRIPTS = VARIANT_ROOT / "scripts"
 
-# Lite overlay Venice pass (no panoramas — large cubemap slows title screen).
-VENICE_CATEGORIES = ("block", "item", "environment")
-VENICE_CUSTOM_IDS = "brindal_cow,grayson_cow,ranch_bell,feed_bag"
+# Lite overlay Venice pass (surgical IDs via lite_venice_ids.py).
 
 
 def run_script(name: str, *args: str) -> None:
@@ -35,9 +33,13 @@ def run_venice_cel_facelift(*, force: bool = False) -> bool:
         print("Venice API key not set — skip AI cel facelift (export VENICE_API_KEY)")
         return False
     flag = ["--force"] if force else []
-    for category in VENICE_CATEGORIES:
-        run_script("venice_generate_textures.py", "--category", category, *flag)
-    run_script("venice_generate_textures.py", "--id", VENICE_CUSTOM_IDS, *flag)
+    ids = subprocess.check_output(
+        [sys.executable, str(SCRIPTS / "lite_venice_ids.py")],
+        cwd=SCRIPTS,
+        text=True,
+    ).strip()
+    print(f"Venice cel facelift: {len(ids.split(','))} lite textures (surgical)")
+    run_script("venice_generate_textures.py", "--skip-anchor", "--id", ids, *flag)
     return True
 
 

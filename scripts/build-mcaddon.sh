@@ -24,7 +24,7 @@ fi
 VENICE_FLAG=""
 if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
   echo "VENICE_API_KEY set — running Venice cel facelift on lite textures"
-  VENICE_FLAG="--venice --venice-force"
+  VENICE_FLAG="--venice"
 elif [[ "${VENICE_TEXTURES:-}" == "1" ]]; then
   echo "Warning: VENICE_TEXTURES=1 but no API key — vanilla + cel polish only" >&2
 fi

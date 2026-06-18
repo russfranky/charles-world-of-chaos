@@ -19,4 +19,4 @@ if [[ -z "${VENICE_API_KEY:-}" && -z "${VENICE_INFERENCE_KEY:-}" ]]; then
 fi
 
 export VENICE_TEXTURES=1
-exec "$ROOT/scripts/build-mcaddon.sh"
+exec "$ROOT/scripts/build-mcaddon.sh" --venice-force
