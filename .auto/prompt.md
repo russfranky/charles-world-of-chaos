@@ -2,7 +2,7 @@
 
 ## Objective
 
-Shrink and polish the **lite overlay** Bedrock pack without breaking Cow Barn gameplay, custom cows, or parent install flow. Every iteration must stay iPad-friendly (~750 KB target, hard cap 1.5 MB in validation).
+Shrink and polish the **lite overlay** Bedrock pack without breaking Cow Barn gameplay, custom cows, or parent install flow. Every iteration must stay iPad-friendly (**~250 KB target**, hard cap 1.5 MB in validation).
 
 ## Metrics
 
@@ -56,6 +56,12 @@ python3 scripts/autoresearch/summarize.py
 - Pack icon: 128px palette-quantized PNG (was 256px full-color)
 - `compresslevel=9` on mcaddon/mcpack zips
 - **Result: mcaddon_kb=395** (−318 KB, ~45%), all checks pass
+
+### Experiment 2 — KEEP (music trim + icon sync)
+
+- Menu music trimmed to **28s** loop @ 48k mono (still loops in title screen)
+- Sync polished RP `pack_icon.png` → behavior pack after texture polish
+- **Result: mcaddon_kb=228** (−167 KB vs exp 1), music_kb≈173
 
 ### Key wins (merged)
 

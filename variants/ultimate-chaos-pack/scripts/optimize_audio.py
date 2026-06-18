@@ -13,6 +13,8 @@ from pathlib import Path
 from common import PACK_RP
 
 MENU_TRACK = PACK_RP / "sounds" / "music" / "menu" / "Bell_At_Twilight.ogg"
+# Menu music loops in-game; trim keeps iPad install small (autoresearch mcaddon_kb).
+MENU_TRIM_SECONDS = 28
 
 
 def _ffmpeg_available() -> bool:
@@ -41,12 +43,14 @@ def optimize_ogg(path: Path) -> int:
                 "error",
                 "-i",
                 str(path),
+                "-t",
+                str(MENU_TRIM_SECONDS),
                 "-ac",
                 "1",
                 "-ar",
                 "44100",
                 "-b:a",
-                "64k",
+                "48k",
                 "-c:a",
                 "libvorbis",
                 str(tmp_path),
