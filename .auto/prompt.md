@@ -39,7 +39,7 @@ python3 scripts/autoresearch/summarize.py
 
 ## Constraints
 
-- `./.auto/checks.sh` must pass before any `keep` experiment
+- `./.auto/checks.sh` must pass before any `keep` experiment (includes `validate_marketplace.py`)
 - Mob approvals: shipped mobs stay approved in `docs/mob-index/mob-approvals.json`
 - Beta APIs + HCF requirements unchanged in manifests/docs
 - No new pip deps without justification
@@ -96,8 +96,20 @@ python3 scripts/autoresearch/summarize.py
 - Cow-spot cobblestone + crafting table top in `baked_textures/`
 - mcaddon_kb stable ~217.5
 
+### Experiment 7 — KEEP (stone + chest + marketplace validator)
+
+- `cowify_kid_textures.py`: baked `stone.png` + `chest_front.png` (cow-spot ranch chest)
+- `validate_marketplace.py` wired into `.auto/checks.sh` (no JSON UI, custom items, script refs)
+- **Result: mcaddon_kb≈217.75**, texture_count=36, marketplace compliance pass
+
+### Marketplace polish (PR #29, parallel track)
+
+- `docs/MARKETPLACE.md` living checklist
+- Real `bgcow:ranch_bell` / `bgcow:feed_bag` items; lang-only pack branding (no JSON UI)
+
 ### Next ideas (backlog)
 
 - Hubzz-3d-pipeline stage alignment when repo is accessible
-- More baked block textures (stone, chest) without API
+- World template stub with experiments locked ON (Marketplace Phase 3)
+- MCTools cooperative add-on validation run
 - Further music trim (shorter loop) if parents want sub-350 KB

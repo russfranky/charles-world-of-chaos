@@ -2,7 +2,7 @@
 
 **Product:** Brindal & Grayson Cow Ranch — world template / cooperative add-on  
 **Status:** In progress — keep this file updated until we ship or abandon Marketplace  
-**Last updated:** 2026-06-15
+**Last updated:** 2026-06-15 (autoresearch loop 7)
 
 ---
 
@@ -33,7 +33,7 @@
 | ☐ | Real custom items `bgcow:ranch_bell`, `bgcow:feed_bag` | **Done** — BP items + icons; legacy bell/wheat still recognized |
 | ☐ | Reduce or document Beta APIs + Holiday Creator Features | World template may lock experiments ON |
 | ☐ | Script API uses stable `@minecraft/server` 2.x patterns | Audit before submission |
-| ☐ | No disallowed vanilla overrides (UI, core screens, click sounds) | Lang-only pack branding OK |
+| ☐ | No disallowed vanilla overrides (UI, core screens, click sounds) | **Done** — lang-only branding; no UI JSON or click-sound swaps in build |
 | ☐ | Pack UUIDs / versioning policy for store updates | Document in release notes |
 
 ---
@@ -42,7 +42,7 @@
 
 | | Task | Notes |
 |---|------|-------|
-| ☐ | Professional texture pass (blocks, items, cows, icon) | Baked procedural art is placeholder |
+| ☐ | Professional texture pass (blocks, items, cows, icon) | Baked procedural art — stone, chest, cobble, grass added |
 | ☐ | Visible in-world traits (horns, marks) on custom cows | Partially done |
 | ☐ | Menu music + SFX review (length, loudness, loop) | Trimmed lite menu track shipped |
 | ☐ | Marketing key art (store tile, panorama optional) | 512+ store assets |
@@ -71,7 +71,7 @@
 | ☐ | Target engine: 1.21+ | `min_engine_version` in manifests |
 | ☐ | New world + experiments ON/OFF matrix | Document in TESTING.md |
 | ☐ | `.mcaddon` size under store guidance | ~217 KB lite build |
-| ☐ | `validate_pack.py` + `simulate_barn.py` green in CI | Automated gate |
+| ☐ | `validate_pack.py` + `simulate_barn.py` green in CI | Automated gate + `validate_marketplace.py` in `.auto/checks.sh` |
 
 ---
 
@@ -111,6 +111,7 @@
 | Date | Change |
 |------|--------|
 | 2026-06-15 | Phase 1 start: `bgcow:ranch_bell` / `bgcow:feed_bag`, removed JSON UI from build, `apply_pack_lang.py` |
+| 2026-06-15 | Autoresearch exp 7: baked stone + chest textures; `validate_marketplace.py` in checks loop |
 
 ---
 

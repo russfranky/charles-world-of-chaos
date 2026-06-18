@@ -140,6 +140,38 @@ def cowify_crafting_table(path: Path) -> None:
     img.save(path, optimize=True)
 
 
+def cowify_stone(path: Path) -> None:
+    if not path.exists():
+        return
+    img = Image.new("RGBA", (16, 16), (125, 125, 125))
+    draw = ImageDraw.Draw(img)
+    random.seed(19)
+    for y in range(16):
+        for x in range(16):
+            shade = 115 + ((x + y * 2) % 5) * 6
+            draw.point((x, y), fill=(shade, shade, shade))
+    for _ in range(3):
+        _spot(draw, random.randint(0, 12), random.randint(0, 12), 2, 2, CREAM)
+    img.save(path, optimize=True)
+
+
+def cowify_chest_front(path: Path) -> None:
+    if not path.exists():
+        return
+    img = Image.new("RGBA", (16, 16), (140, 95, 50))
+    draw = ImageDraw.Draw(img)
+    # planks
+    for y in range(2, 15, 4):
+        draw.line([(1, y), (14, y)], fill=(110, 70, 35))
+    # metal latch
+    draw.rectangle([6, 6, 10, 9], fill=(170, 170, 180))
+    draw.point((8, 7), fill=(90, 90, 100))
+    _spot(draw, 3, 11, 2, 2, CREAM)
+    _spot(draw, 11, 3, 2, 2)
+    draw.point((2, 2), fill=GOLD)
+    img.save(path, optimize=True)
+
+
 def apply_kid_textures(pack_rp: Path = PACK_RP, *, refresh_baked: bool = False) -> int:
     count = 0
     jobs: list[tuple[str, object]] = [
@@ -150,6 +182,8 @@ def apply_kid_textures(pack_rp: Path = PACK_RP, *, refresh_baked: bool = False) 
         ("textures/items/feed_bag.png", draw_feed_bag),
         ("textures/blocks/cobblestone.png", cowify_cobblestone),
         ("textures/blocks/crafting_table_top.png", cowify_crafting_table),
+        ("textures/blocks/stone.png", cowify_stone),
+        ("textures/blocks/chest_front.png", cowify_chest_front),
     ]
     for rel, fn in jobs:
         path = pack_rp / rel

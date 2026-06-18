@@ -8,4 +8,5 @@ cd "$ROOT"
 
 python3 variants/ultimate-chaos-pack/scripts/simulate_barn.py
 python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
+python3 variants/ultimate-chaos-pack/scripts/validate_marketplace.py
 python3 scripts/validate_mob_approvals.py
