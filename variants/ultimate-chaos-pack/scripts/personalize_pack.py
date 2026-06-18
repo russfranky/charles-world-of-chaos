@@ -187,17 +187,26 @@ def personalize_lang() -> None:
         lang_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _save_pack_icon(img: Image.Image, path: Path) -> None:
+    """Small palette PNG for marketplace / iPad install size."""
+    rgba = img.convert("RGBA")
+    if rgba.size != (PACK_ICON_SIZE, PACK_ICON_SIZE):
+        rgba = rgba.resize((PACK_ICON_SIZE, PACK_ICON_SIZE), Image.Resampling.LANCZOS)
+    flat = Image.new("RGB", rgba.size, (0, 0, 0))
+    flat.paste(rgba, mask=rgba.split()[3])
+    q = flat.quantize(colors=64, method=Image.Quantize.MEDIANCUT).convert("RGB")
+    q.save(path, format="PNG", optimize=True)
+
+
 def apply_pack_icon() -> None:
     """Use custom pack-icon.png from source RP, or fall back to generated B/G icons."""
     src = find_custom_pack_icon()
     if src:
         img = Image.open(src).convert("RGBA")
-        if img.size != (PACK_ICON_SIZE, PACK_ICON_SIZE):
-            img = img.resize((PACK_ICON_SIZE, PACK_ICON_SIZE), Image.Resampling.LANCZOS)
         for pack in (PACK_RP, PACK_BP):
             pack.mkdir(parents=True, exist_ok=True)
-            img.save(pack / "pack_icon.png")
-        print(f"Applied custom pack icon from {src.name}")
+            _save_pack_icon(img, pack / "pack_icon.png")
+        print(f"Applied custom pack icon from {src.name} ({PACK_ICON_SIZE}px, quantized)")
         return
     create_pack_icon(PACK_RP / "pack_icon.png", "B", (135, 206, 235, 255), (255, 255, 255, 255))
     create_pack_icon(PACK_BP / "pack_icon.png", "G", (255, 215, 0, 255), (80, 40, 0, 255))

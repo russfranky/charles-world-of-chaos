@@ -75,6 +75,7 @@ def build_all(
     write_script_api()
     run_script("apply_gui_overrides.py", "--minimal")
     run_script("apply_audio_overrides.py", "--lite")
+    run_script("optimize_audio.py")
     if venice:
         for category in VENICE_CATEGORIES:
             run_script("venice_generate_textures.py", "--category", category)

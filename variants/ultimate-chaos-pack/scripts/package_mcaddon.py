@@ -14,7 +14,7 @@ def package_mcaddon(output: Path | None = None) -> Path:
     DIST.mkdir(parents=True, exist_ok=True)
     out = output or DIST / "brindal-grayson-cow-pack.mcaddon"
 
-    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for pack_dir in (PACK_RP, PACK_BP):
             for path in sorted(pack_dir.rglob("*")):
                 if path.is_file() and ".DS_Store" not in path.name:

@@ -50,7 +50,7 @@ SKIP_ENTITY_FILES = {
 TRANSFORM_GROUP = "bgcow:transform_to_cow"
 
 PACK_ICON_NAMES = ("pack-icon.png", "pack_icon.png")
-PACK_ICON_SIZE = 256
+PACK_ICON_SIZE = 128
 
 
 def find_custom_pack_icon() -> Path | None:

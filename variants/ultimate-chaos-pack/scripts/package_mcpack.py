@@ -14,7 +14,7 @@ def package_mcpack(output: Path | None = None) -> Path:
     DIST.mkdir(parents=True, exist_ok=True)
     out = output or DIST / "brindal-grayson-cow-pack.mcpack"
 
-    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for path in sorted(PACK_RP.rglob("*")):
             if path.is_file() and ".DS_Store" not in path.name:
                 zf.write(path, path.relative_to(PACK_RP))
