@@ -176,6 +176,9 @@ STONE_GRAY = (125, 125, 125)
 STONE_LIGHT = (200, 200, 200)
 COAL = (25, 25, 25)
 IRON = (190, 160, 110)
+GOLD_ORE = (218, 165, 32)
+DIAMOND = (92, 219, 213)
+EMERALD = (45, 180, 75)
 
 
 def cowify_coal_ore(path: Path) -> None:
@@ -211,6 +214,63 @@ def cowify_iron_ore(path: Path) -> None:
         _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, CREAM)
     for _ in range(6):
         _spot(draw, random.randint(0, 13), random.randint(0, 13), 1, 1, IRON)
+    img.save(path, optimize=True)
+
+
+def cowify_gold_ore(path: Path) -> None:
+    if not path.exists():
+        return
+    img = Image.new("RGBA", (16, 16), STONE_GRAY)
+    draw = ImageDraw.Draw(img)
+    random.seed(41)
+    for y in range(16):
+        for x in range(16):
+            shade = 115 + ((x + y * 2) % 5) * 6
+            draw.point((x, y), fill=(shade, shade, shade))
+    for _ in range(3):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, SPOT)
+    for _ in range(2):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, CREAM)
+    for _ in range(6):
+        _spot(draw, random.randint(0, 13), random.randint(0, 13), 1, 1, GOLD_ORE)
+    img.save(path, optimize=True)
+
+
+def cowify_diamond_ore(path: Path) -> None:
+    if not path.exists():
+        return
+    img = Image.new("RGBA", (16, 16), STONE_GRAY)
+    draw = ImageDraw.Draw(img)
+    random.seed(43)
+    for y in range(16):
+        for x in range(16):
+            shade = 115 + ((x + y * 2) % 5) * 6
+            draw.point((x, y), fill=(shade, shade, shade))
+    for _ in range(4):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, STONE_LIGHT)
+    for _ in range(2):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 2, 2, SPOT)
+    for _ in range(5):
+        _spot(draw, random.randint(0, 12), random.randint(0, 12), 2, 2, DIAMOND)
+    img.save(path, optimize=True)
+
+
+def cowify_emerald_ore(path: Path) -> None:
+    if not path.exists():
+        return
+    img = Image.new("RGBA", (16, 16), STONE_GRAY)
+    draw = ImageDraw.Draw(img)
+    random.seed(47)
+    for y in range(16):
+        for x in range(16):
+            shade = 115 + ((x + y * 2) % 5) * 6
+            draw.point((x, y), fill=(shade, shade, shade))
+    for _ in range(3):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, SPOT)
+    for _ in range(2):
+        _spot(draw, random.randint(0, 11), random.randint(0, 11), 3, 3, CREAM)
+    for _ in range(6):
+        _spot(draw, random.randint(0, 13), random.randint(0, 13), 1, 1, EMERALD)
     img.save(path, optimize=True)
 
 
@@ -272,6 +332,9 @@ def apply_kid_textures(pack_rp: Path = PACK_RP, *, refresh_baked: bool = False) 
         ("textures/blocks/chest_front.png", cowify_chest_front),
         ("textures/blocks/coal_ore.png", cowify_coal_ore),
         ("textures/blocks/iron_ore.png", cowify_iron_ore),
+        ("textures/blocks/gold_ore.png", cowify_gold_ore),
+        ("textures/blocks/diamond_ore.png", cowify_diamond_ore),
+        ("textures/blocks/emerald_ore.png", cowify_emerald_ore),
         ("textures/blocks/netherrack.png", cowify_netherrack),
         ("textures/blocks/furnace_front_off.png", lambda p: cowify_furnace_front(p, lit=False)),
         ("textures/blocks/furnace_front_on.png", lambda p: cowify_furnace_front(p, lit=True)),

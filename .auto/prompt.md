@@ -114,6 +114,12 @@ python3 scripts/autoresearch/summarize.py
 - Baked cache committed for CI (no Venice API)
 - **Result: mcaddon_kb≈217.94** (−0.07 KB vs exp 8), texture_count=36, all checks pass
 
+### Experiment 10 — KEEP (gold + diamond + emerald ore kid textures)
+
+- `cowify_kid_textures.py`: baked `gold_ore.png` (cow-spot stone + gold flecks), `diamond_ore.png` (Holstein light spots + cyan diamond flecks), `emerald_ore.png` (cow-spot stone + green emerald flecks)
+- Baked cache committed for CI (no Venice API)
+- **Result: mcaddon_kb≈218.46** (+0.19 KB vs baseline), texture_count=36, all checks pass
+
 ### Marketplace polish (PR #29, parallel track)
 
 - `docs/MARKETPLACE.md` living checklist
@@ -121,6 +127,7 @@ python3 scripts/autoresearch/summarize.py
 
 ### Next ideas (backlog)
 
+- Baked kid textures for lite-pack blocks NOT yet cowified: `tnt_top`, `tnt_side`, `tnt_bottom` in `cowify_kid_textures.py`
 - Hubzz-3d-pipeline stage alignment when repo is accessible
 - World template stub with experiments locked ON (Marketplace Phase 3)
 - MCTools cooperative add-on validation run
