@@ -19,15 +19,15 @@ from common import (
 PROMPTS_FILE = Path(__file__).resolve().parent.parent / "prompts" / "venice_prompts.json"
 CUSTOM_BP = REPO_ROOT / "behavior_packs" / "brindal_grayson_cow_bp"
 
-# Extra block textures personalized at build time (not in venice manifest).
+# Extra block/item textures personalized at build time (not in venice manifest).
 EXTRA_TEXTURES = (
     "textures/blocks/diamond_block.png",
     "textures/blocks/gold_block.png",
+    "textures/items/wheat.png",
+    "textures/items/villagebell.png",
 )
 
-LITE_RP_COPY = (
-    "textures/item_texture.json",
-)
+LITE_RP_COPY: tuple[str, ...] = ()
 
 
 def featured_texture_paths() -> list[str]:

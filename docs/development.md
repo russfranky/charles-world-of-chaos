@@ -65,6 +65,7 @@ export VENICE_API_KEY='your-key'
 prepare_lite_pack.py         → stage only featured textures + custom cows
 polish_textures.py --sources → polish Brindal/Grayson source PNGs
 personalize_pack.py          → branding, manifests, B/G blocks
+cowify_kid_textures.py       → baked grass/dirt/bread + Feed Bag + Ranch Bell icons
 merge_custom_cows.py         → overlay custom cows + menu music
 apply_gui_overrides.py       → subtitle JSON UI (minimal)
 apply_audio_overrides.py     → menu music sound_definitions

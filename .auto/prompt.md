@@ -80,14 +80,19 @@ python3 scripts/autoresearch/summarize.py
 
 - mcaddon_kb≈217
 
-### Experiment 4 — polish loop (UX, no size regression)
+### Experiment 4 — KEEP (rank-up titles + menu hints)
 
-- Title screen subtitle: Ranch Bell + My Herd hints
-- Big `setTitle` on barn rank-up
-- TESTING.md iPad checklist for barn menu
+- mcaddon_kb stable ~217
+
+### Experiment 5 — KEEP (kid textures + item icons)
+
+- `cowify_kid_textures.py` — procedural grass/dirt/bread + Feed Bag wheat + Ranch Bell icons
+- `baked_textures/` committed cache (CI uses without Venice API)
+- Removed empty `item_texture.json` overlay (vanilla atlas merge)
+- **Result: mcaddon_kb≈218**, texture_count=36
 
 ### Next ideas (backlog)
 
 - Hubzz-3d-pipeline stage alignment when repo is accessible
-- Custom item icons for Ranch Bell / Feed Bag (not renamed vanilla items)
+- More baked block textures (cobblestone, crafting table) without API
 - Further music trim (shorter loop) if parents want sub-350 KB

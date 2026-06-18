@@ -821,7 +821,7 @@ function welcomePlayer(player) {
   } catch (_) {
     /* ignore */
   }
-  say(player, "§eTap Ranch Bell§f for a menu — Deploy, Feed, Breed, Recall.");
+  say(player, "§eTap the golden §lRanch Bell§f and §lwheat Feed Bag§f in your hotbar!");
   say(player, "§eFeed Bag§f near a wild cow catches it. Need 3 cows to breed!");
   if (starter) say(player, `Starter: ${cowLabel(starter)}`);
   if (barn.tutorialStep < 1) {
