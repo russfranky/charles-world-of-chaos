@@ -76,6 +76,18 @@ package_mcaddon.py           → dist/
 
 Texture polish (`texture_polish.py`) runs after Venice/downscale: alpha cleanup, palette quantize, Bayer dither, despeckle, edge-snap — similar to retro shader / 3D→pixel post pipelines (ditherpunk, hubzz-3d-pipeline).
 
+## Autoresearch loop (pi-autoresearch)
+
+Measure → keep improvements → revert regressions. See [`.auto/README.md`](../.auto/README.md).
+
+```bash
+./.auto/measure.sh              # METRIC mcaddon_kb=… (median of 2 builds)
+./.auto/checks.sh               # barn sim + validate + mob approvals
+python3 scripts/autoresearch/summarize.py
+```
+
+Works with [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) in pi (`pi install npm:pi-autoresearch`).
+
 ## Local development workflow
 
 ### Option A: Development folders

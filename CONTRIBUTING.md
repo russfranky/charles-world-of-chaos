@@ -50,7 +50,8 @@ Visual catalog of every mob texture — custom cows plus the Venice entity catal
 
 ## Testing checklist
 
-- [ ] `python3 variants/ultimate-chaos-pack/scripts/validate_pack.py` passes
+- [ ] `python3 variants/ultimate-chaos-pack/scripts/validate_pack.py` passes (or `./.auto/checks.sh`)
+- [ ] `./.auto/measure.sh` — note `mcaddon_kb` if optimizing pack size
 - [ ] **Mob index:** open [`docs/mob-index/index.html`](docs/mob-index/index.html) — approve shipped mobs in [`mob-approvals.json`](docs/mob-index/mob-approvals.json), then `python3 scripts/validate_mob_approvals.py`
 - [ ] Brindal and Grayson cows present and NOT transformed away
 - [ ] `/summon bgcow:brindal_cow` and `bgcow:grayson_cow` work

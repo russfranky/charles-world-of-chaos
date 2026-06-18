@@ -16,6 +16,11 @@ build/
 *.log
 venice_generation.log
 
+# Autoresearch session artifacts (infrastructure is committed)
+.auto/log.jsonl
+.auto/learnings.md
+.auto/ideas.md
+
 # Python
 __pycache__/
 *.pyc
