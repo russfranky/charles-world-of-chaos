@@ -24,8 +24,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Build unified cow pack
         run: ./scripts/build-mcaddon.sh
+
+      - name: MCTools cooperative add-on validation (optional)
+        run: ./scripts/validate_mctools.sh
+        continue-on-error: true
 
       - name: Autoresearch backpressure checks
         run: ./.auto/checks.sh

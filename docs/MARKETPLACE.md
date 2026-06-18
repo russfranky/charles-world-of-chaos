@@ -28,7 +28,7 @@
 
 | | Task | Notes |
 |---|------|-------|
-| ☐ | Run MCTools cooperative add-on validation | See [MCTools (manual)](#mctools-manual) below — not automated in CI yet |
+| ☐ | Run MCTools cooperative add-on validation | **Partial — automated** via [`scripts/validate_mctools.sh`](../scripts/validate_mctools.sh) (optional CI, `continue-on-error`); **41 CADDONREQ failures** on lite build as of 2026-06-18 — see [MCTools](#mctools-manual) |
 | ☐ | Remove JSON UI screen overrides | **Done** — lang-only branding via `apply_pack_lang.py` |
 | ☐ | Real custom items `bgcow:ranch_bell`, `bgcow:feed_bag` | **Done** — BP items + icons; legacy bell/wheat still recognized |
 | ☐ | Reduce or document Beta APIs + Holiday Creator Features | World template may lock experiments ON |
@@ -42,7 +42,7 @@
 
 | | Task | Notes |
 |---|------|-------|
-| ☐ | Professional texture pass (blocks, items, cows, icon) | Baked procedural art — stone, chest, cobble, grass, coal/iron ore, netherrack, furnace added |
+| ☐ | Professional texture pass (blocks, items, cows, icon) | Baked procedural art — stone, chest, cobble, grass, coal/iron/gold/diamond/emerald ore, netherrack, furnace added |
 | ☐ | Visible in-world traits (horns, marks) on custom cows | **Partial** — deploy name tags (⌇/★/◆), size scale, gold-horn glow + deploy particles; texture art still TBD |
 | ☐ | Menu music + SFX review (length, loudness, loop) | Trimmed lite menu track shipped |
 | ☐ | Marketing key art (store tile, panorama optional) | 512+ store assets |
@@ -101,12 +101,33 @@
 
 **Minecraft Creator Tools** ([Learn overview](https://learn.microsoft.com/en-us/minecraft/creator/documents/mctoolsoverview?view=minecraft-bedrock-stable)) is Microsoft's validator for cooperative add-ons and Marketplace sharing rules (CADDONREQ, sharing suite). It checks manifest linkage, forbidden UI overrides, loose files, namespaces, and flags experimental capabilities (Beta APIs, Holiday Creator Features).
 
-**How a publisher would run it (not automated in this repo yet):**
+**Automated in repo (optional CI):** [`scripts/validate_mctools.sh`](../scripts/validate_mctools.sh) builds the pack if needed, then runs the CLI. Exits **0** on pass or when Node/npx/npm fetch is unavailable (`SKIP: MCTools not available`); exits **1** when the tool runs and reports validation failures. CI runs this step with `continue-on-error: true` so flaky `npx` downloads do not block merges.
+
+**Working CLI in this environment (2026-06-18):**
+
+```bash
+./scripts/build-mcaddon.sh   # if dist/brindal-grayson-cow-pack.mcaddon is missing
+npx --yes @minecraft/creator-tools \
+  --if dist/brindal-grayson-cow-pack.mcaddon \
+  --offline --yes \
+  validate addon
+```
+
+Notes:
+
+- Pass the archive with `--if` / `--input-file`, not as a positional argument to `validate`.
+- Use suite **`addon`** (Coop Add-On Requirements), not `main` or `default`.
+- `--offline` skips vanilla web resource fetches (recommended for CI).
+- Invalid: `npx @minecraft/creator-tools validate dist/foo.mcaddon` — treats the path as the suite name.
+
+**Latest automated run (lite `.mcaddon`, v0.17.2):** tool **ran**; exit **4** with **41 errors** — mainly CADDONREQ102/104 (vanilla overlay textures not under `textures/<creatorshortname>/`), CADDONREQ168 (RP manifest missing BP dependency), CADDONIREQ170 (`pack_scope` should be `world`). Expected for kid-download overlay layout; Marketplace submission will need namespace/pack restructuring.
+
+**Manual fallback:**
 
 1. **Web:** Zip the submission set (or upload `.mcaddon`) at [mctools.dev](https://mctools.dev) → **Inspector** → rule suite **Coop Add-On Requirements** (and **Sharing** before store upload). Processing stays in the browser.
-2. **CLI:** `npx @minecraft/creator-tools validate /path/to/project` (or point at the built `.mcaddon`). Requires Node.js; first run downloads the tool.
+2. **CLI:** same command as above, or `./scripts/validate_mctools.sh`.
 
-We rely on `validate_marketplace.py` + iPad playtests for day-to-day CI; run MCTools once before partner submission to catch rules our lightweight script does not cover.
+We rely on `validate_marketplace.py` + iPad playtests for day-to-day CI gates; MCTools is informational until the pack passes CADDONREQ.
 
 ---
 
@@ -128,10 +149,12 @@ We rely on `validate_marketplace.py` + iPad playtests for day-to-day CI; run MCT
 | 2026-06-15 | Autoresearch exp 7: baked stone + chest textures; `validate_marketplace.py` in checks loop |
 | 2026-06-18 | Autoresearch exp 8: baked coal_ore + iron_ore kid textures (cow-spot ore blocks) |
 | 2026-06-18 | Autoresearch exp 9: baked netherrack + furnace_front off/on kid textures (cow-spot nether + lit nose) |
+| 2026-06-18 | Autoresearch exp 10: baked gold_ore + diamond_ore + emerald_ore kid textures (cow-spot ore blocks) |
 | 2026-06-18 | Phase 3 scaffold: `worlds/brindal_grayson_ranch/` (README, WORLD_CHECKLIST, manifest stub, experiments reference); `validate_world_scaffold.py` in checks |
 | 2026-06-18 | Phase 2 traits: deploy name tags + scale + gold-horn glow/particles on custom cows (`always_show` nameable) |
 | 2026-06-18 | Phase 4: experiment matrix in TESTING.md; MCTools note; marketplace validator checks Beta APIs + cow UI |
 | 2026-06-18 | Phase 1: Script API stability audit — [MARKETPLACE_SCRIPT_API.md](MARKETPLACE_SCRIPT_API.md); V2 2.0.0 + custom commands require Beta APIs |
+| 2026-06-18 | Phase 1: MCTools CLI wired — `scripts/validate_mctools.sh`; optional CI step; 41 CADDONREQ failures on lite build |
 | 2026-06-18 | Phase 5 scaffold: [`marketing/`](../marketing/) — store copy draft, screenshot checklist, procedural key art stub |
 
 ---

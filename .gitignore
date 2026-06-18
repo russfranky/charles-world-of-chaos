@@ -11,6 +11,7 @@ behavior_pack/
 variants/ultimate-chaos-pack/pack/
 variants/ultimate-chaos-pack/behavior_pack/
 build/
+out/
 
 # Logs
 *.log
