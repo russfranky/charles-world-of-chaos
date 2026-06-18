@@ -6,10 +6,12 @@
 |-------|-----------|-------|
 | Build pipeline completes | Yes | `./scripts/build-mcaddon.sh` |
 | Lite texture count (20+) | Yes | `validate_pack.py` |
-| Custom Brindal/Grayson cows present | Yes | Textures + entity files after merge |
+| Custom Spot/Storm cows present | Yes | Textures + entity files after merge |
 | Manifest UUID linkage | Yes | BP depends on RP UUID `d36a0504-...` |
 | BP manifest mentions Beta APIs | Yes | `validate_pack.py` |
 | Script API file present | Yes | `behavior_pack/scripts/main.js` |
+| Cow Barn script markers | Yes | `loadBarn`, `tryBreed`, `onBellTap`, etc. |
+| Barn flow simulation | Yes | `simulate_barn.py` in `validate_pack.py` |
 | MCADDON size under 1.5 MB | Yes | `validate_pack.py` (lite ~750 KB) |
 | Package artifacts exist | Yes | `.mcaddon` and `.mcpack` in `dist/` |
 | Venice AI textures | Optional | Requires `VENICE_API_KEY` locally or in CI secret |
@@ -30,21 +32,27 @@
 4. Verify:
    - [ ] Blocks/items have cow-hide textures
    - [ ] Diamond block shows "B", gold block shows "G"
-   - [ ] Cow title screen subtitle mentions `!moo` shortcuts (after pack import)
-   - [ ] Brindal and Grayson cows spawn via `!b` / `!g` and are NOT removed by `!cowify`
-   - [ ] `!b` / `!g` with Holiday Creator Features OFF shows HCF hint (negative test)
-   - [ ] Tap **Cow Bell** in inventory → random surprise
-   - [ ] Tap **Cow Snack** → cow spawns
-   - [ ] Pet Brindal / Grayson → hug + cookies
-   - [ ] Auto surprise happens within ~90 seconds of playing
+   - [ ] Cow title screen subtitle mentions Ranch Bell (after pack import)
+   - [ ] First join auto-deploys starter cow + Ranch Bell + Feed Bag
+   - [ ] Tap **Ranch Bell** → action bar shows mode done + next step
+   - [ ] Feed Bag does NOT catch your own deployed vanilla cow
+   - [ ] Can catch 3rd cow (Pen rank allows 3 slots) and unlock breeding
+   - [ ] Recall switches to next cow in herd
+   - [ ] Tap **Feed Bag** near wild cow → cow caught into barn
+   - [ ] Tap **Feed Bag** on deployed cow → hunger/mood rise
+   - [ ] At 3+ cows, BREED mode produces calf with trait inheritance
+   - [ ] New trait discovery grants loot (gold/emerald/diamond)
+   - [ ] Hungry deployed cow recalls to barn (no death)
+   - [ ] Spot Cow appears when deploying `spot` coat; Storm Cow for `storm`/`shine`
+   - [ ] `/bgcow:help`, `/bgcow:barn`, `/bgcow:breed` work
    - [ ] Behavior-pack description in world settings mentions Beta APIs
 
 ### Beta APIs OFF (negative test)
 
 1. Create a **new** world with Beta APIs **OFF** (Holiday Creator Features still ON)
 2. Verify:
-   - [ ] `!moo` does nothing (expected)
-   - [ ] `/summon bgcow:brindal_cow` still works
+   - [ ] Ranch Bell does nothing (expected)
+   - [ ] `/summon bgcow:brindal_cow` still works (Spot Cow)
    - [ ] Pack description warned about Beta APIs before creating world
 
 ### macOS Minecraft Bedrock
@@ -72,8 +80,9 @@ CI builds algorithmic textures + cow GUI. Venice AI art requires `VENICE_API_KEY
 # Full rebuild
 ./scripts/build-mcaddon.sh
 
-# Validate structure
+# Validate structure + barn simulation
 python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
+python3 variants/ultimate-chaos-pack/scripts/simulate_barn.py
 
 # Lite sanity checks
 find variants/ultimate-chaos-pack/pack/textures -name '*.png' | wc -l
@@ -97,6 +106,6 @@ Expected lite counts after build:
 
 - Linux CI cannot run Minecraft Bedrock
 - Default CI build uses algorithmic cow-hide + procedural GUI (not Venice AI)
-- Lite pack does not auto-transform all mobs — use `!cowify` for nearby mobs
+- Lite pack does not auto-transform mobs
 - Script API requires Beta APIs experimental toggle
 - JSON UI modifications may need updates after major Bedrock releases

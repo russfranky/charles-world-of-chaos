@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T03:10:27.406184+00:00",
+  "generated_at": "2026-06-15T06:29:48.805377+00:00",
   "version": 1,
   "shipped_ids": [
     "brindal_cow",
@@ -67,7 +67,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/bee_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/bee/bee.png",
       "preview": "previews/bee.png"
     },
     {
@@ -84,9 +84,9 @@
       "approved": false,
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
-      "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/blaze_64.png",
-      "preview": "previews/blaze.png"
+      "has_texture": false,
+      "texture_source": null,
+      "preview": null
     },
     {
       "id": "breeze",
@@ -103,7 +103,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/breeze_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/breeze/breeze.png",
       "preview": "previews/breeze.png"
     },
     {
@@ -121,7 +121,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/cat_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/cat/blackcat.png",
       "preview": "previews/cat.png"
     },
     {
@@ -139,7 +139,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/chicken_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/chicken/chicken.png",
       "preview": "previews/chicken.png"
     },
     {
@@ -157,7 +157,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/creeper_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/creeper/creeper.png",
       "preview": "previews/creeper.png"
     },
     {
@@ -175,7 +175,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/elder_guardian_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/guardian_elder.png",
       "preview": "previews/elder_guardian.png"
     },
     {
@@ -192,9 +192,9 @@
       "approved": false,
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
-      "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/enderman_64.png",
-      "preview": "previews/enderman.png"
+      "has_texture": false,
+      "texture_source": null,
+      "preview": null
     },
     {
       "id": "ghast",
@@ -211,7 +211,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/ghast_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/ghast/ghast.png",
       "preview": "previews/ghast.png"
     },
     {
@@ -229,7 +229,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/guardian_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/guardian.png",
       "preview": "previews/guardian.png"
     },
     {
@@ -247,7 +247,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/horse_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/horse/horse_brown.png",
       "preview": "previews/horse.png"
     },
     {
@@ -265,7 +265,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/iron_golem_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/iron_golem.png",
       "preview": "previews/iron_golem.png"
     },
     {
@@ -283,7 +283,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/pig_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/pig/pig.png",
       "preview": "previews/pig.png"
     },
     {
@@ -301,7 +301,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/pillager_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/pillager.png",
       "preview": "previews/pillager.png"
     },
     {
@@ -319,7 +319,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/ravager_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/illager/ravager.png",
       "preview": "previews/ravager.png"
     },
     {
@@ -337,7 +337,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/skeleton_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/skeleton/skeleton.png",
       "preview": "previews/skeleton.png"
     },
     {
@@ -355,7 +355,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/slime_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/slime/slime.png",
       "preview": "previews/slime.png"
     },
     {
@@ -372,9 +372,9 @@
       "approved": false,
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
-      "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/spider_64.png",
-      "preview": "previews/spider.png"
+      "has_texture": false,
+      "texture_source": null,
+      "preview": null
     },
     {
       "id": "villager",
@@ -391,7 +391,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/villager_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/villager/villager.png",
       "preview": "previews/villager.png"
     },
     {
@@ -409,7 +409,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/warden_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/warden/warden.png",
       "preview": "previews/warden.png"
     },
     {
@@ -427,7 +427,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/witch_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/witch.png",
       "preview": "previews/witch.png"
     },
     {
@@ -445,7 +445,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/wither_boss_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/wither_boss/wither.png",
       "preview": "previews/wither_boss.png"
     },
     {
@@ -463,7 +463,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/wither_skeleton_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/skeleton/wither_skeleton.png",
       "preview": "previews/wither_skeleton.png"
     },
     {
@@ -481,7 +481,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/wolf_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/wolf/wolf.png",
       "preview": "previews/wolf.png"
     },
     {
@@ -499,7 +499,7 @@
       "reviewer": "",
       "note": "Auto-added — set approved true after visual review",
       "has_texture": true,
-      "texture_source": "variants/ultimate-chaos-pack/venice_cache/zombie_64.png",
+      "texture_source": "variants/ultimate-chaos-pack/vanilla_src/resource_pack/textures/entity/zombie/zombie.png",
       "preview": "previews/zombie.png"
     }
   ]

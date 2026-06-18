@@ -10,7 +10,7 @@
 
 **[Download for iPad](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
 
-Includes: cow-themed blocks and items, cow GUI, menu music, Brindal & Grayson custom cows, and 26 fun commands (`!surprise`, `!dance`, `!moo`, and more).
+Includes: cow-themed blocks and items, cow GUI, menu music, Spot Cow & Storm Cow entities, and the **Cow Barn** (Ranch Bell, Feed Bag, breeding, trait catalog loot).
 
 ---
 
@@ -25,7 +25,7 @@ Includes: cow-themed blocks and items, cow GUI, menu music, Brindal & Grayson cu
 | **1. Download** | Open link in Safari → tap Download |
 | **2. Import** | Tap file → **Open in Minecraft** |
 | **3. New world** | Holiday Creator Features **ON** + Beta APIs **ON** + both packs active |
-| **4. Play** | Tap **Cow Bell** in inventory |
+| **4. Play** | Tap **Ranch Bell** in inventory |
 
 ---
 
@@ -52,8 +52,8 @@ Includes: cow-themed blocks and items, cow GUI, menu music, Brindal & Grayson cu
 
 Before tapping **Create**, verify:
 
-- [ ] **Holiday Creator Features** — ON *(custom Brindal & Grayson cows)*
-- [ ] **Beta APIs** — ON *(fun `!` commands and `/bgcow:*` slash commands)*
+- [ ] **Holiday Creator Features** — ON *(Spot Cow & Storm Cow when deployed)*
+- [ ] **Beta APIs** — ON *(Cow Barn: Ranch Bell, Feed Bag, breeding)*
 - [ ] **Resource pack** — Brindal & Grayson Cow World — Active
 - [ ] **Behavior pack** — Brindal & Grayson Cow World BP — Active
 - [ ] This is a **NEW** world (not editing an old one)
@@ -62,16 +62,16 @@ Before tapping **Create**, verify:
 
 ### Verify it works
 
-1. Open inventory → tap **Cow Bell** → something silly happens (dance, fireworks, joke, party…)
-2. Tap **Cow Snack** → a cow appears and moos
-3. Walk up to Brindal or Grayson → tap them → hug + cookies
+1. Open inventory → tap **Ranch Bell** → action bar shows barn status and next mode (DEPLOY / FEED / BREED / RECALL)
+2. Tap **Feed Bag** near a wild cow → cow joins your barn
+3. Get 3+ cows → tap bell until **BREED** → two happy adults produce a calf with new traits
 4. Diamond block shows **B**, gold block shows **G** (cow-themed textures)
 
 <p align="center">
-  <img src="assets/family-cows.png" alt="Brindal and Grayson cows" width="500">
+  <img src="assets/family-cows.png" alt="Spot Cow and Storm Cow" width="500">
 </p>
 
-> **Note:** Vanilla zombies and creepers stay normal in this lite pack. Kids can type `!cowify` to turn nearby mobs into cows on purpose.
+> **Note:** Vanilla zombies and creepers stay normal in this lite pack.
 
 ---
 
@@ -81,7 +81,7 @@ If experiments cause issues on your iPad:
 
 **[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)**
 
-This gives cow textures and GUI only — no custom cows, no `!moo` commands.
+This gives cow textures and GUI only — no custom cows, no Cow Barn scripts.
 
 ---
 
@@ -97,16 +97,15 @@ Same process: download `.mcaddon` → open with Minecraft Bedrock → new world 
 |---------|----------|
 | Packs don't appear | Re-import `.mcaddon`; force-quit and reopen Minecraft |
 | Missing textures (checkerboard) | Activate **both** resource AND behavior packs |
-| `!moo` does nothing | **Beta APIs** must be ON — create a **new** world; check behavior-pack description in world settings |
-| Brindal/Grayson cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world; in-game hint appears if spawn fails |
-| Brindal/Grayson cows missing in world | They won't auto-spawn everywhere — use `!b`, `!g`, or `/summon bgcow:brindal_cow` |
+| Ranch Bell does nothing | **Beta APIs** must be ON — create a **new** world; check behavior-pack description in world settings |
+| Spot/Storm cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world; in-game hint appears if spawn fails |
+| Can't breed | Need **Yard rank** (3+ cows) and two adults with hunger 40+ / mood 55+ |
 | "Failed to import" | Update Minecraft to 1.21.0+; free up storage (~5 MB free is enough) |
-| Lag with `!mega` or `!rain` | Normal on older iPads — stick to `!moo` and `!party` |
 
 ---
 
 ## Next steps
 
 - [Getting Started (for parents)](GETTING_STARTED.md)
-- [All commands](COMMANDS.md)
+- [Cow Barn controls & commands](COMMANDS.md)
 - [Main README](../README.md)

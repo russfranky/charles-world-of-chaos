@@ -1,84 +1,70 @@
-# Cow World Commands
+# Cow Barn — Commands & Controls
 
-Fun for **Brindal** and **Grayson** — **no typing needed!**
+**No typing needed** — kids tap items in their bag. Parents can use slash commands if they want.
 
 ## Play without typing (best for kids)
 
 | What to do | What happens |
 |------------|--------------|
-| **Tap the Cow Bell** in your bag | Random surprise — dance, fireworks, jokes, party! |
-| **Tap Cow Snack** (wheat) | A cow pops in and moos |
-| **Pet Brindal or Grayson** (tap the cow) | Group hug + cookies |
-| **Just play** | Surprise cow moments every ~90 seconds |
+| **Tap Ranch Bell** in your bag | Cycles: **DEPLOY** → **FEED** → **BREED** → **RECALL** |
+| **Tap Feed Bag** (wheat) on your cow | Feeds active cow — raises hunger & mood |
+| **Tap Feed Bag near a wild cow** (within 5 blocks) | Catches the cow into your barn |
+| **Just play** | Hunger/mood decay over time — feed your herd! |
 
-On first join you get a **Cow Bell**, **Cow Snack**, cookies, and both family cows spawn beside you.
+On first join you get a **Ranch Bell**, **Feed Bag**, cookies, and one starter cow in your barn.
+
+### Ranch Bell cycle
+
+Each tap advances one step:
+
+1. **DEPLOY** — spawn your active cow beside you
+2. **FEED** — feed your active cow
+3. **BREED** — breed two happy adults (needs Yard rank: 3+ cows)
+4. **RECALL** — send deployed cow back to the barn (also switches to your next cow)
+
+The action bar shows your barn rank, herd size, catalog progress, and the **next** bell mode.
 
 ---
 
-## Chat commands (optional — for parents)
+## Cow Barn basics
+
+- Your herd lives in a **barn** saved on your player — up to 3 cows at Pen rank, more as you grow
+- Cows have **traits**: coat, horns, size, mark — new combos unlock **catalog entries** and **real loot** (gold, emerald, diamond, diamond block…)
+- **Breed** two adults with hunger 40+ and mood 55+ to get offspring with inherited (and sometimes mutated) traits
+- Hungry deployed cows **recall to the barn** automatically — they don't die
+
+### Barn ranks
+
+| Cows in barn | Rank | Max slots |
+|--------------|------|-----------|
+| 1–2 | Pen | 3 |
+| 3–5 | Yard | 6 |
+| 6–9 | Ranch | 10 |
+| 10–17 | Spread | 18 |
+| 18+ | Legend | 30 |
+
+### Custom cow types
+
+| Trait coat | In-world look |
+|------------|---------------|
+| **spot** | Spot Cow (brown with white spots) |
+| **storm** or **shine** | Storm Cow (gray with dark spots) |
+| brown / gray | Vanilla cow |
+
+---
+
+## Slash commands (optional — for parents)
 
 **Requires Beta APIs** enabled when creating the world.
 
----
+| Slash command | What happens |
+|---------------|--------------|
+| `/bgcow:help` | Cow Barn help |
+| `/bgcow:barn` | Show barn rank, herd, and catalog |
+| `/bgcow:breed` | Breed your two best ready adults |
+| `/bgcow:next` | Switch to your next cow |
 
-## Full command list
-
-Every chat shortcut, matching slash command, and what it does:
-
-| Chat shortcut | Slash command | What happens |
-|---------------|---------------|--------------|
-| `!moo` | `/bgcow:moo` | A cow pops in and moos |
-| `!b`, `!brindal` | `/bgcow:brindal` | Brindal's brown cow appears |
-| `!g`, `!grayson` | `/bgcow:grayson` | Grayson's gray cow appears |
-| `!twins` | `/bgcow:twins` | Both cows at once |
-| `!party` | `/bgcow:party` | Ring of cows around you 🎉 |
-| `!rain` | `/bgcow:rain` | Cows fall from the sky |
-| `!stampede` | `/bgcow:stampede` | Cows charge toward you |
-| `!mega` | `/bgcow:mega` | SO many cows (can lag older iPads) |
-| `!heal` | `/bgcow:heal` | Full heal + regeneration glow |
-| `!fly` | `/bgcow:fly` | Float up, fall down slow |
-| `!jump` | `/bgcow:jump` | Super jump boost |
-| `!sunny` | `/bgcow:sunny` | Clear sunny day + cows |
-| `!night` | `/bgcow:night` | Nighttime cheese moon |
-| `!milk` | `/bgcow:milk` | Free milk bucket |
-| `!feast` | `/bgcow:feast` | Wheat, milk, and cookies |
-| `!bell` | `/bgcow:bell` | Cowbell concert |
-| `!love` | `/bgcow:love` | Both cows + hearts |
-| `!cowify` | `/bgcow:cowify` | Turn nearby mobs into cows |
-| `!surprise`, `!?` | `/bgcow:surprise` | Random silly cow chaos! |
-| `!dance` | `/bgcow:dance` | Cow dance party spiral |
-| `!boom`, `!fireworks` | `/bgcow:boom` | Fireworks + cows |
-| `!hug` | `/bgcow:hug` | Brindal & Grayson hug + cookies |
-| `!zoom`, `!fast` | `/bgcow:zoom` | Super speed cow trail |
-| `!joke`, `!lol` | `/bgcow:joke` | Silly cow joke |
-| `!disco` | `/bgcow:disco` | Glowing disco cows |
-| `!help`, `!cowhelp` | `/bgcow:help` | Show all commands |
-
-**Tip for iPad:** The `!` shortcuts are easiest — kids just type in chat, no slash menu needed.
-
----
-
-## Slash commands (autocomplete)
-
-Type `/` in chat and search `bgcow:` to pick a command from the menu.
-
-Or type `/bgcow:help` in chat for the full list.
-
----
-
-## Meet the star cows
-
-<p align="center">
-  <img src="assets/brindal-cow.png" alt="Brindal Cow" width="180">
-  <img src="assets/grayson-cow.png" alt="Grayson Cow" width="180">
-</p>
-
-| Cow | Command | Summon |
-|-----|---------|--------|
-| **Brindal** | `!b` | `/summon bgcow:brindal_cow` |
-| **Grayson** | `!g` | `/summon bgcow:grayson_cow` |
-
-These cows are special — they won't get removed or turned into regular cows by `!cowify`.
+Type `/` in chat and search `bgcow:` to pick from the menu.
 
 ---
 
@@ -86,8 +72,8 @@ These cows are special — they won't get removed or turned into regular cows by
 
 - Commands work **without traditional cheats** enabled
 - Any player in the world can use them
-- `!mega` and `!rain` spawn many cows — can lag older iPads
-- If commands don't work, check **Beta APIs** is ON (requires new world)
+- **Holiday Creator Features** must be ON for Spot Cow and Storm Cow to appear when deployed
+- **Beta APIs** must be ON for the Cow Barn script — create a **new** world
 - The behavior-pack description in Minecraft world settings also mentions the Beta APIs requirement
 
 ---
@@ -101,4 +87,4 @@ If Beta APIs are off, vanilla summon still works:
 /summon bgcow:grayson_cow
 ```
 
-You won't get `!moo` / `!party` without Beta APIs.
+You won't get the Cow Barn (bell, feed bag, breeding) without Beta APIs.
