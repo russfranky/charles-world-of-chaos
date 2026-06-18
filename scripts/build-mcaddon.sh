@@ -44,6 +44,10 @@ fi
 python3 "$CHAOS/scripts/build_all.py" --rebuild-textures $VENICE_FLAG $VENICE_AUDIO_FLAG
 
 echo ""
+echo "Rendering cel/toon cloud emulation preview..."
+python3 "$ROOT/scripts/emulate_cel_scene.py"
+
+echo ""
 echo "Updating mob index for approval..."
 python3 "$ROOT/scripts/generate_mob_index.py"
 python3 "$ROOT/scripts/validate_mob_approvals.py"

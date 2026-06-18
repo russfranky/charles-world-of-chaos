@@ -45,6 +45,10 @@ def write_rp_manifest() -> None:
             "uuid": RP_MODULE_UUID,
             "version": PACK_VERSION,
         }],
+        "dependencies": [{
+            "uuid": BP_HEADER_UUID,
+            "version": PACK_VERSION,
+        }],
     })
 
 

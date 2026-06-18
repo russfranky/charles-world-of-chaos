@@ -61,18 +61,61 @@ def tile(tex: Image.Image, cols: int, rows: int, scale: int) -> Image.Image:
     return out
 
 
-def draw_hotbar(draw: ImageDraw.ImageDraw, items: list[Image.Image], y: int, w: int, scale: int) -> None:
-    slot = 20 * scale
-    gap = 4 * scale
-    total = len(items) * slot + (len(items) - 1) * gap
-    x0 = (w - total) // 2
-    for i, icon in enumerate(items):
-        x = x0 + i * (slot + gap)
-        draw.rounded_rectangle([x, y, x + slot, y + slot], radius=4, fill=(0, 0, 0, 120), outline=(255, 255, 255, 80))
-        ic = icon.resize((16 * scale, 16 * scale), Image.Resampling.NEAREST)
-        ox = x + (slot - ic.width) // 2
-        oy = y + (slot - ic.height) // 2
-        draw._image.paste(ic, (ox, oy), ic)
+def draw_hotbar(
+    draw: ImageDraw.ImageDraw,
+    items: list[Image.Image | None],
+    selected: int,
+    y: int,
+    w: int,
+    scale: int,
+) -> None:
+    """Minecraft-style 9-slot hotbar with selected highlight and XP strip."""
+    slots = 9
+    slot_sz = 20 * scale
+    gap = 2 * scale
+    pad = 4 * scale
+    bar_h = slot_sz + pad * 2
+    total_w = slots * slot_sz + (slots - 1) * gap + pad * 2
+    x0 = (w - total_w) // 2
+
+    # Cow-hide bar strip (dark brown, like in-game HUD)
+    draw.rounded_rectangle(
+        [x0, y, x0 + total_w, y + bar_h],
+        radius=6 * scale // 2,
+        fill=(42, 28, 18, 210),
+        outline=(90, 62, 38, 255),
+        width=max(1, scale // 2),
+    )
+
+    slot_x0 = x0 + pad
+    icon_sz = 16 * scale
+    for i in range(slots):
+        sx = slot_x0 + i * (slot_sz + gap)
+        sy = y + pad
+        inner = (28, 18, 12, 180) if i != selected else (55, 38, 24, 220)
+        draw.rectangle([sx, sy, sx + slot_sz, sy + slot_sz], fill=inner)
+        if i == selected:
+            draw.rectangle(
+                [sx - scale, sy - scale, sx + slot_sz + scale, sy + slot_sz + scale],
+                outline=(255, 255, 255, 230),
+                width=max(2, scale),
+            )
+        else:
+            draw.rectangle([sx, sy, sx + slot_sz, sy + slot_sz], outline=(70, 48, 30, 180))
+        icon = items[i] if i < len(items) else None
+        if icon is not None:
+            ic = icon.resize((icon_sz, icon_sz), Image.Resampling.NEAREST)
+            ox = sx + (slot_sz - ic.width) // 2
+            oy = sy + (slot_sz - ic.height) // 2
+            draw._image.paste(ic, (ox, oy), ic)
+
+    # XP bar above hotbar
+    xp_y = y - 6 * scale
+    xp_w = total_w - pad * 2
+    xp_h = max(4, scale)
+    xp_x = x0 + pad
+    draw.rectangle([xp_x, xp_y, xp_x + xp_w, xp_y + xp_h], fill=(20, 14, 10, 200), outline=(60, 42, 28))
+    draw.rectangle([xp_x + 1, xp_y + 1, xp_x + int(xp_w * 0.62), xp_y + xp_h - 1], fill=(80, 200, 255))
 
 
 def build_scene(tex_map: dict[str, Image.Image], title: str) -> Image.Image:
@@ -84,6 +127,8 @@ def build_scene(tex_map: dict[str, Image.Image], title: str) -> Image.Image:
     ground = tile(tex_map["grass"], ground_cols, ground_rows, scale)
     stone_strip = tile(tex_map["stone"], ground_cols, 1, scale)
     ore_patch = tile(tex_map["gold_ore"], 3, 2, scale)
+    diamond_pad = tile(tex_map["diamond_block"], 2, 1, scale)
+    tnt_block = tex_map["tnt_top"].resize((16 * scale, 16 * scale), Image.Resampling.NEAREST)
 
     w = ground.width
     h = sky_h + ground.height + stone_strip.height
@@ -98,10 +143,20 @@ def build_scene(tex_map: dict[str, Image.Image], title: str) -> Image.Image:
     scene.paste(stone_strip, (0, sky_h + ground.height), stone_strip)
     scene.paste(ore_patch, (w // 3, sky_h + ground.height - ore_patch.height), ore_patch)
 
-    # Chest
+    # Diamond block marker pad (lite-pack landmark block)
+    pad_x = w // 2 - diamond_pad.width // 2
+    pad_y = sky_h + ground.height - diamond_pad.height
+    scene.paste(diamond_pad, (pad_x, pad_y), diamond_pad)
+
+    # TNT block beside ore patch
+    tnt_x = w // 3 + ore_patch.width + scale * 2
+    tnt_y = sky_h + ground.height - tnt_block.height
+    scene.paste(tnt_block, (tnt_x, tnt_y), tnt_block)
+
+    # Chest on diamond pad
     chest = tex_map["chest"].resize((16 * scale, 16 * scale), Image.Resampling.NEAREST)
     cx = w // 2 - chest.width // 2
-    cy = sky_h + ground.height - chest.height - scale
+    cy = pad_y - chest.height + scale
     scene.paste(chest, (cx, cy), chest)
 
     # Cow sprite (entity UV center crop — show full sheet scaled)
@@ -110,13 +165,19 @@ def build_scene(tex_map: dict[str, Image.Image], title: str) -> Image.Image:
     scene.paste(cow_show, (w // 4, sky_h + scale * 8), cow_show)
 
     draw = ImageDraw.Draw(scene)
-    draw_hotbar(
-        draw,
-        [tex_map["bell"], tex_map["bag"], tex_map["bread"]],
-        h - 28 * scale,
-        w,
-        scale,
-    )
+    hotbar_items: list[Image.Image | None] = [
+        tex_map["bell"],
+        tex_map["bag"],
+        tex_map["bread"],
+        tex_map["diamond_block"],
+        tex_map["tnt_top"],
+        None,
+        None,
+        None,
+        None,
+    ]
+    hotbar_y = h - 34 * scale
+    draw_hotbar(draw, hotbar_items, selected=0, y=hotbar_y, w=w, scale=scale)
     draw.rectangle([0, 0, w, 28 * scale], fill=(0, 0, 0, 140))
     draw.text((w // 2, 14 * scale), title, fill=(255, 255, 255), font=font(14, True), anchor="mm")
     return scene
@@ -127,6 +188,8 @@ def make_texture_set(cel: bool) -> dict[str, Image.Image]:
         "grass": "textures/blocks/grass_top.png",
         "stone": "textures/blocks/stone.png",
         "gold_ore": "textures/blocks/gold_ore.png",
+        "diamond_block": "textures/blocks/diamond_block.png",
+        "tnt_top": "textures/blocks/tnt_top.png",
         "chest": "textures/blocks/chest_front.png",
         "bell": "textures/items/ranch_bell.png",
         "bag": "textures/items/feed_bag.png",
