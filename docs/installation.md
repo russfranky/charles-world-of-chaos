@@ -101,6 +101,7 @@ Same process: download `.mcaddon` → open with Minecraft Bedrock → new world 
 | Spot/Storm cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world; in-game hint appears if spawn fails |
 | Can't breed | Need **Yard rank** (3+ cows) and two adults with hunger 40+ / mood 55+ |
 | "Failed to import" | Update Minecraft to 1.21.0+; free up storage (~5 MB free is enough) |
+| **"Duplicate pack"** | Re-tap the download link — **v1.0.1** updates the old install. Still stuck? **Settings → Storage** → delete **both** "Brindal & Grayson" packs (resource + BP) → import `.mcaddon` again |
 
 ---
 

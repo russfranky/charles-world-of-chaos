@@ -23,15 +23,16 @@ from common import (
     save_json,
 )
 
-PACK_VERSION = [1, 0, 0]
+PACK_VERSION = [1, 0, 1]
 MIN_ENGINE = [1, 21, 0]
+VERSION_LABEL = "v1.0.1"
 
 
 def write_rp_manifest() -> None:
     save_json(PACK_RP / "manifest.json", {
         "format_version": 2,
         "header": {
-            "name": PACK_NAME_RP,
+            "name": f"{PACK_NAME_RP} {VERSION_LABEL}",
             "description": (
                 "Cow-themed blocks, GUI, and Brindal & Grayson cows. "
                 "Turn ON Holiday Creator Features + Beta APIs in a NEW world."
@@ -52,7 +53,7 @@ def write_bp_manifest() -> None:
     save_json(PACK_BP / "manifest.json", {
         "format_version": 2,
         "header": {
-            "name": PACK_NAME_BP,
+            "name": f"{PACK_NAME_BP} {VERSION_LABEL}",
             "description": (
                 "Cow Barn — breed and collect cows with Ranch Bell + Feed Bag. "
                 "Beta APIs + Holiday Creator Features in a NEW world."

@@ -107,6 +107,7 @@ If experiments cause trouble, use the lighter pack (textures only, no scripts):
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |
+| **"Duplicate pack"** on import | Open the link again — **v1.0.1** should update in place. If not: Settings → **Storage** → delete **both** old Brindal & Grayson packs → import again |
 
 ---
 
