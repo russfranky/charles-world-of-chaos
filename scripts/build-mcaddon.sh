@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the unified Brindal & Grayson Cow World add-on
+# Build Charles' World of Chaos add-on (vanilla textures by default)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -9,7 +9,7 @@ CHAOS="$ROOT/variants/ultimate-chaos-pack"
 mkdir -p "$DIST"
 
 echo "=============================================="
-echo " Brindal & Grayson Cow World — unified build"
+echo " Charles' World of Chaos — unified build"
 echo "=============================================="
 
 if [[ ! -d "$ROOT/behavior_packs/brindal_grayson_cow_bp" ]]; then
@@ -22,11 +22,13 @@ if [[ -f "$ROOT/requirements.txt" ]]; then
 fi
 
 VENICE_FLAG=""
-if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
-  echo "VENICE_API_KEY set — running Venice cel facelift on lite textures"
-  VENICE_FLAG="--venice"
-elif [[ "${VENICE_TEXTURES:-}" == "1" ]]; then
-  echo "Warning: VENICE_TEXTURES=1 but no API key — vanilla + cel polish only" >&2
+if [[ "${VENICE_TEXTURES:-}" == "1" ]]; then
+  if [[ -n "${VENICE_API_KEY:-}" || -n "${VENICE_INFERENCE_KEY:-}" ]]; then
+    echo "VENICE_TEXTURES=1 — AI textures enabled"
+    VENICE_FLAG="--venice"
+  else
+    echo "Warning: VENICE_TEXTURES=1 but no API key — vanilla textures only" >&2
+  fi
 fi
 
 VENICE_AUDIO_FLAG=""
@@ -56,5 +58,5 @@ echo " Build complete — dist/"
 ls -lh "$DIST"/brindal-grayson-cow-pack.mcaddon "$DIST"/brindal-grayson-cow-pack.mcpack 2>/dev/null || ls -lh "$DIST"/
 echo "=============================================="
 echo ""
-echo "  brindal-grayson-cow-pack.mcaddon — lite overlay (~230 KB) + Brindal & Grayson cows + Cow Barn"
+echo "  brindal-grayson-cow-pack.mcaddon — Charles' World of Chaos (vanilla skins + Chaos Barn)"
 echo "  brindal-grayson-cow-pack.mcpack  — visual-only resource pack (no behavior/scripts)"

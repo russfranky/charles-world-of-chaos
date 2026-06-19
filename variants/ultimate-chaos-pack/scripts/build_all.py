@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Full build pipeline for Brindal & Grayson Cow World."""
+"""Full build pipeline for Charles' World of Chaos."""
 
 from __future__ import annotations
 
@@ -92,7 +92,10 @@ def build_all(
             if d.exists():
                 shutil.rmtree(d)
 
-    use_venice = venice or venice_key_set()
+    # Vanilla cow skins only — no Venice/cel unless explicitly opted in.
+    run_script("reset_cow_skins.py")
+
+    use_venice = venice
 
     if full:
         print("=== FULL texture pack (all vanilla PNGs + cel bake) ===")
@@ -119,12 +122,14 @@ def build_all(
         print("No Venice key — optional procedural overlay (COWIFY_PROCEDURAL=1)")
         run_script("cowify_kid_textures.py")
     else:
-        mode = "full vanilla + cel polish" if full else "lite staging + cel polish"
-        print(f"Texture path: {mode} (set VENICE_API_KEY for AI hero art)")
+        mode = "vanilla textures (set CEL_POLISH=1 to cel-bake)" if full else "lite vanilla staging"
+        print(f"Texture path: {mode} (set --venice for AI art)")
 
-    # Cel bake on all pack PNGs (Venice heroes + every other texture when --full).
-    run_script("polish_textures.py", "--sources")
-    run_script("polish_textures.py")
+    if os.environ.get("CEL_POLISH") == "1" or venice:
+        run_script("polish_textures.py", "--sources")
+        run_script("polish_textures.py")
+    else:
+        print("Skipping cel polish — vanilla PNGs (CEL_POLISH=1 to enable)")
 
     if not skip_package:
         run_script("optimize_pngs.py")
