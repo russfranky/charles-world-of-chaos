@@ -29,9 +29,11 @@ Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and reca
 
 ### Step 1 — Download
 
-Tap this link on the iPad in **Safari**:
+Tap this link on the iPad in **Safari** (always the latest release):
 
-**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
+**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon)**
+
+> Every merge to `main` auto-bumps the pack version and publishes a new release — re-import the link above to **update** (no duplicate error).
 
 ### Step 2 — Open in Minecraft
 
@@ -93,7 +95,7 @@ Barn ranks grow with herd size (Pen → Yard → Ranch → Spread → Legend). N
 
 If experiments cause trouble, use the lighter pack (textures only, no scripts):
 
-**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)**
+**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcpack)**
 
 ---
 

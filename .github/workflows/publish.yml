@@ -1,0 +1,47 @@
+name: Publish
+
+# On merge to main: bump patch version, rebuild, commit dist, tag, GitHub Release.
+# Skips when the push only updates VERSION/dist (automated release commit — no loop).
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "dist/**"
+      - "variants/ultimate-chaos-pack/VERSION"
+      - "docs/assets/**"
+      - "docs/mob-index/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-main
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Bump, build, release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: chmod +x scripts/publish_pack.sh && ./scripts/publish_pack.sh

@@ -11,7 +11,8 @@ This repo builds **one unified add-on** — `dist/brindal-grayson-cow-pack.mcadd
 | `variants/ultimate-chaos-pack/scripts/` | Main build pipeline |
 | `variants/ultimate-chaos-pack/gui_overrides/` | Cow GUI textures/JSON/lang source (applied at build) |
 | `variants/ultimate-chaos-pack/prompts/` | Venice AI texture manifest |
-| `dist/` | Shipped `.mcaddon` / `.mcpack` (committed for one-tap iPad install) |
+| `variants/ultimate-chaos-pack/VERSION` | Shipped semver (auto-bumped on merge to `main`) |
+| `dist/` | Shipped `.mcaddon` / `.mcpack` (refreshed by publish workflow) |
 
 Build outputs (`pack/`, `behavior_pack/`, `vanilla_src/`) are gitignored. Run `./scripts/clean.sh` to remove them.
 
@@ -19,6 +20,27 @@ Build outputs (`pack/`, `behavior_pack/`, `vanilla_src/`) are gitignored. Run `.
 
 ```bash
 pip3 install -r requirements.txt
+./scripts/build-mcaddon.sh
+```
+
+### Automated releases
+
+Every merge to **`main`** runs [`.github/workflows/publish.yml`](../.github/workflows/publish.yml):
+
+1. Bump patch in `variants/ultimate-chaos-pack/VERSION`
+2. Build + validate
+3. Commit `VERSION` + `dist/`
+4. Tag `vX.Y.Z` and create a [GitHub Release](https://github.com/russfranky/brindal-grayson-cow-pack/releases) with `.mcaddon` / `.mcpack` attached
+
+**Do not** hand-edit `VERSION` or `dist/` in PRs — the bot owns those on `main`. Manifest names read version from `VERSION` via `pack_version.py`.
+
+**Kid install link (always latest):**  
+`https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon`
+
+Local dry-run (no git push):
+
+```bash
+python3 variants/ultimate-chaos-pack/scripts/pack_version.py --bump-patch
 ./scripts/build-mcaddon.sh
 ```
 

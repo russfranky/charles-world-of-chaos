@@ -22,10 +22,11 @@ from common import (
     find_custom_pack_icon,
     save_json,
 )
+from pack_version import pack_version_list, version_label
 
-PACK_VERSION = [1, 0, 1]
+PACK_VERSION = pack_version_list()
 MIN_ENGINE = [1, 21, 0]
-VERSION_LABEL = "v1.0.1"
+VERSION_LABEL = version_label()
 
 
 def write_rp_manifest() -> None:

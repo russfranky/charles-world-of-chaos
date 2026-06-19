@@ -58,7 +58,7 @@ Visual catalog of every mob texture — custom cows plus the Venice entity catal
 - [ ] Ranch Bell opens barn menu; Feed Bag catches wild cows (needs Beta APIs)
 - [ ] `/bgcow:barn`, `/bgcow:breed`, `/bgcow:next` work for parents
 - [ ] Holiday Creator Features OFF shows in-game HCF hint when deploying custom coats (negative test)
-- [ ] iPad install from [README mcaddon link](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)
+- [ ] iPad install from [latest release mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon)
 
 ## Reporting issues
 

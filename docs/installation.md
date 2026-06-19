@@ -6,9 +6,11 @@
 
 ## One download, everything included
 
-**File:** `brindal-grayson-cow-pack.mcaddon` (~750 KB)
+**File:** `brindal-grayson-cow-pack.mcaddon` (~215 KB)
 
-**[Download for iPad](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcaddon)**
+**[Download latest release for iPad](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon)**
+
+> Merges to `main` automatically bump the pack version and publish here — re-import to update in place.
 
 Includes: cow-themed blocks and items, cow GUI, menu music, Spot Cow & Storm Cow entities, and the **Cow Barn** (Ranch Bell, Feed Bag, breeding, trait catalog loot).
 
@@ -79,7 +81,7 @@ Before tapping **Create**, verify:
 
 If experiments cause issues on your iPad:
 
-**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/raw/main/dist/brindal-grayson-cow-pack.mcpack)**
+**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcpack)**
 
 This gives cow textures and GUI only — no custom cows, no Cow Barn scripts.
 

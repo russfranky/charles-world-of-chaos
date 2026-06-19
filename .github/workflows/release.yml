@@ -1,4 +1,7 @@
-name: Release
+name: Release (manual)
+
+# Routine releases: merge to main → publish.yml (auto patch bump + GitHub Release).
+# This workflow is for optional manual tags only (e.g. v2.0.0).
 
 on:
   push:
