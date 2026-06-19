@@ -58,6 +58,7 @@ const HCF_HINT =
 
 const deployedEntities = new Map();
 const lastUiTick = new Map();
+let scriptReady = false;
 let commandsReady = false;
 let simTick = 0;
 
@@ -74,6 +75,52 @@ function playerDim(player) {
 function near(player, offset = { x: 0, y: 0, z: 0 }) {
   const l = player.location;
   return { x: l.x + offset.x, y: l.y + offset.y, z: l.z + offset.z };
+}
+
+/** Stand on solid ground with headroom — avoids spawning cows inside blocks. */
+function safeSpawnNear(player, dx, dz) {
+  const dim = playerDim(player);
+  const base = player.location;
+  const x = Math.floor(base.x) + dx + 0.5;
+  const z = Math.floor(base.z) + dz + 0.5;
+  let y = Math.floor(base.y);
+  try {
+    for (let attempt = 0; attempt < 8; attempt++) {
+      const below = dim.getBlock({ x: Math.floor(x), y: y - 1, z: Math.floor(z) });
+      const feet = dim.getBlock({ x: Math.floor(x), y, z: Math.floor(z) });
+      const head = dim.getBlock({ x: Math.floor(x), y: y + 1, z: Math.floor(z) });
+      if (below?.isSolid && feet?.isAir && head?.isAir) {
+        return { x, y: y + 0.05, z };
+      }
+      y += 1;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+  return { x: base.x + dx, y: base.y + 1, z: base.z + dz };
+}
+
+function trySpawnEntity(dim, typeId, loc) {
+  try {
+    return dim.spawnEntity(typeId, loc);
+  } catch (_) {
+    return null;
+  }
+}
+
+function countNearbyCows(player, maxDistance = 16) {
+  let n = 0;
+  try {
+    for (const entity of playerDim(player).getEntities({
+      location: player.location,
+      maxDistance,
+    })) {
+      if (CATCHABLE_COWS.has(entity.typeId)) n += 1;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+  return n;
 }
 
 function say(player, msg) {
@@ -214,6 +261,20 @@ function randomGen0Traits() {
   };
 }
 
+/** First barn cow — always vanilla-deployable (no HCF required). */
+function starterTraits() {
+  return {
+    coat: randomOf(["brown", "gray"]),
+    horns: randomOf(["none", "short"]),
+    size: "normal",
+    mark: "none",
+    gen: 0,
+    feedsToAdult: 0,
+    hunger: 85,
+    mood: 80,
+  };
+}
+
 function defaultBarn() {
   const barn = {
     cows: [],
@@ -226,7 +287,7 @@ function defaultBarn() {
     deployedEntityId: null,
     tutorialStep: 0,
   };
-  const starter = { id: nextCowId(barn), ...randomGen0Traits() };
+  const starter = { id: nextCowId(barn), ...starterTraits() };
   barn.cows.push(starter);
   barn.activeId = starter.id;
   registerCatalog(barn, starter);
@@ -373,20 +434,20 @@ function clearDeployed(player, barn) {
 
 function spawnCowEntity(player, barn, cow) {
   const dim = playerDim(player);
-  const loc = near(player, { x: 2, y: 0, z: 1 });
-  try {
-    const entity = dim.spawnEntity(entityTypeForCow(cow), loc);
-    if (!entity) {
-      say(player, HCF_HINT);
-      return null;
-    }
-    applyCowVisuals(entity, cow);
-    persistDeployed(player, barn, cow, entity.id);
-    return entity;
-  } catch (_) {
+  const loc = safeSpawnNear(player, 2, 1);
+  let typeId = entityTypeForCow(cow);
+  let entity = trySpawnEntity(dim, typeId, loc);
+  if (!entity && typeId !== COW) {
+    entity = trySpawnEntity(dim, COW, loc);
+    if (entity) say(player, "§eUsing vanilla cow — turn on Holiday Creator Features for Spot/Storm looks.");
+  }
+  if (!entity) {
     say(player, HCF_HINT);
     return null;
   }
+  applyCowVisuals(entity, cow);
+  persistDeployed(player, barn, cow, entity.id);
+  return entity;
 }
 
 function recallDeployed(player, barn) {
@@ -448,11 +509,30 @@ function findWildCow(player) {
 }
 
 function spawnTutorialWildCow(player) {
-  try {
-    playerDim(player).spawnEntity(COW, near(player, { x: 4, y: 0, z: 2 }));
-  } catch (_) {
-    /* ignore */
+  const dim = playerDim(player);
+  const offsets = [
+    [3, 2],
+    [3, -2],
+    [-2, 3],
+  ];
+  let spawned = 0;
+  for (const [dx, dz] of offsets) {
+    const loc = safeSpawnNear(player, dx, dz);
+    if (trySpawnEntity(dim, COW, loc)) spawned += 1;
+    if (spawned >= 2) break;
   }
+  return spawned;
+}
+
+function ensureNearbyCows(player, barn) {
+  if (countNearbyCows(player) > 0) return countNearbyCows(player);
+  const spawned = spawnTutorialWildCow(player);
+  if (spawned > 0) {
+    say(player, `§a§l${spawned} cow(s) spawned right next to you!`);
+    mooSound(player);
+  }
+  if (!barn.deployedEntityId) deployActive(player, barn);
+  return spawned + countNearbyCows(player);
 }
 
 function reconcileDeployed(player, barn) {
@@ -853,9 +933,21 @@ function giveStarterKit(player) {
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (!inv) return;
-    inv.addItem(new ItemStack(RANCH_BELL_ID, 1));
-    inv.addItem(new ItemStack(FEED_BAG_ID, 16));
-    inv.addItem(new ItemStack("cookie", 4));
+    const stacks = [
+      [RANCH_BELL_ID, 1],
+      [FEED_BAG_ID, 16],
+      ["minecraft:cookie", 4],
+      ["minecraft:cow_spawn_egg", 2],
+      ["bgcow:brindal_cow_spawn_egg", 1],
+      ["bgcow:grayson_cow_spawn_egg", 1],
+    ];
+    for (const [id, count] of stacks) {
+      try {
+        inv.addItem(new ItemStack(id, count));
+      } catch (_) {
+        /* optional spawn eggs */
+      }
+    }
   } catch (_) {
     /* ignore */
   }
@@ -873,17 +965,23 @@ function welcomePlayer(player) {
   }
   say(player, "§eTap the §lRanch Bell§f and §lFeed Bag§f in your hotbar!");
   say(player, "§eFeed Bag§f near a wild cow catches it. Need 3 cows to breed!");
+  say(player, "§7Spawn eggs in inventory = instant cows (Spot & Storm too).");
   say(player, "§7Deployed cows show traits: §6⌇§7/§7⌇§7 horns, §e★§7/§b◆§7 marks, size in name.");
-  if (starter) say(player, `Starter: ${cowLabel(starter)}`);
+  if (starter) say(player, `Starter barn cow: ${cowLabel(starter)}`);
   if (barn.tutorialStep < 1) {
     barn.tutorialStep = 1;
-    spawnTutorialWildCow(player);
-    say(player, "§aA wild cow appeared nearby!§f Use Feed Bag on it.");
     saveBarn(player, barn);
+  }
+  deployActive(player, barn);
+  const nearby = ensureNearbyCows(player, barn);
+  if (nearby > 0) {
+    title(player, "Cows are right here — look beside you!");
+    say(player, "§a§lLook beside you — cows are nearby!§f Tap Feed Bag on one to catch it.");
+  } else {
+    say(player, "§eUse §lcow spawn eggs§f in your inventory — tap to place a cow.");
   }
   progressHint(player, barn);
   mooSound(player);
-  deployActive(player, barn);
   showBarnStatus(player, barn);
 }
 
@@ -939,6 +1037,7 @@ function sayBetaApisHint(player) {
 }
 
 system.beforeEvents.startup.subscribe((init) => {
+  scriptReady = true;
   try {
     const reg = init.customCommandRegistry;
     for (const cmd of COMMANDS) {
@@ -956,7 +1055,7 @@ system.beforeEvents.startup.subscribe((init) => {
     commandsReady = true;
     console.warn("[Cow Barn] Ready — breed, deploy, collect.");
   } catch (err) {
-    console.warn("[Cow Barn] Command registration failed:", err);
+    console.warn("[Cow Barn] Command registration failed (bell/items still work):", err);
   }
 });
 
@@ -965,7 +1064,7 @@ system.beforeEvents.startup.subscribe((init) => {
 world.beforeEvents.itemUse.subscribe((event) => {
   const player = event.source;
   const stack = event.itemStack;
-  if (!player || !stack || !commandsReady) return;
+  if (!player || !stack || !scriptReady) return;
 
   if (isRanchBell(stack)) {
     event.cancel = true;
@@ -997,7 +1096,7 @@ world.beforeEvents.itemUse.subscribe((event) => {
 // ─── Care decay ────────────────────────────────────────────────────────────
 
 system.runInterval(() => {
-  if (!commandsReady) return;
+  if (!scriptReady) return;
   simTick += 1;
   for (const player of world.getPlayers()) {
     const barn = loadBarn(player);
@@ -1032,7 +1131,7 @@ system.runInterval(() => {
 world.afterEvents.playerSpawn.subscribe((event) => {
   const player = event.player;
   system.run(() => {
-    if (!commandsReady) {
+    if (!scriptReady) {
       sayBetaApisHint(player);
       return;
     }
@@ -1041,6 +1140,9 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     else {
       const barn = loadBarn(player);
       reconcileDeployed(player, barn);
+      if (countNearbyCows(player) === 0 && !barn.deployedEntityId) {
+        ensureNearbyCows(player, barn);
+      }
       showBarnStatus(player, barn);
     }
   });
