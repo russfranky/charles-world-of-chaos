@@ -19,8 +19,6 @@ from common import (
     load_json,
 )
 
-# Expected minimums for lite overlay pack
-MIN_TEXTURES = 20
 MIN_CUSTOM_SPAWN_RULES = 2
 
 CUSTOM_COW_TEXTURES = (
@@ -37,8 +35,21 @@ COW_UI_DEFS = (
     "ui/cow_start_screen.json",
 )
 
+CUSTOM_ITEMS = (
+    "items/ranch_bell.json",
+    "items/feed_bag.json",
+)
+
+CUSTOM_ITEM_TEXTURES = (
+    "textures/items/ranch_bell.png",
+    "textures/items/feed_bag.png",
+)
+
 MIN_START_SCREEN_BYTES = 10_000
-MAX_MCADDON_BYTES = 1_500_000
+MAX_MCADDON_BYTES_LITE = 1_500_000
+MAX_MCADDON_BYTES_FULL = 120_000_000
+MIN_TEXTURES_LITE = 20
+MIN_TEXTURES_FULL = 4_000
 
 
 def count_pngs(directory: Path) -> int:
@@ -144,27 +155,72 @@ def validate_manifests() -> list[str]:
     return errors
 
 
-def validate_dist_size() -> list[str]:
+def validate_dist_size(*, full: bool = False) -> list[str]:
     errors = []
-    mcaddon = DIST / "brindal-grayson-cow-pack.mcaddon"
-    if mcaddon.exists() and mcaddon.stat().st_size > MAX_MCADDON_BYTES:
+    name = "brindal-grayson-cow-pack-full.mcaddon" if full else "brindal-grayson-cow-pack.mcaddon"
+    max_bytes = MAX_MCADDON_BYTES_FULL if full else MAX_MCADDON_BYTES_LITE
+    mcaddon = DIST / name
+    if mcaddon.exists() and mcaddon.stat().st_size > max_bytes:
         errors.append(
-            f"MCADDON too large: {mcaddon.stat().st_size:,} bytes > {MAX_MCADDON_BYTES:,}"
+            f"MCADDON too large: {mcaddon.stat().st_size:,} bytes > {max_bytes:,}"
         )
     return errors
 
 
-def validate_gui_lang() -> list[str]:
+def validate_pack_lang() -> list[str]:
     errors = []
     lang_path = PACK_RP / "texts" / "en_US.lang"
     if not lang_path.exists():
         errors.append("Missing pack/texts/en_US.lang")
         return errors
     text = lang_path.read_text(encoding="utf-8").lower()
+    if "pack.name" not in text:
+        errors.append("Missing pack.name in RP lang")
     if "menu.moo_world_subtitle" not in text:
         errors.append("Missing menu.moo_world_subtitle in RP lang")
-    elif "beta api" not in text or "ranch bell" not in text:
-        errors.append("Title subtitle must mention Beta APIs and Ranch Bell")
+    elif "ranch bell" not in text:
+        errors.append("Pack lang should mention Ranch Bell")
+    return errors
+
+
+def validate_custom_items() -> list[str]:
+    errors = []
+    for rel in CUSTOM_ITEMS:
+        path = PACK_BP / rel
+        if not path.exists():
+            errors.append(f"Missing custom item: {rel}")
+            continue
+        data = load_json(path)
+        item = data.get("minecraft:item", {})
+        ident = item.get("description", {}).get("identifier", "")
+        if not ident.startswith("bgcow:"):
+            errors.append(f"Custom item must use bgcow: namespace: {rel}")
+    for rel in CUSTOM_ITEM_TEXTURES:
+        if not (PACK_RP / rel).exists():
+            errors.append(f"Missing custom item texture: {rel}")
+    item_tex = PACK_RP / "textures" / "item_texture.json"
+    if not item_tex.exists():
+        errors.append("Missing textures/item_texture.json")
+    else:
+        tex_data = load_json(item_tex).get("texture_data", {})
+        for key in ("bgcow_ranch_bell", "bgcow_feed_bag"):
+            if key not in tex_data:
+                errors.append(f"item_texture.json missing {key}")
+    return errors
+
+
+def validate_marketplace_ui() -> list[str]:
+    """Cooperative Marketplace add-ons must not ship JSON UI screen overrides."""
+    errors = []
+    for rel in COW_UI_DEFS:
+        if (PACK_RP / rel).exists():
+            errors.append(f"Disallowed JSON UI override in build: {rel}")
+    defs_path = PACK_RP / "ui" / "_ui_defs.json"
+    if defs_path.exists():
+        ui_defs = load_json(defs_path).get("ui_defs", [])
+        for entry in COW_UI_DEFS:
+            if entry in ui_defs:
+                errors.append(f"Disallowed UI def registration: {entry}")
     return errors
 
 
@@ -174,7 +230,7 @@ def validate_script_api() -> list[str]:
     if not script.exists():
         return errors
     text = script.read_text(encoding="utf-8")
-    for marker in ("loadBarn", "tryBreed", "BARN_KEY", "onBellTap", "catchWildCow", "showBarnMenu", "showHerdPicker"):
+    for marker in ("loadBarn", "tryBreed", "BARN_KEY", "onBellTap", "catchWildCow", "showBarnMenu", "showHerdPicker", "bgcow:ranch_bell", "bgcow:feed_bag"):
         if marker not in text:
             errors.append(f"Script API missing reliability helper: {marker}")
     return errors
@@ -260,31 +316,10 @@ def validate_json_files() -> list[str]:
 
 def validate_ui() -> list[str]:
     errors = []
-    defs_path = PACK_RP / "ui" / "_ui_defs.json"
-    if defs_path.exists():
-        ui_defs = load_json(defs_path).get("ui_defs", [])
-        for entry in COW_UI_DEFS:
-            if entry not in ui_defs:
-                errors.append(f"Missing UI def registration: {entry}")
-    else:
-        errors.append("Missing pack/ui/_ui_defs.json")
-
-    for rel in COW_UI_DEFS:
-        if not (PACK_RP / rel).exists():
-            errors.append(f"Missing cow UI file: {rel}")
-
-    start_screen = PACK_RP / "ui" / "start_screen.json"
-    if start_screen.exists() and start_screen.stat().st_size < MIN_START_SCREEN_BYTES:
-        errors.append(
-            f"start_screen.json looks truncated ({start_screen.stat().st_size} bytes) "
-            "— use cow_start_screen.json modifications instead"
-        )
-
     if not (PACK_RP / "textures").exists():
         errors.append("Missing pack/textures/")
     elif not (PACK_RP / "pack_icon.png").exists():
         errors.append("Missing pack_icon.png")
-
     return errors
 
 
@@ -313,18 +348,21 @@ def validate_barn_simulation() -> list[str]:
     return []
 
 
-def validate() -> bool:
+def validate(*, full: bool = False) -> bool:
     print("Validating Brindal & Grayson Cow World pack...")
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
-    errors.extend(validate_gui_lang())
+    errors.extend(validate_pack_lang())
+    errors.extend(validate_custom_items())
+    errors.extend(validate_marketplace_ui())
     errors.extend(validate_script_api())
     errors.extend(validate_barn_simulation())
     errors.extend(validate_ui())
     errors.extend(validate_json_files())
-    errors.extend(validate_dist_size())
+    errors.extend(validate_dist_size(full=full))
 
     textures = count_pngs(PACK_RP / "textures")
+    min_tex = MIN_TEXTURES_FULL if full else MIN_TEXTURES_LITE
     custom_spawns = count_custom_spawn_rules(PACK_BP / "spawn_rules")
     script = PACK_BP / "scripts" / "main.js"
 
@@ -338,8 +376,8 @@ def validate() -> bool:
     for key, val in stats.items():
         print(f"  {key}: {val}")
 
-    if textures < MIN_TEXTURES:
-        errors.append(f"Too few textures: {textures} < {MIN_TEXTURES}")
+    if textures < min_tex:
+        errors.append(f"Too few textures: {textures} < {min_tex}")
     if custom_spawns < MIN_CUSTOM_SPAWN_RULES:
         errors.append(f"Too few custom spawn rules: {custom_spawns} < {MIN_CUSTOM_SPAWN_RULES}")
     if not script.exists():
@@ -357,8 +395,10 @@ def validate() -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate pack structure")
+    parser.add_argument("--full", action="store_true",
+                        help="Validate full texture pack (~5k PNGs, full.mcaddon)")
     args = parser.parse_args()
-    sys.exit(0 if validate() else 1)
+    sys.exit(0 if validate(full=args.full) else 1)
 
 
 if __name__ == "__main__":

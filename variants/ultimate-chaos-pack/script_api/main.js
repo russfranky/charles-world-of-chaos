@@ -17,8 +17,8 @@ const CATCHABLE_COWS = new Set([COW, SPOT_COW, STORM_COW]);
 const CATALOG_SLOTS = 15; // coats(5) + horns(3) + sizes(3) + marks(4)
 
 const BARN_KEY = "bgcow:barn_v1";
-const RANCH_BELL = "Ranch Bell";
-const FEED_BAG = "Feed Bag";
+const RANCH_BELL_ID = "bgcow:ranch_bell";
+const FEED_BAG_ID = "bgcow:feed_bag";
 
 const BELL_MODES = ["deploy", "feed", "breed", "recall"];
 const COATS = ["brown", "gray", "spot", "storm", "shine"];
@@ -135,11 +135,16 @@ function traitKey(slot, value) {
 }
 
 function isRanchBell(stack) {
-  return stack?.typeId === "minecraft:bell" && (stack.nameTag ?? "").includes(RANCH_BELL);
+  if (!stack) return false;
+  if (stack.typeId === RANCH_BELL_ID) return true;
+  // Legacy worlds: renamed vanilla bell before custom item migration
+  return stack.typeId === "minecraft:bell" && (stack.nameTag ?? "").includes("Ranch Bell");
 }
 
 function isFeedBag(stack) {
-  return stack?.typeId === "minecraft:wheat" && (stack.nameTag ?? "").includes(FEED_BAG);
+  if (!stack) return false;
+  if (stack.typeId === FEED_BAG_ID) return true;
+  return stack.typeId === "minecraft:wheat" && (stack.nameTag ?? "").includes("Feed Bag");
 }
 
 function barnRank(barn) {
@@ -286,7 +291,8 @@ function entityTypeForCow(cow) {
   return COW;
 }
 
-function applyCowVisuals(entity, cow) {
+function applyCowVisuals(entity, cow, opts = {}) {
+  const { particles = true } = opts;
   entity.nameTag = cowLabel(cow);
   try {
     if (cow.size === "small") entity.setScale(0.78);
@@ -295,15 +301,59 @@ function applyCowVisuals(entity, cow) {
   } catch (_) {
     /* scale API unavailable on older engines */
   }
-  if (cow.coat === "shine" || cow.mark === "star") {
+  if (!particles) return;
+  const l = entity.location;
+  const px = l.x;
+  const py = l.y + 1;
+  const pz = l.z;
+  if (cow.horns === "gold") {
     try {
-      const l = entity.location;
-      entity.runCommandAsync(
-        `particle minecraft:villager_happy ${l.x} ${l.y + 1} ${l.z}`
-      );
+      entity.addEffect("glowing", 40, { showParticles: true });
     } catch (_) {
       /* ignore */
     }
+    try {
+      entity.runCommandAsync(`particle minecraft:totem_particle ${px} ${py} ${pz}`);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+  if (cow.mark === "star") {
+    try {
+      entity.runCommandAsync(`particle minecraft:villager_happy ${px} ${py} ${pz}`);
+    } catch (_) {
+      /* ignore */
+    }
+  } else if (cow.mark === "diamond") {
+    try {
+      entity.runCommandAsync(`particle minecraft:endrod ${px} ${py} ${pz}`);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+  if (cow.coat === "shine") {
+    try {
+      entity.runCommandAsync(`particle minecraft:villager_happy ${px} ${py} ${pz}`);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+}
+
+function refreshDeployedVisuals(player, barn) {
+  const eid = deployedEntities.get(player.id) ?? barn?.deployedEntityId;
+  if (!eid || !barn?.deployedCowId) return;
+  const cow = getCow(barn, barn.deployedCowId);
+  if (!cow) return;
+  try {
+    for (const entity of playerDim(player).getEntities()) {
+      if (entity.id === eid) {
+        applyCowVisuals(entity, cow, { particles: false });
+        return;
+      }
+    }
+  } catch (_) {
+    /* ignore */
   }
 }
 
@@ -412,6 +462,8 @@ function reconcileDeployed(player, barn) {
     for (const entity of playerDim(player).getEntities()) {
       if (entity.id === eid) {
         deployedEntities.set(player.id, eid);
+        const cow = getCow(barn, barn.deployedCowId);
+        if (cow) applyCowVisuals(entity, cow, { particles: false });
         return;
       }
     }
@@ -528,6 +580,7 @@ function feedCow(player, barn, cow) {
   }
   mooSound(player);
   cowParticles(player);
+  if (barn.deployedCowId === cow.id) refreshDeployedVisuals(player, barn);
   saveBarn(player, barn);
 }
 
@@ -789,7 +842,8 @@ function onBellTap(player) {
   system.run(async () => {
     try {
       await showBarnMenu(player);
-    } catch (_) {
+    } catch (err) {
+      console.warn("[Cow Barn] Menu failed, using bell cycle fallback:", err);
       onBellTapCycle(player);
     }
   });
@@ -799,12 +853,8 @@ function giveStarterKit(player) {
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (!inv) return;
-    const bell = new ItemStack("minecraft:bell", 1);
-    bell.nameTag = RANCH_BELL;
-    inv.addItem(bell);
-    const bag = new ItemStack("wheat", 16);
-    bag.nameTag = FEED_BAG;
-    inv.addItem(bag);
+    inv.addItem(new ItemStack(RANCH_BELL_ID, 1));
+    inv.addItem(new ItemStack(FEED_BAG_ID, 16));
     inv.addItem(new ItemStack("cookie", 4));
   } catch (_) {
     /* ignore */
@@ -821,8 +871,9 @@ function welcomePlayer(player) {
   } catch (_) {
     /* ignore */
   }
-  say(player, "§eTap the golden §lRanch Bell§f and §lwheat Feed Bag§f in your hotbar!");
+  say(player, "§eTap the §lRanch Bell§f and §lFeed Bag§f in your hotbar!");
   say(player, "§eFeed Bag§f near a wild cow catches it. Need 3 cows to breed!");
+  say(player, "§7Deployed cows show traits: §6⌇§7/§7⌇§7 horns, §e★§7/§b◆§7 marks, size in name.");
   if (starter) say(player, `Starter: ${cowLabel(starter)}`);
   if (barn.tutorialStep < 1) {
     barn.tutorialStep = 1;

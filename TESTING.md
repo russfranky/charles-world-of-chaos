@@ -19,17 +19,33 @@
 | Script API commands | No | Requires Beta APIs enabled |
 | iPad import via Safari | No | Requires physical iPad |
 
+## Experiment matrix (new world)
+
+Create a **fresh world** for each row. Activate both packs. Toggle **Holiday Creator Features (HCF)** and **Beta APIs** as shown.
+
+| HCF | Beta | Cow Barn (menu, breed, save) | Custom cows (Spot / Storm deploy) | `/bgcow:*` commands | `bgcow:ranch_bell` / `bgcow:feed_bag` | Legacy renamed items (`minecraft:bell` + “Ranch Bell”, `minecraft:wheat` + “Feed Bag”) |
+|-----|------|------------------------------|-----------------------------------|---------------------|----------------------------------------|----------------------------------------------------------------------------------------|
+| **ON** | **ON** | ✅ Full — starter kit, bell menu, herd, breeding, `bgcow:barn_v1` persistence | ✅ Deploy + `/summon bgcow:brindal_cow` / `bgcow:grayson_cow` | ✅ `/bgcow:help`, `/bgcow:barn`, `/bgcow:breed`, `/bgcow:next` | ✅ First join grants both; tap opens menu / catch / feed | ✅ Recognized when scripts run (migration path for old saves) |
+| **ON** | **OFF** | ❌ Script API does not load; join chat shows Beta hint | ✅ `/summon bgcow:*` still works (entities only) | ❌ Commands not registered | ❌ Items exist but taps do nothing | ❌ No script handlers |
+| **OFF** | **ON** | ⚠️ Partial — barn data, menus, catch/feed **vanilla** cows; spot/storm deploy shows HCF hint | ❌ Custom entity spawn/summon fails | ✅ Slash commands work | ✅ Tap works; brown/gray coats deploy as `minecraft:cow` | ✅ Same as custom items when Beta ON |
+| **OFF** | **OFF** | ❌ No Cow Barn | ❌ No custom entities | ❌ No commands | ❌ No item behavior | ❌ No script path |
+
+**Always works (any HCF/Beta combo):** resource-pack cow-hide textures, B/G block letters, lang-only menu subtitle (“Ranch Bell”), pack descriptions warning about experiments.
+
+**Ship target (Marketplace / kid path):** HCF **ON** + Beta **ON** — full row 1. Rows 2–4 are negative / degraded tests; document failures, do not treat as bugs unless row 1 breaks.
+
+Automated gates: `validate_pack.py` (Beta APIs in BP manifest), `validate_marketplace.py` (no JSON UI overrides, custom items present).
+
+---
+
 ## What Requires iPad / macOS Testing
 
 ### iPad (primary target)
 
 1. Download `.mcaddon` from GitHub raw URL or AirDrop from Mac
 2. Open in Minecraft → verify both packs import
-3. Create new world:
-   - Holiday Creator Features: **ON**
-   - Beta APIs: **ON**
-   - Both packs: **activated**
-4. Verify:
+3. Create new world per [Experiment matrix](#experiment-matrix-new-world) — **full QA uses HCF ON + Beta ON**
+4. Verify (row 1 — both experiments ON):
    - [ ] Blocks/items have cow-hide textures
    - [ ] Diamond block shows "B", gold block shows "G"
    - [ ] Cow title screen subtitle mentions Ranch Bell (after pack import)
@@ -48,13 +64,13 @@
    - [ ] `/bgcow:help`, `/bgcow:barn`, `/bgcow:breed` work
    - [ ] Behavior-pack description in world settings mentions Beta APIs
 
-### Beta APIs OFF (negative test)
+### Experiments OFF spot-checks
 
-1. Create a **new** world with Beta APIs **OFF** (Holiday Creator Features still ON)
-2. Verify:
-   - [ ] Ranch Bell does nothing (expected)
-   - [ ] `/summon bgcow:brindal_cow` still works (Spot Cow)
-   - [ ] Pack description warned about Beta APIs before creating world
+Use the [Experiment matrix](#experiment-matrix-new-world) for all four combos. Quick negatives:
+
+- **HCF ON + Beta OFF:** Ranch Bell / Feed Bag taps do nothing; `/summon bgcow:brindal_cow` still works; pack description warns about Beta APIs.
+- **HCF OFF + Beta ON:** Bell menu opens; spot/storm deploy shows HCF hint; catch/feed vanilla cows still works.
+- **Both OFF:** RP textures only; no barn, no custom cows, no commands.
 
 ### macOS Minecraft Bedrock
 

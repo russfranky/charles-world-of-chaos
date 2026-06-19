@@ -1,4 +1,4 @@
-# Minimal cow GUI lang — title screen branding only (vanilla controls/tips)
+# Minimal cow GUI lang — title screen branding only (lang keys; no JSON UI in build)
 
 menu.title=Brindal & Grayson's Moo World
-menu.moo_world_subtitle=Beta APIs ON · Tap Ranch Bell · My Herd to switch cows
+menu.moo_world_subtitle=Cow Barn · Tap Ranch Bell · My Herd to switch cows

@@ -39,7 +39,7 @@ python3 scripts/autoresearch/summarize.py
 
 ## Constraints
 
-- `./.auto/checks.sh` must pass before any `keep` experiment
+- `./.auto/checks.sh` must pass before any `keep` experiment (includes `validate_marketplace.py`)
 - Mob approvals: shipped mobs stay approved in `docs/mob-index/mob-approvals.json`
 - Beta APIs + HCF requirements unchanged in manifests/docs
 - No new pip deps without justification
@@ -96,8 +96,44 @@ python3 scripts/autoresearch/summarize.py
 - Cow-spot cobblestone + crafting table top in `baked_textures/`
 - mcaddon_kb stable ~217.5
 
+### Experiment 7 — KEEP (stone + chest + marketplace validator)
+
+- `cowify_kid_textures.py`: baked `stone.png` + `chest_front.png` (cow-spot ranch chest)
+- `validate_marketplace.py` wired into `.auto/checks.sh` (no JSON UI, custom items, script refs)
+- **Result: mcaddon_kb≈217.75**, texture_count=36, marketplace compliance pass
+
+### Experiment 8 — KEEP (coal + iron ore baked blocks)
+
+- `cowify_kid_textures.py`: procedural `coal_ore.png` (Holstein light spots + black coal flecks) + `iron_ore.png` (cow-spot stone + tan iron flecks)
+- Baked cache committed for CI (no Venice API)
+- **Result: mcaddon_kb≈218.01** (+0.26 KB vs exp 7), texture_count=36, all checks pass
+
+### Experiment 9 — KEEP (netherrack + furnace kid textures)
+
+- `cowify_kid_textures.py`: baked `netherrack.png` (dark red + black cow spots) + `furnace_front_off/on.png` (stone face, cow-nose opening, lit glow on on)
+- Baked cache committed for CI (no Venice API)
+- **Result: mcaddon_kb≈217.94** (−0.07 KB vs exp 8), texture_count=36, all checks pass
+
+### Experiment 10 — KEEP (gold + diamond + emerald ore kid textures)
+
+- `cowify_kid_textures.py`: baked `gold_ore.png` (cow-spot stone + gold flecks), `diamond_ore.png` (Holstein light spots + cyan diamond flecks), `emerald_ore.png` (cow-spot stone + green emerald flecks)
+- Baked cache committed for CI (no Venice API)
+- **Result: mcaddon_kb≈218.46** (+0.19 KB vs baseline), texture_count=36, all checks pass
+
+### Experiment 11 — KEEP (TNT kid textures)
+
+- `cowify_kid_textures.py`: baked `tnt_side.png` (red MOO label + cow spots), `tnt_top.png` (cow-tail fuse), `tnt_bottom.png` (cow-spot red + dark cross)
+- Baked cache committed for CI (no Venice API)
+- **Result: mcaddon_kb≈214.44** (−0.02 KB vs pre-exp baseline), texture_count=36, all checks pass
+
+### Marketplace polish (PR #29, parallel track)
+
+- `docs/MARKETPLACE.md` living checklist
+- Real `bgcow:ranch_bell` / `bgcow:feed_bag` items; lang-only pack branding (no JSON UI)
+
 ### Next ideas (backlog)
 
 - Hubzz-3d-pipeline stage alignment when repo is accessible
-- More baked block textures (stone, chest) without API
+- World template stub with experiments locked ON (Marketplace Phase 3)
+- MCTools cooperative add-on validation run
 - Further music trim (shorter loop) if parents want sub-350 KB

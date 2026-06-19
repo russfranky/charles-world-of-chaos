@@ -1,0 +1,27 @@
+{
+  "_comment": "Reference stub — Minecraft reads experiments from level.dat NBT, not this file. Use when building or auditing an export.",
+  "experiments_required": {
+    "gametest": 1,
+    "data_driven_items": 1
+  },
+  "experiments_in_game_labels": {
+    "gametest": "Beta APIs",
+    "data_driven_items": "Holiday Creator Features"
+  },
+  "packs_required": [
+    {
+      "role": "resource",
+      "uuid": "c409dd16-412b-422a-9496-e1335c9f3ed5",
+      "name": "Brindal & Grayson Cow World"
+    },
+    {
+      "role": "behavior",
+      "uuid": "26cbe6c2-9ac3-464e-a6cd-08bfef85c38d",
+      "name": "Brindal & Grayson Cow World BP"
+    }
+  ],
+  "manifest_flags": {
+    "lock_template_options": true,
+    "base_game_version": [1, 21, 0]
+  }
+}

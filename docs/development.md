@@ -67,7 +67,8 @@ polish_textures.py --sources → polish Brindal/Grayson source PNGs
 personalize_pack.py          → branding, manifests, B/G blocks
 cowify_kid_textures.py       → baked grass/dirt/bread + Feed Bag + Ranch Bell icons
 merge_custom_cows.py         → overlay custom cows + menu music
-apply_gui_overrides.py       → subtitle JSON UI (minimal)
+Texture polish pipeline (`texture_polish.py`, `polish_textures.py`) — post-process PNGs:
+alpha cleanup → quantize → **cel/toon band bake** (luminance steps, optional ink outline) → despeckle → edge snap. All shading is baked at build time; no in-game shaders.
 apply_audio_overrides.py     → menu music sound_definitions
 venice_generate_textures.py  → optional AI art (--venice), downscale + polish
 polish_textures.py           → alpha cleanup, quantize, despeckle all pack PNGs
@@ -76,7 +77,7 @@ optimize_pngs.py             → lossless PNG squeeze
 package_mcaddon.py           → dist/
 ```
 
-Texture polish (`texture_polish.py`) runs after Venice/downscale: alpha cleanup, palette quantize, Bayer dither, despeckle, edge-snap — similar to retro shader / 3D→pixel post pipelines (ditherpunk, hubzz-3d-pipeline).
+Texture polish (`texture_polish.py`) runs after Venice/cowify: cel/toon luminance bands + optional ink outlines baked into PNGs (no runtime shaders).
 
 ## Autoresearch loop (pi-autoresearch)
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "style_suffix": "Flat pixel art, hard edges, no anti-aliasing, no gradients, solid color blocks, Minecraft style, transparent background.",
+  "style_suffix": "Cel-shaded toon look baked into pixel art (like Three.js MeshToonMaterial): 3-4 flat luminance bands per material, thick dark ink outlines on silhouettes, posterized shading, no smooth gradients, no dithering, hard edges, solid color blocks, Minecraft texture style, transparent background where needed.",
   "style_anchor": {
     "id": "style_anchor",
     "model": "flux-2-pro",
@@ -397,7 +397,7 @@
       "generate_size": 1024,
       "target_size": 64,
       "pack_path": "textures/entity/brindal_cow.png",
-      "prompt": "Minecraft player skin texture sheet, 64x64 flat UV. Cute child character Brindal wearing a full brown-and-white Holstein cow costume onesie with hood ears, pink udder on belly, tiny crown on head, letter B on chest. Adorable, joyful. Flat pixel art, Minecraft skin template, transparent background."
+      "prompt": "Minecraft entity texture sheet, 64x64 flat UV. Spot Cow — brown and white Holstein dairy cow, friendly eyes, small horns, cel-shaded toon bands, thick ink outline. Flat pixel art entity template, transparent background."
     },
     {
       "id": "grayson_cow",
@@ -406,7 +406,7 @@
       "generate_size": 1024,
       "target_size": 64,
       "pack_path": "textures/entity/grayson_cow.png",
-      "prompt": "Minecraft player skin texture sheet, 64x64 flat UV. Cute child character Grayson wearing a gray cow costume onesie with hood horns, dark Holstein spots, letter G on chest, cow tail. Mischievous grin. Flat pixel art, Minecraft skin template, transparent background."
+      "prompt": "Minecraft entity texture sheet, 64x64 flat UV. Storm Cow — gray cow with dark storm-cloud spots, moody eyes, cel-shaded toon bands, thick ink outline. Flat pixel art entity template, transparent background."
     },
     {
       "id": "coal_ore",
@@ -563,6 +563,24 @@
       "target_size": 16,
       "pack_path": "textures/items/bow_standby.png",
       "prompt": "Item sprite. Bow made from a curved cow horn, leather string, wooden grip with cow spot inlay. Minecraft item icon, transparent background."
+    },
+    {
+      "id": "ranch_bell",
+      "category": "item",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/items/ranch_bell.png",
+      "prompt": "16x16 pixel art item sprite, transparent background. Golden ranch bell with brown leather strap, cel-shaded toon bands, thick ink outline. Kid-friendly Cow Barn tool icon. Minecraft item style, 45-degree angle."
+    },
+    {
+      "id": "feed_bag",
+      "category": "item",
+      "model": "flux-2-pro",
+      "generate_size": 1024,
+      "target_size": 16,
+      "pack_path": "textures/items/feed_bag.png",
+      "prompt": "16x16 pixel art item sprite, transparent background. Burlap feed bag with wheat tufts, cel-shaded toon bands, thick ink outline. Kid-friendly Cow Barn tool icon. Minecraft item style, 45-degree angle."
     },
     {
       "id": "bread",

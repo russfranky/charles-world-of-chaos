@@ -1,12 +1,15 @@
 """Minecraft pixel-art texture polish — post-process AI and hand-made PNGs.
 
-Inspired by multi-stage 3D→pixel pipelines (e.g. hubzz-3d-pipeline) and
-retro shader packs (ditherpunk, Snorfield/Dither):
+Build-time only: cel/toon shading is baked into PNG pixels (no in-game shaders).
+
+Inspired by multi-stage 3D→pixel pipelines (e.g. hubzz-3d-pipeline), Three.js
+MeshToonMaterial (offline gradient-map analog), and retro shader packs:
   1. Alpha cleanup — remove fringe halos from diffusion models
   2. Color quantize — snap to a small Bedrock-friendly palette
-  3. Bayer dither — ordered dither between palette neighbors
-  4. Despeckle — drop lone stray pixels after downscale
-  5. Edge snap — merge near-duplicate shades on opaque pixels
+  3. Cel band — step luminance into discrete toon shades (gradient-map bake)
+  4. Cel outline — ink edge on silhouettes (optional per profile)
+  5. Despeckle — drop lone stray pixels after downscale
+  6. Edge snap — merge near-duplicate shades on opaque pixels
 
 Pure Pillow — no extra deps.
 """
@@ -25,52 +28,70 @@ _BAYER_4 = (
 
 PROFILES = {
     "block": {
-        "max_colors": 12,
+        "max_colors": 10,
         "alpha_cutoff": 200,
         "despeckle": True,
         "merge_dist": 18,
-        "dither": True,
-        "dither_strength": 0.35,
+        "dither": False,
+        "dither_strength": 0.0,
+        "cel_bands": 4,
+        "cel_outline": "alpha",
+        "cel_outline_strength": 0.7,
     },
     "item": {
-        "max_colors": 14,
+        "max_colors": 12,
         "alpha_cutoff": 200,
         "despeckle": True,
         "merge_dist": 16,
-        "dither": True,
-        "dither_strength": 0.3,
+        "dither": False,
+        "dither_strength": 0.0,
+        "cel_bands": 4,
+        "cel_outline": "alpha",
+        "cel_outline_strength": 0.75,
     },
     "entity": {
-        "max_colors": 28,
+        "max_colors": 20,
         "alpha_cutoff": 128,
         "despeckle": True,
         "merge_dist": 14,
         "dither": False,
         "dither_strength": 0.0,
+        "cel_bands": 5,
+        "cel_outline": "alpha",
+        "cel_outline_strength": 0.8,
     },
     "environment": {
-        "max_colors": 20,
+        "max_colors": 16,
         "alpha_cutoff": 128,
         "despeckle": False,
         "merge_dist": 16,
-        "dither": True,
-        "dither_strength": 0.25,
+        "dither": False,
+        "dither_strength": 0.0,
+        "cel_bands": 4,
+        "cel_outline": False,
+        "cel_outline_strength": 0.0,
     },
     "icon": {
-        "max_colors": 36,
+        "max_colors": 24,
         "alpha_cutoff": 100,
         "despeckle": False,
         "merge_dist": 12,
         "dither": False,
         "dither_strength": 0.0,
+        "cel_bands": 5,
+        "cel_outline": "alpha",
+        "cel_outline_strength": 0.65,
     },
     "default": {
-        "max_colors": 16,
+        "max_colors": 14,
         "alpha_cutoff": 160,
         "despeckle": True,
         "merge_dist": 16,
-        "dither": True,
-        "dither_strength": 0.3,
+        "dither": False,
+        "dither_strength": 0.0,
+        "cel_bands": 4,
+        "cel_outline": "alpha",
+        "cel_outline_strength": 0.7,
     },
 }
 
@@ -252,6 +273,87 @@ def _edge_snap(img: Image.Image, merge_dist: int) -> Image.Image:
     return out
 
 
+def _luminance(r: int, g: int, b: int) -> float:
+    return 0.299 * r + 0.587 * g + 0.114 * b
+
+
+def _cel_shade(img: Image.Image, bands: int) -> Image.Image:
+    """Bake toon/cel shading — step luminance like a Three.js gradient map."""
+    if bands < 2:
+        return img
+    rgba = img.convert("RGBA")
+    px = rgba.load()
+    w, h = rgba.size
+    out = rgba.copy()
+    opx = out.load()
+
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            lum = _luminance(r, g, b)
+            if lum < 1.0:
+                opx[x, y] = (r, g, b, 255)
+                continue
+            # Discrete shade bands (mid-tone lift keeps Minecraft readability)
+            band = min(bands - 1, int((lum / 255.0) * bands))
+            shade = (band + 0.5) / bands
+            scale = (shade * 255.0) / lum
+            opx[x, y] = (
+                max(0, min(255, int(r * scale))),
+                max(0, min(255, int(g * scale))),
+                max(0, min(255, int(b * scale))),
+                255,
+            )
+    return out
+
+
+def _cel_outline(
+    img: Image.Image,
+    mode: str | bool,
+    strength: float,
+    color_diff: int = 36,
+) -> Image.Image:
+    """Ink outline on alpha edges (and optional color boundaries)."""
+    if not mode or strength <= 0:
+        return img
+    rgba = img.convert("RGBA")
+    px = rgba.load()
+    w, h = rgba.size
+    out = rgba.copy()
+    opx = out.load()
+    ink = (24, 18, 28)
+    diff_sq = color_diff * color_diff
+
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 128:
+                continue
+            edge = False
+            for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                nx, ny = x + dx, y + dy
+                if nx < 0 or ny < 0 or nx >= w or ny >= h:
+                    edge = True
+                    break
+                nr, ng, nb, na = px[nx, ny]
+                if na < 128:
+                    edge = True
+                    break
+                if mode == "full" and _color_dist_sq((r, g, b), (nr, ng, nb)) > diff_sq:
+                    edge = True
+                    break
+            if edge:
+                opx[x, y] = (
+                    int(r * (1.0 - strength) + ink[0] * strength),
+                    int(g * (1.0 - strength) + ink[1] * strength),
+                    int(b * (1.0 - strength) + ink[2] * strength),
+                    255,
+                )
+    return out
+
+
 def _clean_alpha(img: Image.Image, cutoff: int) -> Image.Image:
     rgba = img.convert("RGBA")
     px = rgba.load()
@@ -266,11 +368,19 @@ def _clean_alpha(img: Image.Image, cutoff: int) -> Image.Image:
 
 
 def polish_image(img: Image.Image, profile: str = "default") -> Image.Image:
-    """Run full polish chain on one texture."""
+    """Run full polish chain on one texture (cel/toon baked into pixels)."""
     opts = PROFILES.get(profile, PROFILES["default"])
     out = _clean_alpha(img, opts["alpha_cutoff"])
     out = _quantize(out, opts["max_colors"])
-    if opts.get("dither"):
+    cel_bands = opts.get("cel_bands", 0)
+    if cel_bands and cel_bands >= 2:
+        out = _cel_shade(out, cel_bands)
+        out = _cel_outline(
+            out,
+            opts.get("cel_outline", False),
+            opts.get("cel_outline_strength", 0.0),
+        )
+    elif opts.get("dither"):
         out = _bayer_dither(out, opts.get("dither_strength", 0.3))
     if opts["despeckle"]:
         out = _despeckle(out)
