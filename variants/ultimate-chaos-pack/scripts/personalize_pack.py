@@ -45,10 +45,6 @@ def write_rp_manifest() -> None:
             "uuid": RP_MODULE_UUID,
             "version": PACK_VERSION,
         }],
-        "dependencies": [{
-            "uuid": BP_HEADER_UUID,
-            "version": PACK_VERSION,
-        }],
     })
 
 
@@ -78,8 +74,8 @@ def write_bp_manifest() -> None:
                 "version": PACK_VERSION,
                 "entry": "scripts/main.js",
                 "dependencies": [
-                    {"module_name": "@minecraft/server", "version": "2.0.0"},
-                    {"module_name": "@minecraft/server-ui", "version": "2.0.0"},
+                    {"module_name": "@minecraft/server", "version": "2.8.0"},
+                    {"module_name": "@minecraft/server-ui", "version": "2.1.0"},
                 ],
             },
         ],
@@ -193,6 +189,10 @@ def personalize_lang() -> None:
             if key not in existing_keys:
                 lines.append(line)
         lang_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    rp_langs = PACK_RP / "texts" / "languages.json"
+    rp_langs.parent.mkdir(parents=True, exist_ok=True)
+    save_json(rp_langs, ["en_US"])
 
 
 def _save_pack_icon(img: Image.Image, path: Path) -> None:
