@@ -163,6 +163,7 @@ def main() -> None:
     parser.add_argument("--force", action="store_true", help="Regenerate even if cached")
     parser.add_argument("--allow-partial", action="store_true",
                         help="Exit 0 when some textures succeed (for batch builds)")
+    parser.add_argument("--skip-anchor", action="store_true", help="Skip style anchor generation")
     args = parser.parse_args()
 
     manifest = load_manifest()

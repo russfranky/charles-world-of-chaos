@@ -32,11 +32,17 @@ def polish_pack(pack_root: Path = PACK_RP) -> tuple[int, int]:
     if icon.exists():
         targets.append(icon)
 
+    skipped = 0
     for path in targets:
         rel = str(path.relative_to(pack_root))
         prof = profile_for_path(rel)
-        before = path.read_bytes()
-        img = Image.open(path).convert("RGBA")
+        try:
+            before = path.read_bytes()
+            img = Image.open(path).convert("RGBA")
+        except Exception as exc:
+            skipped += 1
+            print(f"  skip [{prof}] {rel}: {exc}")
+            continue
         out = polish_image(img, prof)
         out.save(path, format="PNG")
         after = path.read_bytes()
@@ -44,6 +50,9 @@ def polish_pack(pack_root: Path = PACK_RP) -> tuple[int, int]:
         if before != after:
             changed += 1
             print(f"  polished [{prof}] {rel}")
+
+    if skipped:
+        print(f"  skipped {skipped} unreadable PNG(s)")
 
     return count, changed
 
