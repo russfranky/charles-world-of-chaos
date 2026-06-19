@@ -17,6 +17,7 @@ from common import (
 )
 
 PROMPTS_FILE = Path(__file__).resolve().parent.parent / "prompts" / "venice_prompts.json"
+BAKED_DIR = Path(__file__).resolve().parent.parent / "baked_textures"
 CUSTOM_BP = REPO_ROOT / "behavior_packs" / "brindal_grayson_cow_bp"
 
 # Custom item icons (procedural at build — not vanilla copies).
@@ -52,8 +53,12 @@ def copy_vanilla_files(dest_root: Path, rel_paths: list[str]) -> int:
     for rel in rel_paths:
         src = VANILLA_RP / rel
         if not src.exists():
-            print(f"  skip missing vanilla: {rel}")
-            continue
+            baked = BAKED_DIR / rel
+            if baked.exists():
+                src = baked
+            else:
+                print(f"  skip missing vanilla: {rel}")
+                continue
         dst = dest_root / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
