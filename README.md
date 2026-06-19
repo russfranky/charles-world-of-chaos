@@ -104,6 +104,7 @@ If experiments cause trouble, use the lighter pack (textures only, no scripts):
 | Problem | Fix |
 |---------|-----|
 | Ranch Bell does nothing | Turn on **Beta APIs** — create a **new** world |
+| **No cows anywhere** | Need **Beta APIs** ON + **new** world. On join, cows spawn beside you + spawn eggs in inventory. Turn on **Holiday Creator Features** for Spot/Storm cows. |
 | Spot/Storm cows won't spawn | Turn on **Holiday Creator Features** — create a **new** world |
 | Can't breed yet | Need 3+ cows (Yard rank) and two happy adults |
 | Checkerboard textures | Activate **both** resource and behavior packs |
