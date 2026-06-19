@@ -36,13 +36,13 @@ git commit -m "Release ${TAG} ${COMMIT_MSG}
 
 Automated pack publish: manifest ${LABEL}, dist artifacts refreshed."
 
-git tag -a "${TAG}" -m "Brindal & Grayson Cow World ${TAG}"
+git tag -a "${TAG}" -m "Charles' World of Chaos ${TAG}"
 
 git push origin HEAD:main
 git push origin "${TAG}"
 
 gh release create "${TAG}" \
-  --title "Brindal & Grayson Cow World ${TAG}" \
+  --title "Charles' World of Chaos ${TAG}" \
   --notes "Install \`brindal-grayson-cow-pack.mcaddon\` on Bedrock — updates in place if you already have an older version (same pack UUID, higher semver).
 
 **New world required for script changes:** Holiday Creator Features + Beta APIs ON, both packs active.

@@ -1,6 +1,6 @@
 # Getting Started — For Parents
 
-A plain-language guide to setting up **Brindal & Grayson Cow World** on an iPad.
+A plain-language guide to setting up **Charles' World of Chaos** on an iPad.
 
 <p align="center">
   <img src="assets/pack-icon.png" alt="Pack icon" width="128">
@@ -53,8 +53,8 @@ This part matters — **don't use an old world**.
 4. Turn **ON**:
    - **Holiday Creator Features** — needed for Spot Cow and Storm Cow
    - **Beta APIs** — needed for Cow Barn (Ranch Bell, Feed Bag, breeding)
-5. Scroll to **Resource Packs** → activate **Brindal & Grayson Cow World**
-6. Scroll to **Behavior Packs** → activate **Brindal & Grayson Cow World BP**
+5. Scroll to **Resource Packs** → activate **Charles' World of Chaos**
+6. Scroll to **Behavior Packs** → activate **Charles' World of Chaos BP**
 7. Tap **Create**
 
 ### 4. Let the kids play!

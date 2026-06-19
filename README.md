@@ -2,9 +2,9 @@
   <img src="docs/assets/hero-banner.png" alt="Brindal & Grayson Cow World — cow-themed fun for kids on iPad" width="100%">
 </p>
 
-# Brindal & Grayson Cow World
+# Charles' World of Chaos
 
-**A Minecraft Bedrock add-on for iPad** — breed cows, collect traits, earn loot.
+**A Minecraft Bedrock add-on** — chaos barn gameplay with **vanilla cow skins** (AI/cel skins reset).
 
 Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and recall your herd. Catch wild cows with the **Feed Bag**, chase rare coats like **Spot Cow** and **Storm Cow**, and unlock real Minecraft rewards (gold, emerald, diamond) as you fill your trait catalog.
 

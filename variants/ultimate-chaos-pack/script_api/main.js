@@ -29,8 +29,8 @@ const MARKS = ["none", "star", "diamond"];
 const COAT_LABELS = {
   brown: "Brown",
   gray: "Gray",
-  spot: "Spot Cow",
-  storm: "Storm Cow",
+  spot: "Chaos Cow",
+  storm: "Wild Cow",
   shine: "Shine Cow",
 };
 
@@ -116,6 +116,25 @@ function countNearbyCows(player, maxDistance = 16) {
       maxDistance,
     })) {
       if (CATCHABLE_COWS.has(entity.typeId)) n += 1;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+  return n;
+}
+
+/** Cows the player can catch with Feed Bag (excludes deployed barn cow). */
+function countWildCows(player, maxDistance = 16) {
+  const deployedId = deployedEntities.get(player.id);
+  let n = 0;
+  try {
+    for (const entity of playerDim(player).getEntities({
+      location: player.location,
+      maxDistance,
+    })) {
+      if (!CATCHABLE_COWS.has(entity.typeId)) continue;
+      if (deployedId && entity.id === deployedId) continue;
+      n += 1;
     }
   } catch (_) {
     /* ignore */
@@ -524,15 +543,19 @@ function spawnTutorialWildCow(player) {
   return spawned;
 }
 
-function ensureNearbyCows(player, barn) {
-  if (countNearbyCows(player) > 0) return countNearbyCows(player);
-  const spawned = spawnTutorialWildCow(player);
+function ensureNearbyCows(player, barn, wildTarget = 2) {
+  let spawned = 0;
+  while (countWildCows(player) < wildTarget && spawned < wildTarget) {
+    const batch = spawnTutorialWildCow(player);
+    if (!batch) break;
+    spawned += batch;
+  }
   if (spawned > 0) {
-    say(player, `§a§l${spawned} cow(s) spawned right next to you!`);
+    say(player, `§a§l${spawned} wild cow(s) spawned — use Feed Bag to catch!`);
     mooSound(player);
   }
   if (!barn.deployedEntityId) deployActive(player, barn);
-  return spawned + countNearbyCows(player);
+  return countWildCows(player) + (barn.deployedEntityId ? 1 : 0);
 }
 
 function reconcileDeployed(player, barn) {
@@ -929,6 +952,30 @@ function onBellTap(player) {
   });
 }
 
+function hasRanchBell(player) {
+  try {
+    const inv = player.getComponent("minecraft:inventory")?.container;
+    if (!inv) return false;
+    for (let slot = 0; slot < inv.size; slot++) {
+      const stack = inv.getItem(slot);
+      if (stack?.typeId === RANCH_BELL_ID) return true;
+    }
+  } catch (_) {
+    /* ignore */
+  }
+  return false;
+}
+
+function ensureOnboarded(player) {
+  if (hasRanchBell(player)) return false;
+  giveStarterKit(player);
+  const barn = loadBarn(player);
+  ensureNearbyCows(player, barn);
+  say(player, "§6Cow Barn kit added!§f Ranch Bell + Feed Bag + spawn eggs in inventory.");
+  say(player, "§eNEW world needs Beta APIs + Holiday Creator Features ON.");
+  return true;
+}
+
 function giveStarterKit(player) {
   try {
     const inv = player.getComponent("minecraft:inventory")?.container;
@@ -972,13 +1019,18 @@ function welcomePlayer(player) {
     barn.tutorialStep = 1;
     saveBarn(player, barn);
   }
+  ensureNearbyCows(player, barn, 2);
   deployActive(player, barn);
-  const nearby = ensureNearbyCows(player, barn);
-  if (nearby > 0) {
-    title(player, "Cows are right here — look beside you!");
-    say(player, "§a§lLook beside you — cows are nearby!§f Tap Feed Bag on one to catch it.");
+  const wild = countWildCows(player);
+  const total = countNearbyCows(player);
+  if (wild >= 1) {
+    title(player, "Wild cows nearby — Feed Bag to catch!");
+    say(player, `§a§l${wild} wild cow(s) nearby!§f Tap Feed Bag on one to catch it.`);
+  } else if (total > 0) {
+    title(player, "Your barn cow is here — spawn eggs make more!");
+    say(player, "§eTap a §lcow spawn egg§f in inventory, then tap the ground.");
   } else {
-    say(player, "§eUse §lcow spawn eggs§f in your inventory — tap to place a cow.");
+    say(player, "§eTap a §lcow spawn egg§f in inventory, then tap the ground.");
   }
   progressHint(player, barn);
   mooSound(player);

@@ -13,7 +13,7 @@ sys.path.insert(0, str(SCRIPTS))
 from prepare_lite_pack import featured_texture_paths  # noqa: E402
 
 PROMPTS = SCRIPTS.parent / "prompts" / "venice_prompts.json"
-EXTRA_IDS = ("brindal_cow", "grayson_cow", "ranch_bell", "feed_bag")
+EXTRA_IDS = ("ranch_bell", "feed_bag")
 
 
 def lite_venice_ids() -> list[str]:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Personalize the pack for Brindal & Grayson."""
+"""Personalize the pack for Charles' World of Chaos."""
 
 from __future__ import annotations
 
@@ -35,8 +35,8 @@ def write_rp_manifest() -> None:
         "header": {
             "name": f"{PACK_NAME_RP} {VERSION_LABEL}",
             "description": (
-                "Cow-themed blocks, GUI, and Brindal & Grayson cows. "
-                "Turn ON Holiday Creator Features + Beta APIs in a NEW world."
+                "Charles' World of Chaos — vanilla textures, chaos barn gameplay. "
+                "NEW world + Holiday Creator Features + Beta APIs."
             ),
             "uuid": RP_HEADER_UUID,
             "version": PACK_VERSION,
@@ -56,8 +56,7 @@ def write_bp_manifest() -> None:
         "header": {
             "name": f"{PACK_NAME_BP} {VERSION_LABEL}",
             "description": (
-                "Cow Barn — breed and collect cows with Ranch Bell + Feed Bag. "
-                "Beta APIs + Holiday Creator Features in a NEW world."
+                "Chaos Barn — Ranch Bell + Feed Bag. Beta APIs + Holiday Creator Features in a NEW world."
             ),
             "uuid": BP_HEADER_UUID,
             "version": PACK_VERSION,
@@ -155,16 +154,13 @@ def personalize_painting() -> None:
             font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 10)
         except OSError:
             font = ImageFont.load_default()
-        draw.text((4, 2), "B&G", fill=(255, 255, 255, 255), font=font)
+        draw.text((4, 2), "CWC", fill=(255, 255, 255, 255), font=font)
         img.save(kz)
 
 
 def personalize_blocks() -> None:
-    blocks_dir = PACK_RP / "textures" / "blocks"
-    diamond = blocks_dir / "diamond_block.png"
-    gold = blocks_dir / "gold_block.png"
-    draw_letter_on_block(diamond, "B", (93, 219, 213), (0, 80, 80))
-    draw_letter_on_block(gold, "G", (249, 198, 40), (120, 80, 0))
+    """Skip B/G block letters — vanilla block look for Charles' World reset."""
+    return
 
 
 def personalize_lang() -> None:
@@ -178,19 +174,27 @@ def personalize_lang() -> None:
         if lang_path.exists():
             lines = lang_path.read_text(encoding="utf-8").splitlines()
         extra = [
-            "pack.name=Brindal & Grayson Cow World",
-            "pack.description=Cow fun for Brindal & Grayson! NEW world + Holiday Creator Features + Beta APIs for Cow Barn.",
-            "menu.title=Brindal & Grayson's Moo World",
-            "menu.moo_world_subtitle=Cow Barn · Tap Ranch Bell · My Herd to switch cows",
+            "pack.name=Charles' World of Chaos",
+            "pack.description=Charles' World of Chaos — vanilla look, chaos barn fun. NEW world + HCF + Beta APIs.",
+            "menu.title=Charles' World of Chaos",
+            "menu.moo_world_subtitle=Chaos Barn · Ranch Bell · Feed Bag",
             "item.bgcow:ranch_bell.name=Ranch Bell",
             "item.bgcow:feed_bag.name=Feed Bag",
+            "entity.bgcow:brindal_cow.name=Chaos Cow",
+            "entity.bgcow:grayson_cow.name=Wild Cow",
+            "item.spawn_egg.entity.bgcow:brindal_cow.name=Chaos Cow Spawn Egg",
+            "item.spawn_egg.entity.bgcow:grayson_cow.name=Wild Cow Spawn Egg",
         ]
         existing_keys = {l.split("=")[0] for l in lines if "=" in l}
+        override_keys = {line.split("=")[0] for line in extra}
+        merged = []
+        for line in lines:
+            if "=" in line and line.split("=")[0] in override_keys:
+                continue
+            merged.append(line)
         for line in extra:
-            key = line.split("=")[0]
-            if key not in existing_keys:
-                lines.append(line)
-        lang_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            merged.append(line)
+        lang_path.write_text("\n".join(merged) + "\n", encoding="utf-8")
 
     rp_langs = PACK_RP / "texts" / "languages.json"
     rp_langs.parent.mkdir(parents=True, exist_ok=True)
@@ -217,14 +221,14 @@ def apply_pack_icon() -> None:
         # Tiny procedural icon on BP — kids see the nice art on the RP / world list.
         create_pack_icon(
             PACK_BP / "pack_icon.png",
-            "G",
+            "C",
             (255, 215, 0, 255),
             (80, 40, 0, 255),
         )
-        print(f"Applied custom pack icon from {src.name} (RP {PACK_ICON_SIZE}px, BP letter)")
+        print(f"Applied custom pack icon from {src.name} (RP {PACK_ICON_SIZE}px, BP letter C)")
         return
-    create_pack_icon(PACK_RP / "pack_icon.png", "B", (135, 206, 235, 255), (255, 255, 255, 255))
-    create_pack_icon(PACK_BP / "pack_icon.png", "G", (255, 215, 0, 255), (80, 40, 0, 255))
+    create_pack_icon(PACK_RP / "pack_icon.png", "C", (135, 206, 235, 255), (255, 255, 255, 255))
+    create_pack_icon(PACK_BP / "pack_icon.png", "C", (255, 215, 0, 255), (80, 40, 0, 255))
 
 
 def personalize(rebuild: bool = False) -> None:
@@ -234,7 +238,7 @@ def personalize(rebuild: bool = False) -> None:
     personalize_painting()
     personalize_blocks()
     personalize_lang()
-    print("Personalized pack for Brindal & Grayson")
+    print("Personalized pack for Charles' World of Chaos")
 
 
 def main() -> None:

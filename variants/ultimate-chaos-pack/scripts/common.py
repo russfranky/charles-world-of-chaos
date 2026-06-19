@@ -1,4 +1,4 @@
-"""Shared utilities for Brindal & Grayson Cow World build pipeline."""
+"""Shared utilities for Charles' World of Chaos build pipeline."""
 
 from __future__ import annotations
 
@@ -25,8 +25,8 @@ BP_HEADER_UUID = "26cbe6c2-9ac3-464e-a6cd-08bfef85c38d"
 BP_DATA_MODULE_UUID = "4a1b4f7f-01f1-4f5b-9997-b173c9b901b0"
 BP_SCRIPT_MODULE_UUID = "c409dd16-412b-422a-9496-e1335c9f3ed5"
 
-PACK_NAME_RP = "Brindal & Grayson Cow World"
-PACK_NAME_BP = "Brindal & Grayson Cow World BP"
+PACK_NAME_RP = "Charles' World of Chaos"
+PACK_NAME_BP = "Charles' World of Chaos BP"
 
 COW_IDENTIFIERS = {
     "minecraft:cow",
