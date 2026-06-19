@@ -82,28 +82,38 @@ def generate_image(
     last_error: Exception | None = None
     for attempt_model in (resolved_model, FALLBACK_MODEL):
         payload["model"] = attempt_model
-        try:
-            resp = requests.post(API_URL, json=payload, headers=headers, timeout=timeout)
-            if resp.status_code == 401:
-                raise VeniceError("Venice API authentication failed — check VENICE_API_KEY")
-            if resp.status_code == 402:
-                raise VeniceError("Venice API insufficient balance")
-            if resp.status_code >= 400:
-                raise VeniceError(f"Venice API error {resp.status_code}: {resp.text[:500]}")
+        for attempt in range(6):
+            try:
+                resp = requests.post(API_URL, json=payload, headers=headers, timeout=timeout)
+                if resp.status_code == 401:
+                    raise VeniceError("Venice API authentication failed — check VENICE_API_KEY")
+                if resp.status_code == 402:
+                    raise VeniceError("Venice API insufficient balance")
+                if resp.status_code == 429:
+                    wait = 35 if attempt < 5 else 0
+                    if wait:
+                        time.sleep(wait)
+                        continue
+                    raise VeniceError(f"Venice API error 429: {resp.text[:500]}")
+                if resp.status_code >= 400:
+                    raise VeniceError(f"Venice API error {resp.status_code}: {resp.text[:500]}")
 
-            data = resp.json()
-            images = data.get("images", [])
-            if not images:
-                raise VeniceError(f"No images in response: {data}")
+                data = resp.json()
+                images = data.get("images", [])
+                if not images:
+                    raise VeniceError(f"No images in response: {data}")
 
-            raw = base64.b64decode(images[0])
-            return raw
-        except VeniceError:
-            raise
-        except Exception as exc:
-            last_error = exc
-            if attempt_model == FALLBACK_MODEL:
+                raw = base64.b64decode(images[0])
+                return raw
+            except VeniceError:
+                raise
+            except Exception as exc:
+                last_error = exc
+                if attempt < 5:
+                    time.sleep(2 * (attempt + 1))
+                    continue
                 break
+        if attempt_model != FALLBACK_MODEL:
             time.sleep(2)
 
     raise VeniceError(f"Venice generation failed: {last_error}")

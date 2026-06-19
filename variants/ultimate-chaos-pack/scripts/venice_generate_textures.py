@@ -161,7 +161,8 @@ def main() -> None:
     parser.add_argument("--list", action="store_true", help="List available texture IDs")
     parser.add_argument("--dry-run", action="store_true", help="Print prompts without calling API")
     parser.add_argument("--force", action="store_true", help="Regenerate even if cached")
-    parser.add_argument("--skip-anchor", action="store_true", help="Skip style anchor generation")
+    parser.add_argument("--allow-partial", action="store_true",
+                        help="Exit 0 when some textures succeed (for batch builds)")
     args = parser.parse_args()
 
     manifest = load_manifest()
@@ -210,7 +211,10 @@ def main() -> None:
             fail += 1
 
     print(f"\nDone: {ok} succeeded, {fail} failed")
-    sys.exit(0 if fail == 0 else 1)
+    if fail and not args.allow_partial:
+        sys.exit(1)
+    if ok == 0:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

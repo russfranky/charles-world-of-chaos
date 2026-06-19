@@ -41,7 +41,12 @@ if [[ "${VENICE_FORCE:-}" == "1" ]]; then
   VENICE_FORCE_FLAG="--venice-force"
 fi
 
-python3 "$CHAOS/scripts/build_all.py" --full --rebuild-textures $VENICE_FLAG $VENICE_FORCE_FLAG
+REBUILD_FLAG="--rebuild-textures"
+if [[ "${SKIP_REBUILD:-}" == "1" ]]; then
+  REBUILD_FLAG=""
+fi
+
+python3 "$CHAOS/scripts/build_all.py" --full $REBUILD_FLAG $VENICE_FLAG $VENICE_FORCE_FLAG
 
 echo ""
 echo "Validating full pack..."

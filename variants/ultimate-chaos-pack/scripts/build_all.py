@@ -42,7 +42,7 @@ def run_venice_cel_facelift(*, full: bool = False, force: bool = False) -> bool:
     n = len(ids.split(",")) if ids else 0
     label = "full manifest" if full else "lite overlay"
     print(f"Venice cel facelift: {n} textures ({label})")
-    run_script("venice_generate_textures.py", "--skip-anchor", "--id", ids, *flag)
+    run_script("venice_generate_textures.py", "--skip-anchor", "--allow-partial", "--id", ids, *flag)
     return True
 
 
@@ -111,7 +111,10 @@ def build_all(
         run_script("venice_generate_audio.py", "--batch", "1")
 
     if use_venice:
-        run_venice_cel_facelift(full=full, force=venice_force)
+        try:
+            run_venice_cel_facelift(full=full, force=venice_force)
+        except subprocess.CalledProcessError:
+            print("Venice facelift had failures — continuing with cel polish on all PNGs")
     elif procedural_fallback or os.environ.get("COWIFY_PROCEDURAL") == "1":
         print("No Venice key — optional procedural overlay (COWIFY_PROCEDURAL=1)")
         run_script("cowify_kid_textures.py")
