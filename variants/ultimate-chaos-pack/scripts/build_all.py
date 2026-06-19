@@ -27,18 +27,21 @@ def venice_key_set() -> bool:
     return bool(os.environ.get("VENICE_API_KEY") or os.environ.get("VENICE_INFERENCE_KEY"))
 
 
-def run_venice_cel_facelift(*, force: bool = False) -> bool:
-    """Generate lite-pack textures via Venice AI, then cel-bake in finalize_texture."""
+def run_venice_cel_facelift(*, full: bool = False, force: bool = False) -> bool:
+    """Generate textures via Venice AI; cel-bake runs in finalize_texture + polish pass."""
     if not venice_key_set():
         print("Venice API key not set — skip AI cel facelift (export VENICE_API_KEY)")
         return False
     flag = ["--force"] if force else []
+    script = "full_venice_ids.py" if full else "lite_venice_ids.py"
     ids = subprocess.check_output(
-        [sys.executable, str(SCRIPTS / "lite_venice_ids.py")],
+        [sys.executable, str(SCRIPTS / script)],
         cwd=SCRIPTS,
         text=True,
     ).strip()
-    print(f"Venice cel facelift: {len(ids.split(','))} lite textures (surgical)")
+    n = len(ids.split(",")) if ids else 0
+    label = "full manifest" if full else "lite overlay"
+    print(f"Venice cel facelift: {n} textures ({label})")
     run_script("venice_generate_textures.py", "--skip-anchor", "--id", ids, *flag)
     return True
 
@@ -79,6 +82,7 @@ def build_all(
     venice_audio: bool = False,
     venice_force: bool = False,
     procedural_fallback: bool = False,
+    full: bool = False,
 ) -> None:
     ensure_vanilla_src()
     init_env()
@@ -90,8 +94,12 @@ def build_all(
 
     use_venice = venice or venice_key_set()
 
-    # Lite overlay: featured textures + custom cows (not full vanilla copy).
-    run_script("prepare_lite_pack.py")
+    if full:
+        print("=== FULL texture pack (all vanilla PNGs + cel bake) ===")
+        run_script("prepare_full_pack.py")
+    else:
+        run_script("prepare_lite_pack.py")
+
     run_script("personalize_pack.py")
     run_script("merge_custom_cows.py")
     write_script_api()
@@ -103,21 +111,26 @@ def build_all(
         run_script("venice_generate_audio.py", "--batch", "1")
 
     if use_venice:
-        run_venice_cel_facelift(force=venice_force)
+        run_venice_cel_facelift(full=full, force=venice_force)
     elif procedural_fallback or os.environ.get("COWIFY_PROCEDURAL") == "1":
         print("No Venice key — optional procedural overlay (COWIFY_PROCEDURAL=1)")
         run_script("cowify_kid_textures.py")
     else:
-        print("Texture path: vanilla lite staging + cel polish (set VENICE_API_KEY for AI facelift)")
+        mode = "full vanilla + cel polish" if full else "lite staging + cel polish"
+        print(f"Texture path: {mode} (set VENICE_API_KEY for AI hero art)")
 
-    # Cel bake on all pack PNGs (including Venice output).
+    # Cel bake on all pack PNGs (Venice heroes + every other texture when --full).
     run_script("polish_textures.py", "--sources")
     run_script("polish_textures.py")
 
     if not skip_package:
         run_script("optimize_pngs.py")
-        run_script("package_mcpack.py")
-        run_script("package_mcaddon.py")
+        if full:
+            run_script("package_mcpack.py", "--output", str(REPO_ROOT / "dist" / "brindal-grayson-cow-pack-full.mcpack"))
+            run_script("package_mcaddon.py", "--output", str(REPO_ROOT / "dist" / "brindal-grayson-cow-pack-full.mcaddon"))
+        else:
+            run_script("package_mcpack.py")
+            run_script("package_mcaddon.py")
 
     print("\nBuild complete!")
 
@@ -136,6 +149,8 @@ def main() -> None:
                         help="Generate batch-1 audio via Venice AI (requires VENICE_API_KEY)")
     parser.add_argument("--procedural-fallback", action="store_true",
                         help="Use legacy procedural overlays when Venice key missing")
+    parser.add_argument("--full", action="store_true",
+                        help="Full vanilla RP (~5k textures) + cel bake on every PNG")
     args = parser.parse_args()
     build_all(
         rebuild_textures=args.rebuild_textures,
@@ -144,6 +159,7 @@ def main() -> None:
         venice_audio=args.venice_audio,
         venice_force=args.venice_force,
         procedural_fallback=args.procedural_fallback,
+        full=args.full,
     )
 
 

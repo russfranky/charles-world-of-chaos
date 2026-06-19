@@ -19,8 +19,6 @@ from common import (
     load_json,
 )
 
-# Expected minimums for lite overlay pack
-MIN_TEXTURES = 20
 MIN_CUSTOM_SPAWN_RULES = 2
 
 CUSTOM_COW_TEXTURES = (
@@ -48,7 +46,10 @@ CUSTOM_ITEM_TEXTURES = (
 )
 
 MIN_START_SCREEN_BYTES = 10_000
-MAX_MCADDON_BYTES = 1_500_000
+MAX_MCADDON_BYTES_LITE = 1_500_000
+MAX_MCADDON_BYTES_FULL = 120_000_000
+MIN_TEXTURES_LITE = 20
+MIN_TEXTURES_FULL = 4_000
 
 
 def count_pngs(directory: Path) -> int:
@@ -154,12 +155,14 @@ def validate_manifests() -> list[str]:
     return errors
 
 
-def validate_dist_size() -> list[str]:
+def validate_dist_size(*, full: bool = False) -> list[str]:
     errors = []
-    mcaddon = DIST / "brindal-grayson-cow-pack.mcaddon"
-    if mcaddon.exists() and mcaddon.stat().st_size > MAX_MCADDON_BYTES:
+    name = "brindal-grayson-cow-pack-full.mcaddon" if full else "brindal-grayson-cow-pack.mcaddon"
+    max_bytes = MAX_MCADDON_BYTES_FULL if full else MAX_MCADDON_BYTES_LITE
+    mcaddon = DIST / name
+    if mcaddon.exists() and mcaddon.stat().st_size > max_bytes:
         errors.append(
-            f"MCADDON too large: {mcaddon.stat().st_size:,} bytes > {MAX_MCADDON_BYTES:,}"
+            f"MCADDON too large: {mcaddon.stat().st_size:,} bytes > {max_bytes:,}"
         )
     return errors
 
@@ -345,7 +348,7 @@ def validate_barn_simulation() -> list[str]:
     return []
 
 
-def validate() -> bool:
+def validate(*, full: bool = False) -> bool:
     print("Validating Brindal & Grayson Cow World pack...")
     errors = validate_manifests()
     errors.extend(validate_custom_cows())
@@ -356,9 +359,10 @@ def validate() -> bool:
     errors.extend(validate_barn_simulation())
     errors.extend(validate_ui())
     errors.extend(validate_json_files())
-    errors.extend(validate_dist_size())
+    errors.extend(validate_dist_size(full=full))
 
     textures = count_pngs(PACK_RP / "textures")
+    min_tex = MIN_TEXTURES_FULL if full else MIN_TEXTURES_LITE
     custom_spawns = count_custom_spawn_rules(PACK_BP / "spawn_rules")
     script = PACK_BP / "scripts" / "main.js"
 
@@ -372,8 +376,8 @@ def validate() -> bool:
     for key, val in stats.items():
         print(f"  {key}: {val}")
 
-    if textures < MIN_TEXTURES:
-        errors.append(f"Too few textures: {textures} < {MIN_TEXTURES}")
+    if textures < min_tex:
+        errors.append(f"Too few textures: {textures} < {min_tex}")
     if custom_spawns < MIN_CUSTOM_SPAWN_RULES:
         errors.append(f"Too few custom spawn rules: {custom_spawns} < {MIN_CUSTOM_SPAWN_RULES}")
     if not script.exists():
@@ -391,8 +395,10 @@ def validate() -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate pack structure")
+    parser.add_argument("--full", action="store_true",
+                        help="Validate full texture pack (~5k PNGs, full.mcaddon)")
     args = parser.parse_args()
-    sys.exit(0 if validate() else 1)
+    sys.exit(0 if validate(full=args.full) else 1)
 
 
 if __name__ == "__main__":
