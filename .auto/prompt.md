@@ -145,6 +145,15 @@ python3 scripts/autoresearch/summarize.py
 - Kid messages: "You got a cow! 🐄" — no ranks, catalog, hunger numbers
 - Starter kit trimmed to Bell + Feed Bag + 6 spawn eggs
 
+### Experiment 14 — KEEP (adversarial onboarding hardening)
+
+- Step-based tutorial (`STEP_CATCH` → `DEPLOY` → `MORE` → `BREED` → done)
+- `ensureOnboarded` wired on every spawn (death respawn re-grants kit)
+- `ensureTutorialWorld` replenishes wild cows during tutorial
+- Bell one-tap during tutorial (no menu until done)
+- Feed Bag prefers feed only when cow hungry post-tutorial
+- `simulate_barn.py`: tutorial + legacy-save scenarios
+
 ### Next ideas (backlog)
 
 - Hubzz-3d-pipeline stage alignment when repo is accessible

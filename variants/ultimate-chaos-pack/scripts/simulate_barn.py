@@ -26,6 +26,12 @@ COW = "minecraft:cow"
 SPOT_COW = "bgcow:brindal_cow"
 STORM_COW = "bgcow:grayson_cow"
 
+STEP_CATCH = 1
+STEP_DEPLOY = 2
+STEP_MORE = 3
+STEP_BREED = 4
+TUTORIAL_DONE = 9
+
 CATCHABLE = {COW, SPOT_COW, STORM_COW}
 CATALOG_SLOTS = 15
 
@@ -133,11 +139,53 @@ class PlayerSession:
         return get_cow(self.barn, self.barn["activeId"])
 
     def find_wild(self) -> bool:
-        if self.wild_cows_nearby < 1:
-            return False
-        if self.deployed_entity_id and self.deployed_type == COW:
-            return self.wild_cows_nearby > 1  # deployed vanilla blocks one wild slot
-        return True
+        return self.wild_cows_nearby > 0
+
+    def show_next_step(self) -> str:
+        step = self.barn.get("tutorialStep", STEP_CATCH)
+        cows = len(self.barn["cows"])
+        wild = self.wild_cows_nearby
+        has_out = bool(self.deployed_entity_id)
+        if step < TUTORIAL_DONE:
+            if step == STEP_CATCH:
+                return "catch" if wild > 0 else "wait_cow"
+            if step == STEP_DEPLOY:
+                return "deploy"
+            if step == STEP_MORE:
+                return "catch_more" if cows < 3 else "breed"
+            if step == STEP_BREED:
+                return "breed"
+        return "free_play"
+
+    def advance_tutorial_on_catch(self) -> None:
+        step = self.barn.get("tutorialStep", STEP_CATCH)
+        cows = len(self.barn["cows"])
+        if step == STEP_CATCH and cows >= 2:
+            self.barn["tutorialStep"] = STEP_DEPLOY
+        elif step == STEP_MORE and cows >= 3:
+            self.barn["tutorialStep"] = STEP_BREED
+
+    def bell_tap_menu(self, choice: str = "deploy") -> str:
+        step = self.barn.get("tutorialStep", TUTORIAL_DONE)
+        if step == STEP_DEPLOY:
+            self.deploy()
+            return "deploy"
+        if step == STEP_BREED:
+            before = len(self.barn["cows"])
+            self.try_breed()
+            if len(self.barn["cows"]) > before:
+                self.barn["tutorialStep"] = TUTORIAL_DONE
+            return "breed"
+        if choice == "deploy":
+            self.deploy()
+        elif choice == "feed":
+            self.feed_active()
+        elif choice == "breed":
+            self.try_breed()
+        return choice
+
+    def bell_tap(self) -> str:
+        return self.bell_tap_menu("deploy")
 
     def catch_wild(self) -> bool:
         limit = max_slots(self.barn)
@@ -150,6 +198,7 @@ class PlayerSession:
         self.wild_cows_nearby -= 1
         caught = {"id": next_cow_id(self.barn), **random_gen0_traits()}
         self.barn["cows"].append(caught)
+        self.advance_tutorial_on_catch()
         self.say(f"Caught! {len(self.barn['cows'])}/{limit}")
         return True
 
@@ -160,6 +209,8 @@ class PlayerSession:
             return False
         self.deployed_entity_id = f"entity_{cow['id']}"
         self.deployed_type = entity_type_for_cow(cow)
+        if self.barn.get("tutorialStep") == STEP_DEPLOY:
+            self.barn["tutorialStep"] = STEP_MORE
         self.say(f"Deployed {cow['coat']}")
         return True
 
@@ -225,17 +276,7 @@ class PlayerSession:
         return True
 
     def bell_tap(self) -> str:
-        mode = BELL_MODES[self.barn["bellMode"]]
-        self.barn["bellMode"] = (self.barn["bellMode"] + 1) % len(BELL_MODES)
-        if mode == "deploy":
-            self.deploy()
-        elif mode == "feed":
-            self.feed_active()
-        elif mode == "breed":
-            self.try_breed()
-        elif mode == "recall":
-            self.recall()
-        return mode
+        return self.bell_tap_menu("deploy")
 
     def decay_tick(self, persist: bool = True) -> None:
         changed = False
@@ -290,6 +331,7 @@ def scenario_new_player_catch_to_breed() -> None:
 
 
 def scenario_deployed_vanilla_catch_trap() -> None:
+    """Wild cow nearby while barn cow is deployed — Feed Bag should catch wild, not feed."""
     random.seed(1)
     p = PlayerSession(barn=default_barn())
     p.barn["cows"][0]["coat"] = "brown"
@@ -297,8 +339,42 @@ def scenario_deployed_vanilla_catch_trap() -> None:
     assert_true(p.deployed_type == COW, "expected vanilla deploy")
     p.wild_cows_nearby = 1
     action = p.feed_bag_use()
-    assert_true(action == "feed", f"should feed own cow, not catch it (got {action})")
-    assert_true(len(p.barn["cows"]) == 1, "herd size should stay 1")
+    assert_true(action == "catch", f"should catch wild cow (got {action})")
+    assert_true(len(p.barn["cows"]) == 2, "herd size should be 2 after catch")
+
+
+def scenario_tutorial_three_steps() -> None:
+    random.seed(21)
+    p = PlayerSession(barn=default_barn())
+    p.barn["tutorialStep"] = STEP_CATCH
+    p.wild_cows_nearby = 2
+    assert_true(p.show_next_step() in ("catch", "wait_cow"), "step 1 guides catch")
+    p.catch_wild()
+    assert_true(p.barn["tutorialStep"] == STEP_DEPLOY, "catch advances to deploy")
+    assert_true(p.show_next_step() == "deploy", "step 2 guides deploy")
+    p.bell_tap_menu("deploy")
+    assert_true(p.barn["tutorialStep"] == STEP_MORE, "deploy advances to catch more")
+    p.wild_cows_nearby = 2
+    while len(p.barn["cows"]) < 3 and p.wild_cows_nearby > 0:
+        p.catch_wild()
+    assert_true(p.barn["tutorialStep"] == STEP_BREED, "third cow advances to breed")
+    for c in p.barn["cows"]:
+        c["hunger"] = 90
+        c["mood"] = 90
+    p.bell_tap_menu("breed")
+    assert_true(p.barn["tutorialStep"] == TUTORIAL_DONE, "breed finishes tutorial")
+    assert_true(len(p.barn["cows"]) >= 4, "baby cow added")
+
+
+def scenario_old_save_skips_tutorial_nag() -> None:
+    barn = default_barn()
+    del barn["tutorialStep"]
+    barn["cows"].append({"id": next_cow_id(barn), **random_gen0_traits()})
+    loaded = deepcopy(barn)
+    if "tutorialStep" not in loaded:
+        loaded["tutorialStep"] = TUTORIAL_DONE
+    p = PlayerSession(barn=loaded)
+    assert_true(p.show_next_step() == "free_play", "legacy save should not nag")
 
 
 def scenario_hunger_persisted() -> None:
@@ -390,6 +466,8 @@ def run_all() -> list[str]:
     scenarios = [
         ("new_player_catch_to_breed", scenario_new_player_catch_to_breed),
         ("deployed_vanilla_catch_trap", scenario_deployed_vanilla_catch_trap),
+        ("tutorial_three_steps", scenario_tutorial_three_steps),
+        ("old_save_skips_tutorial_nag", scenario_old_save_skips_tutorial_nag),
         ("hunger_persisted", scenario_hunger_persisted),
         ("first_hour_play", scenario_first_hour_play),
         ("calf_growth", scenario_calf_growth),

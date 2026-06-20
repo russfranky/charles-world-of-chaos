@@ -60,8 +60,13 @@ const HCF_HINT =
   "Turn on Holiday Creator Features in a NEW world.";
 const CHAOS_PREFIX = "§d[Chaos] §f";
 
-// Kid tutorial: one instruction at a time (action bar only after welcome).
+// Kid tutorial — one step at a time (action bar only).
+const STEP_CATCH = 1;
+const STEP_DEPLOY = 2;
+const STEP_MORE = 3;
+const STEP_BREED = 4;
 const TUTORIAL_DONE = 9;
+const CATCH_RADIUS = 5;
 
 const deployedEntities = new Map();
 const lastUiTick = new Map();
@@ -131,7 +136,7 @@ function countNearbyCows(player, maxDistance = 16) {
 }
 
 /** Cows the player can catch with Feed Bag (excludes deployed barn cow). */
-function countWildCows(player, maxDistance = 16) {
+function countWildCows(player, maxDistance = CATCH_RADIUS) {
   const deployedId = deployedEntities.get(player.id);
   let n = 0;
   try {
@@ -345,7 +350,7 @@ function loadBarn(player) {
         }
         if (!("deployedCowId" in barn)) barn.deployedCowId = null;
         if (!("deployedEntityId" in barn)) barn.deployedEntityId = null;
-        if (typeof barn.tutorialStep !== "number") barn.tutorialStep = 3;
+        if (typeof barn.tutorialStep !== "number") barn.tutorialStep = TUTORIAL_DONE;
         if (barn.deployedEntityId) deployedEntities.set(player.id, barn.deployedEntityId);
         return barn;
       }
@@ -677,40 +682,59 @@ function maybeRankUpMessage(player, barn, beforeRank) {
   }
 }
 
+function ensureTutorialWorld(player, barn) {
+  if (barn.tutorialStep >= TUTORIAL_DONE) return;
+  const wild = countWildCows(player, 12);
+  if (barn.tutorialStep <= STEP_CATCH && wild < 1) {
+    ensureNearbyCows(player, barn, 2);
+    return;
+  }
+  if (barn.tutorialStep <= STEP_MORE && barn.cows.length < 3 && wild < 1) {
+    ensureNearbyCows(player, barn, 1);
+  }
+}
+
 function showNextStep(player, barn, extra = "") {
   touchUi(player);
   if (extra) {
     title(player, extra);
     return;
   }
-  const step = barn.tutorialStep ?? 0;
+  const step = barn.tutorialStep ?? STEP_CATCH;
   const cows = barn.cows.length;
+  const wild = countWildCows(player, CATCH_RADIUS);
   const hasOut = Boolean(barn.deployedEntityId || deployedEntities.get(player.id));
+  const active = getCow(barn, barn.activeId);
 
   if (step < TUTORIAL_DONE) {
-    if (step < 1) {
-      title(player, "Zombie chickens! Walk to a cow…");
+    if (step === STEP_CATCH) {
+      title(
+        player,
+        wild > 0 ? "Stand next to a cow → tap Feed Bag!" : "A cow is on its way…"
+      );
       return;
     }
-    if (cows < 2 && countWildCows(player) > 0) {
-      title(player, "Stand by a cow → tap Feed Bag!");
+    if (step === STEP_DEPLOY) {
+      title(player, hasOut ? "Tap Bell → put another cow out!" : "Tap the Bell → put cow outside!");
       return;
     }
-    if (cows >= 2 && !hasOut) {
-      title(player, "Tap the Bell → Put cow outside!");
-      return;
+    if (step === STEP_MORE) {
+      if (cows < 3) {
+        title(
+          player,
+          wild > 0 ? "Catch another cow — Feed Bag!" : "A cow is on its way…"
+        );
+        return;
+      }
+      barn.tutorialStep = STEP_BREED;
+      saveBarn(player, barn);
     }
-    if (cows < 3) {
-      title(player, `Catch ${3 - cows} more cow(s) — Feed Bag!`);
-      return;
-    }
-    if (cows >= 3 && canBreed(barn)) {
-      title(player, "Tap Bell → Make baby cow!");
+    if (step === STEP_BREED) {
+      title(player, "Tap the Bell → make baby cow!");
       return;
     }
   }
 
-  const active = getCow(barn, barn.activeId);
   if (active && active.hunger < 40) {
     title(player, "Your cow is hungry — tap Feed Bag!");
     return;
@@ -792,8 +816,8 @@ function deployActive(player, barn) {
   }
   recallDeployed(player, barn);
   if (spawnCowEntity(player, barn, cow)) {
-    if (barn.tutorialStep < 3) {
-      barn.tutorialStep = 3;
+    if (barn.tutorialStep === STEP_DEPLOY) {
+      barn.tutorialStep = STEP_MORE;
       saveBarn(player, barn);
     }
     say(player, "§aYour cow is outside! 🐄");
@@ -814,6 +838,14 @@ function recallActive(player, barn) {
 }
 
 function tryBreed(player, barn) {
+  if (barn.tutorialStep === STEP_BREED) {
+    for (const c of barn.cows) {
+      if (c.feedsToAdult === 0) {
+        c.hunger = Math.max(c.hunger, 60);
+        c.mood = Math.max(c.mood, 60);
+      }
+    }
+  }
   if (!canBreed(barn)) {
     const need = Math.max(0, 3 - barn.cows.length);
     say(player, need > 0 ? `§eCatch ${need} more cow(s) first!` : "§eNeed more cows!");
@@ -821,7 +853,7 @@ function tryBreed(player, barn) {
     return;
   }
   if (barn.breedCooldown > 0) {
-    say(player, "§eWait a moment, then try again!");
+    showBarnStatus(player, barn, `Baby cow in ${breedCooldownLabel(barn.breedCooldown)}…`);
     return;
   }
   const adults = adultsReady(barn);
@@ -903,12 +935,26 @@ function catchWildCow(player, barn) {
   if (discovered.length) giveDiscoveryLoot(player, discovered);
   maybeRankUpMessage(player, barn, beforeRank);
   say(player, "§a§lYou got a cow! 🐄");
-  if (barn.tutorialStep < 2) {
-    barn.tutorialStep = 2;
+  if (barn.tutorialStep === STEP_CATCH && barn.cows.length >= 2) {
+    barn.tutorialStep = STEP_DEPLOY;
+  } else if (barn.tutorialStep === STEP_MORE && barn.cows.length >= 3) {
+    barn.tutorialStep = STEP_BREED;
   }
   mooSound(player);
   saveBarn(player, barn);
   showBarnStatus(player, barn);
+}
+
+function onBellTapTutorial(player, barn) {
+  if (barn.tutorialStep === STEP_DEPLOY) {
+    deployActive(player, barn);
+    return true;
+  }
+  if (barn.tutorialStep === STEP_BREED) {
+    tryBreed(player, barn);
+    return true;
+  }
+  return false;
 }
 
 function onBellTapCycle(player) {
@@ -988,10 +1034,12 @@ async function showBarnMenu(player) {
 
 function onBellTap(player) {
   system.run(async () => {
+    const barn = loadBarn(player);
+    if (onBellTapTutorial(player, barn)) return;
     try {
       await showBarnMenu(player);
     } catch (err) {
-      console.warn("[Cow Barn] Menu failed, using bell cycle fallback:", err);
+      console.warn("[Chaos] Menu failed, using deploy fallback:", err);
       onBellTapCycle(player);
     }
   });
@@ -1015,11 +1063,14 @@ function ensureOnboarded(player) {
   if (hasRanchBell(player)) return false;
   giveStarterKit(player);
   const barn = loadBarn(player);
-  ensureNearbyCows(player, barn);
-  spawnNearbyChaosChickens(player, 3);
-  barn.tutorialStep = Math.max(barn.tutorialStep ?? 0, 1);
+  ensureNearbyCows(player, barn, 2);
+  spawnNearbyChaosChickens(player, 4);
+  if (barn.tutorialStep >= TUTORIAL_DONE) {
+    /* keep veterans done */
+  } else if (!barn.tutorialStep || barn.tutorialStep < STEP_CATCH) {
+    barn.tutorialStep = STEP_CATCH;
+  }
   saveBarn(player, barn);
-  showNextStep(player, barn);
   return true;
 }
 
@@ -1046,21 +1097,21 @@ function giveStarterKit(player) {
   }
 }
 
-function welcomePlayer(player) {
-  const barn = loadBarn(player);
+function handlePlayerJoin(player, initialSpawn) {
+  let barn = loadBarn(player);
   reconcileDeployed(player, barn);
-  giveStarterKit(player);
-  spawnNearbyChaosChickens(player, 5);
-  ensureNearbyCows(player, barn, 2);
-  try {
-    player.onScreenDisplay.setTitle("§d§lCHAOS WORLD!");
-  } catch (_) {
-    /* ignore */
+  const freshKit = ensureOnboarded(player);
+  barn = loadBarn(player);
+  ensureTutorialWorld(player, barn);
+  if (initialSpawn && freshKit) {
+    try {
+      player.onScreenDisplay.setTitle("§d§lCHAOS WORLD!");
+    } catch (_) {
+      /* ignore */
+    }
+    cluckSound(player);
   }
-  barn.tutorialStep = Math.max(barn.tutorialStep ?? 0, 1);
-  saveBarn(player, barn);
-  cluckSound(player);
-  showNextStep(player, barn);
+  showBarnStatus(player, barn);
 }
 
 // ─── Slash commands (parents) ──────────────────────────────────────────────
@@ -1153,19 +1204,28 @@ world.beforeEvents.itemUse.subscribe((event) => {
     event.cancel = true;
     system.run(() => {
       const barn = loadBarn(player);
+      const active = getCow(barn, barn.activeId);
       const wild = findWildCow(player);
+      const feedFirst =
+        active &&
+        active.hunger < 40 &&
+        (barn.tutorialStep >= TUTORIAL_DONE || barn.deployedEntityId);
+
+      if (wild && !feedFirst) {
+        catchWildCow(player, barn);
+        return;
+      }
+      if (active) {
+        feedCow(player, barn, active);
+        if (barn.tutorialStep >= TUTORIAL_DONE) say(player, "§aYum! 🌾");
+        showBarnStatus(player, barn);
+        return;
+      }
       if (wild) {
         catchWildCow(player, barn);
         return;
       }
-      const cow = getCow(barn, barn.activeId);
-      if (cow) {
-        feedCow(player, barn, cow);
-        say(player, "§aYum! 🌾");
-        showBarnStatus(player, barn);
-      } else {
-        say(player, "§eWalk to a cow and tap Feed Bag!");
-      }
+      say(player, "§eWalk closer to a cow, then tap Feed Bag!");
     });
   }
 });
@@ -1193,6 +1253,8 @@ system.runInterval(() => {
     }
     if (changed) saveBarn(player, barn);
 
+    ensureTutorialWorld(player, barn);
+
     const lastUi = lastUiTick.get(player.id) ?? 0;
     const uiStale = simTick - lastUi > 8;
     if (uiStale) showNextStep(player, barn);
@@ -1212,15 +1274,6 @@ world.afterEvents.playerSpawn.subscribe((event) => {
       sayBetaApisHint(player);
       return;
     }
-    loadBarn(player);
-    if (event.initialSpawn) welcomePlayer(player);
-    else {
-      const barn = loadBarn(player);
-      reconcileDeployed(player, barn);
-      if (countNearbyCows(player) === 0 && !barn.deployedEntityId) {
-        ensureNearbyCows(player, barn);
-      }
-      showBarnStatus(player, barn);
-    }
+    handlePlayerJoin(player, event.initialSpawn);
   });
 });
