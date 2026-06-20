@@ -138,6 +138,13 @@ python3 scripts/autoresearch/summarize.py
 - `main.js`: simpler welcome, no auto-deploy trap, chaos chickens on join, laser eye particles
 - Spawn eggs + wild spawn rules for both chickens
 
+### Experiment 13 — KEEP (ultra-simple kid UX)
+
+- One instruction on action bar at a time (`showNextStep`) — no chat spam on join
+- Barn menu: 3 big buttons only (put outside · feed · baby cow)
+- Kid messages: "You got a cow! 🐄" — no ranks, catalog, hunger numbers
+- Starter kit trimmed to Bell + Feed Bag + 6 spawn eggs
+
 ### Next ideas (backlog)
 
 - Hubzz-3d-pipeline stage alignment when repo is accessible
