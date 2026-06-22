@@ -1,6 +1,6 @@
-# Contributing
+# Contributing to Charles' World of Chaos
 
-Thank you for helping improve Brindal & Grayson Cow World.
+Thank you for helping improve **Charles' World of Chaos** (Minecraft Bedrock cow barn add-on).
 
 ## One unified add-on
 

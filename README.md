@@ -1,10 +1,12 @@
 <p align="center">
-  <img src="docs/assets/hero-banner.png" alt="Brindal & Grayson Cow World — cow-themed fun for kids on iPad" width="100%">
+  <img src="docs/assets/hero-banner.png" alt="Charles' World of Chaos — cow barn fun for kids on iPad" width="100%">
 </p>
 
 # Charles' World of Chaos
 
 **A Minecraft Bedrock add-on** — chaos barn gameplay with **vanilla cow skins** (AI/cel skins reset).
+
+> **Repo note:** GitHub slug is still `brindal-grayson-cow-pack` (download filenames unchanged). The shipped pack name in Minecraft is **Charles' World of Chaos**.
 
 Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and recall your herd. Catch wild cows with the **Feed Bag**, chase rare coats like **Spot Cow** and **Storm Cow**, and unlock real Minecraft rewards (gold, emerald, diamond) as you fill your trait catalog.
 
@@ -49,8 +51,8 @@ When creating the world, turn **ON**:
 - **Beta APIs** — Cow Barn (Ranch Bell, Feed Bag, breeding)
 
 Then under world settings, activate **both** packs:
-- Brindal & Grayson Cow World (resource)
-- Brindal & Grayson Cow World BP (behavior)
+- **Charles' World of Chaos** (resource)
+- **Charles' World of Chaos BP** (behavior)
 
 ### Step 4 — Play!
 
@@ -110,7 +112,7 @@ If experiments cause trouble, use the lighter pack (textures only, no scripts):
 | Checkerboard textures | Activate **both** resource and behavior packs |
 | Packs missing | Re-download `.mcaddon`; restart Minecraft |
 | Import failed | Update Minecraft to 1.21.0+ |
-| **"Duplicate pack"** on import | Open the link again — **v1.0.1** should update in place. If not: Settings → **Storage** → delete **both** old Brindal & Grayson packs → import again |
+| **"Duplicate pack"** on import | Open the link again — **v1.0.1** should update in place. If not: Settings → **Storage** → delete **both** old **Charles' World of Chaos** packs (resource + BP) → import again |
 
 ---
 

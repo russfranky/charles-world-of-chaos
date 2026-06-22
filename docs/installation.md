@@ -1,7 +1,7 @@
-# Installation Guide — iPad
+# Installation Guide — Charles' World of Chaos (iPad)
 
 <p align="center">
-  <img src="assets/hero-banner.png" alt="Brindal & Grayson Cow World banner" width="100%">
+  <img src="assets/hero-banner.png" alt="Charles' World of Chaos banner" width="100%">
 </p>
 
 ## One download, everything included
@@ -56,8 +56,8 @@ Before tapping **Create**, verify:
 
 - [ ] **Holiday Creator Features** — ON *(Spot Cow & Storm Cow when deployed)*
 - [ ] **Beta APIs** — ON *(Cow Barn: Ranch Bell, Feed Bag, breeding)*
-- [ ] **Resource pack** — Brindal & Grayson Cow World — Active
-- [ ] **Behavior pack** — Brindal & Grayson Cow World BP — Active
+- [ ] **Resource pack** — **Charles' World of Chaos** — Active
+- [ ] **Behavior pack** — **Charles' World of Chaos BP** — Active
 - [ ] This is a **NEW** world (not editing an old one)
 
 > Experiments lock in when the world is created. An old world cannot be fixed later — create a new one.
@@ -103,7 +103,7 @@ Same process: download `.mcaddon` → open with Minecraft Bedrock → new world 
 | Spot/Storm cows won't spawn | **Holiday Creator Features** must be ON — create a **new** world; in-game hint appears if spawn fails |
 | Can't breed | Need **Yard rank** (3+ cows) and two adults with hunger 40+ / mood 55+ |
 | "Failed to import" | Update Minecraft to 1.21.0+; free up storage (~5 MB free is enough) |
-| **"Duplicate pack"** | Re-tap the download link — **v1.0.1** updates the old install. Still stuck? **Settings → Storage** → delete **both** "Brindal & Grayson" packs (resource + BP) → import `.mcaddon` again |
+| **"Duplicate pack"** | Re-tap the download link — **v1.0.1** updates the old install. Still stuck? **Settings → Storage** → delete **both** **Charles' World of Chaos** packs (resource + BP) → import `.mcaddon` again |
 
 ---
 

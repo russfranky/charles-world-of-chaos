@@ -1,11 +1,11 @@
-# Brindal & Grayson Cow World — Build Pipeline
+# Charles' World of Chaos — Build Pipeline
 
-Builds the **unified** add-on shipped as `dist/brindal-grayson-cow-pack.mcaddon`.
+Builds the **unified** add-on shipped as `dist/brindal-grayson-cow-pack.mcaddon` (product name in Minecraft: **Charles' World of Chaos**).
 
 ## Pipeline
 
 1. Cowify 4600+ textures, mobs, sounds, behavior
-2. Merge Brindal & Grayson custom cows (`merge_custom_cows.py`)
+2. Merge custom cow entities (`merge_custom_cows.py`) — Spot Cow & Storm Cow
 3. Cow GUI textures + JSON UI/lang/sounds (`cowify_gui.py`, `apply_gui_overrides.py`)
 4. Optional Venice AI featured textures (`--venice`)
 5. Package → `dist/`

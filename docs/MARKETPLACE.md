@@ -1,8 +1,9 @@
 # Marketplace Readiness Checklist
 
-**Product:** Brindal & Grayson Cow Ranch — world template / cooperative add-on  
+**Add-on brand:** Charles' World of Chaos (cooperative add-on — current GitHub release)  
+**World template SKU (planned):** Brindal & Grayson Cow Ranch  
 **Status:** In progress — keep this file updated until we ship or abandon Marketplace  
-**Last updated:** 2026-06-18 (Phase 1 Script API audit)
+**Last updated:** 2026-06-22
 
 ---
 

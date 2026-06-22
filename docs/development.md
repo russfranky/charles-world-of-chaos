@@ -1,13 +1,15 @@
-# Development Guide
+# Development Guide — Charles' World of Chaos
 
-This repo builds **one unified add-on** — `dist/brindal-grayson-cow-pack.mcaddon`. See [installation.md](installation.md) for iPad setup.
+This repo builds **Charles' World of Chaos** — one unified Bedrock add-on shipped as `dist/brindal-grayson-cow-pack.mcaddon`. See [installation.md](installation.md) for iPad setup.
+
+> **Naming:** Product/brand = **Charles' World of Chaos**. GitHub repo slug and release filenames stay `brindal-grayson-cow-pack` for URL stability. Internal source folders (`brindal_grayson_cow_*`) are legacy paths.
 
 ## Repository layout
 
 | Path | Purpose |
 |------|---------|
-| `resource_packs/brindal_grayson_cow_rp/` | Source for Brindal & Grayson custom cows (merged at build) |
-| `behavior_packs/brindal_grayson_cow_bp/` | Behavior definitions for custom cows |
+| `resource_packs/brindal_grayson_cow_rp/` | Custom cow RP source (Spot/Storm) — merged at build |
+| `behavior_packs/brindal_grayson_cow_bp/` | Custom cow BP source — merged at build |
 | `variants/ultimate-chaos-pack/scripts/` | Main build pipeline |
 | `variants/ultimate-chaos-pack/gui_overrides/` | Cow GUI textures/JSON/lang source (applied at build) |
 | `variants/ultimate-chaos-pack/prompts/` | Venice AI texture manifest |
@@ -107,7 +109,8 @@ Measure → keep improvements → revert regressions. See [`.auto/README.md`](..
 
 ```bash
 ./.auto/measure.sh              # METRIC mcaddon_kb=… (median of 2 builds)
-./.auto/checks.sh               # barn sim + validate + mob approvals
+./.auto/checks.sh               # barn sim + validate + branding + QA registry
+python3 qa/run_qa_suite.py      # updates qa/QUALITY_REGISTRY.csv
 python3 scripts/autoresearch/summarize.py
 ```
 

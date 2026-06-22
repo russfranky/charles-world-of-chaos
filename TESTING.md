@@ -1,4 +1,4 @@
-# Testing Guide
+# Testing Guide — Charles' World of Chaos
 
 ## What Linux CI Can Test
 
@@ -100,6 +100,11 @@ CI builds algorithmic textures + cow GUI. Venice AI art requires `VENICE_API_KEY
 # Validate structure + barn simulation
 python3 variants/ultimate-chaos-pack/scripts/validate_pack.py
 python3 variants/ultimate-chaos-pack/scripts/simulate_barn.py
+
+# Full QA registry + 72 automated test cases
+python3 qa/run_qa_suite.py
+# or all CI checks:
+./.auto/checks.sh
 
 # Lite sanity checks
 find variants/ultimate-chaos-pack/pack/textures -name '*.png' | wc -l
