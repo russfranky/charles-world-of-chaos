@@ -6,6 +6,7 @@
 |-------|---------|
 | Assemble pack | `./scripts/build_pack.sh` |
 | Validate | `python3 scripts/validate_pack.py` |
+| Full QA registry | `python3 qa/run_qa_suite.py` |
 
 CI uploads `dist/Cel_Band_Pack.mcpack` on every PR.
 

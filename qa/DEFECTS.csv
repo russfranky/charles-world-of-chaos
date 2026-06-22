@@ -1,0 +1,5 @@
+Defect ID,Feature ID,Test Case ID,Status,Severity,Reproduction Steps,Expected Result,Actual Result,Root Cause Hypothesis,Fixed In
+D001,F011,TC-F011-002,FIXED,High,Convert sample level with wall tiles,Walls use stone block with converted texture,Walls used cobblestone; no cobblestone.png in pack,Converter mapped wall→cobblestone but pack only overrides stone,cursor/qa-quality-validation-16b0
+D002,F011,TC-F011-005,FIXED,High,cd download && python3 convert_level.py,Uses download/sample_level.json and writes to download/,IndexError on default_output_dir,Default paths assumed variants/ layout not download bundle,cursor/qa-quality-validation-16b0
+D003,F012,TC-F012-001,FIXED,Medium,Validate sample level tile coverage,All 12 tile types in sample,sand tile missing from sample level,Incomplete sample level authoring,cursor/qa-quality-validation-16b0
+D004,F010,TC-F010-001,FIXED,Medium,Run validate_pack after build,Checks texture coverage and dist/download parity,validate_pack only checked basic zip structure,Insufficient validation rules,cursor/qa-quality-validation-16b0
