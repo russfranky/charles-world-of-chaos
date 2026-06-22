@@ -6,11 +6,15 @@ Sunlit outdoor LC GO aesthetic for Minecraft Bedrock: warm stone, Holstein spots
 
 | File | Description |
 |------|-------------|
-| `Lara_Croft_GO_Diorama.mcpack` | Drop-in resource pack (13 blocks, 5 items, 2 UI) |
-| `Lara_Croft_GO_MC_Voxel_Spec.pdf` | Full technical specification |
-| `lcgo_mc_tool.py` | Python generator + voxel converter |
-| `sample_level.json` | 12×12 Cave of Snakes sample level |
+| `Lara_Croft_GO_Diorama.mcpack` | Drop-in resource pack (22 files, ~12.5 KB) |
+| `Lara_Croft_GO_MC_Voxel_Spec.pdf` | Voxel spec (20 pages) |
+| `Lara_Croft_GO_Diorama_Technical_Report.pdf` | Companion reverse-engineering report |
+| `lcgo_mc_tool.py` | Python generator + voxel converter (canonical source) |
+| `sample_level.json` | Cave of Snakes sample (45 tiles → 50 blocks) |
 | `sample_level.setblock` | `/setblock` commands for in-game paste |
+| `lcgo_mc_output/` | Unpacked `.mcpack` (or `unzip Lara_Croft_GO_Diorama.mcpack -d lcgo_mc_output`) |
+
+Uploaded as `Archive.zip` (commit `f2b4584`).
 
 ## Quick start
 
