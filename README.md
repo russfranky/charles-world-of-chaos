@@ -6,7 +6,7 @@
 
 **A Minecraft Bedrock add-on** — chaos barn gameplay with **vanilla cow skins** (AI/cel skins reset).
 
-> **Repo note:** GitHub slug is still `brindal-grayson-cow-pack` (download filenames unchanged). The shipped pack name in Minecraft is **Charles' World of Chaos**.
+> **Repo:** [charles-world-of-chaos](https://github.com/russfranky/charles-world-of-chaos) — release filenames stay `brindal-grayson-cow-pack.*` for in-place updates.
 
 Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and recall your herd. Catch wild cows with the **Feed Bag**, chase rare coats like **Spot Cow** and **Storm Cow**, and unlock real Minecraft rewards (gold, emerald, diamond) as you fill your trait catalog.
 
@@ -33,7 +33,7 @@ Build your **Cow Barn**: tap the **Ranch Bell** to deploy, feed, breed, and reca
 
 Tap this link on the iPad in **Safari** (always the latest release):
 
-**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon)**
+**[Download brindal-grayson-cow-pack.mcaddon](https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/brindal-grayson-cow-pack.mcaddon)**
 
 > Every merge to `main` auto-bumps the pack version and publishes a new release — re-import the link above to **update** (no duplicate error).
 
@@ -97,7 +97,7 @@ Barn ranks grow with herd size (Pen → Yard → Ranch → Spread → Legend). N
 
 If experiments cause trouble, use the lighter pack (textures only, no scripts):
 
-**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcpack)**
+**[brindal-grayson-cow-pack.mcpack](https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/brindal-grayson-cow-pack.mcpack)**
 
 ---
 

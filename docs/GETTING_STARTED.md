@@ -31,7 +31,7 @@ A free Minecraft add-on with a **Cow Barn** mini-game — breed cows, collect ra
 
 Open **Safari** on the iPad and go to:
 
-https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon
+https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/brindal-grayson-cow-pack.mcaddon
 
 Tap **Download**. Wait for it to finish.
 

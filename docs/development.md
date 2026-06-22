@@ -2,7 +2,7 @@
 
 This repo builds **Charles' World of Chaos** — one unified Bedrock add-on shipped as `dist/brindal-grayson-cow-pack.mcaddon`. See [installation.md](installation.md) for iPad setup.
 
-> **Naming:** Product/brand = **Charles' World of Chaos**. GitHub repo slug and release filenames stay `brindal-grayson-cow-pack` for URL stability. Internal source folders (`brindal_grayson_cow_*`) are legacy paths.
+> **Naming:** Product = **Charles' World of Chaos**. GitHub repo = **charles-world-of-chaos**. Release filenames stay `brindal-grayson-cow-pack` for in-place updates.
 
 ## Repository layout
 
@@ -32,12 +32,12 @@ Every merge to **`main`** runs [`.github/workflows/publish.yml`](../.github/work
 1. Bump patch in `variants/ultimate-chaos-pack/VERSION`
 2. Build + validate
 3. Commit `VERSION` + `dist/`
-4. Tag `vX.Y.Z` and create a [GitHub Release](https://github.com/russfranky/brindal-grayson-cow-pack/releases) with `.mcaddon` / `.mcpack` attached
+4. Tag `vX.Y.Z` and create a [GitHub Release](https://github.com/russfranky/charles-world-of-chaos/releases) with `.mcaddon` / `.mcpack` attached
 
 **Do not** hand-edit `VERSION` or `dist/` in PRs — the bot owns those on `main`. Manifest names read version from `VERSION` via `pack_version.py`.
 
 **Kid install link (always latest):**  
-`https://github.com/russfranky/brindal-grayson-cow-pack/releases/latest/download/brindal-grayson-cow-pack.mcaddon`
+`https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/brindal-grayson-cow-pack.mcaddon`
 
 Local dry-run (no git push):
 

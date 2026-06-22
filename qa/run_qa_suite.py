@@ -526,7 +526,7 @@ FEATURES: list[Feature] = [
         "F-094", "Product branding consistency",
         "As a player, pack name matches Charles' World of Chaos everywhere shipped.",
         "Built RP lang, BP manifest, README use Charles' World of Chaos.",
-        "GitHub repo slug and release filenames remain brindal-grayson-cow-pack for URL stability.",
+        "GitHub repo is charles-world-of-chaos; release filenames stay brindal-grayson-cow-pack for updates.",
         [TestCase("T-094-01", "validate_branding.py passes on built pack", True)],
         "World template SKU may keep Brindal & Grayson Cow Ranch name",
     ),
