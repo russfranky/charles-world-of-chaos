@@ -22,25 +22,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
+      - name: Build Lara Croft GO Diorama pack
+        run: chmod +x scripts/build_pack.sh && ./scripts/build_pack.sh
 
-      - name: Build unified cow pack
-        run: ./scripts/build-mcaddon.sh
+      - name: Validate pack
+        run: python3 scripts/validate_pack.py
 
-      - name: MCTools cooperative add-on validation (optional)
-        run: ./scripts/validate_mctools.sh
-        continue-on-error: true
-
-      - name: Autoresearch backpressure checks
-        run: ./.auto/checks.sh
-
-      - name: Upload distributables
+      - name: Upload distributable
         uses: actions/upload-artifact@v4
         with:
-          name: brindal-grayson-cow-pack
-          path: |
-            dist/brindal-grayson-cow-pack.mcaddon
-            dist/brindal-grayson-cow-pack.mcpack
+          name: Lara_Croft_GO_Diorama
+          path: dist/Lara_Croft_GO_Diorama.mcpack
           retention-days: 30

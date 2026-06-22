@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a new feature or cow variant
+about: Suggest an improvement to the resource pack or tooling
 title: "[Feature] "
 labels: enhancement
 assignees: ''
@@ -12,7 +12,7 @@ A clear description of the feature you'd like.
 
 ## Motivation
 
-Why would this be useful for the add-on?
+Why would this improve the pack or workflow?
 
 ## Proposed Solution
 

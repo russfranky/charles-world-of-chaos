@@ -1,26 +1,11 @@
-# Vanilla source (cloned at build time)
-vanilla_src/
-variants/ultimate-chaos-pack/vanilla_src/
-variants/ultimate-chaos-pack/venice_cache/
-variants/ultimate-chaos-pack/venice_audio_cache/
-.env
-
-# Build outputs (rebuilt locally; dist/ committed for iPad install)
-pack/
-behavior_pack/
-variants/ultimate-chaos-pack/pack/
-variants/ultimate-chaos-pack/behavior_pack/
+# Build outputs (rebuilt locally; dist/ committed for release installs)
+variants/lcgo-diorama/build/
+variants/lcgo-diorama/Lara_Croft_GO_Diorama.mcpack
 build/
 out/
 
 # Logs
 *.log
-venice_generation.log
-
-# Autoresearch session artifacts (infrastructure is committed)
-.auto/log.jsonl
-.auto/learnings.md
-.auto/ideas.md
 
 # Python
 __pycache__/

@@ -1,6 +1,0 @@
-entity.bgcow:brindal_cow.name=Spot Cow
-entity.bgcow:grayson_cow.name=Storm Cow
-item.spawn_egg.entity.bgcow:brindal_cow.name=Spot Cow Spawn Egg
-item.spawn_egg.entity.bgcow:grayson_cow.name=Storm Cow Spawn Egg
-item.bgcow:ranch_bell.name=Ranch Bell
-item.bgcow:feed_bag.name=Feed Bag

@@ -10,23 +10,23 @@ COMMIT_MSG="[automated release]"
 
 if [[ "${SKIP_BUMP:-}" != "1" ]]; then
   echo "Bumping pack patch version..."
-  python3 variants/ultimate-chaos-pack/scripts/pack_version.py --bump-patch
+  python3 variants/lcgo-diorama/scripts/pack_version.py --bump-patch
 fi
 
-VERSION="$(python3 variants/ultimate-chaos-pack/scripts/pack_version.py --print semver)"
-TAG="$(python3 variants/ultimate-chaos-pack/scripts/pack_version.py --print tag)"
-LABEL="$(python3 variants/ultimate-chaos-pack/scripts/pack_version.py --print label)"
+VERSION="$(python3 variants/lcgo-diorama/scripts/pack_version.py --print semver)"
+TAG="$(python3 variants/lcgo-diorama/scripts/pack_version.py --print tag)"
+LABEL="$(python3 variants/lcgo-diorama/scripts/pack_version.py --print label)"
 
 echo "Building ${LABEL}..."
-./scripts/build-mcaddon.sh
+./scripts/build_pack.sh
 
 echo "Validating..."
-./.auto/checks.sh
+python3 scripts/validate_pack.py
 
 git config user.name "github-actions[bot]"
 git config user.email "github-actions[bot]@users.noreply.github.com"
 
-git add variants/ultimate-chaos-pack/VERSION dist/
+git add variants/lcgo-diorama/VERSION dist/ download/
 if git diff --staged --quiet; then
   echo "Nothing to commit after build — skipping release push."
   exit 0
@@ -36,19 +36,18 @@ git commit -m "Release ${TAG} ${COMMIT_MSG}
 
 Automated pack publish: manifest ${LABEL}, dist artifacts refreshed."
 
-git tag -a "${TAG}" -m "Charles' World of Chaos ${TAG}"
+git tag -a "${TAG}" -m "Lara Croft GO Diorama ${TAG}"
 
 git push origin HEAD:main
 git push origin "${TAG}"
 
 gh release create "${TAG}" \
-  --title "Charles' World of Chaos ${TAG}" \
-  --notes "Install \`brindal-grayson-cow-pack.mcaddon\` on Bedrock — updates in place if you already have an older version (same pack UUID, higher semver).
+  --title "Lara Croft GO Diorama ${TAG}" \
+  --notes "Install \`Lara_Croft_GO_Diorama.mcpack\` on Minecraft Bedrock 1.21+.
 
-**New world required for script changes:** Holiday Creator Features + Beta APIs ON, both packs active.
+Activate under **Settings → Global Resources** (or per-world resource packs).
 
-**Download:** attached \`.mcaddon\` (full add-on) or \`.mcpack\` (visuals only)." \
-  dist/brindal-grayson-cow-pack.mcaddon \
-  dist/brindal-grayson-cow-pack.mcpack
+**Download:** attached \`.mcpack\` resource pack." \
+  dist/Lara_Croft_GO_Diorama.mcpack
 
 echo "Published ${TAG}"

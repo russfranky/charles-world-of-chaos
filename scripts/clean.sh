@@ -1,18 +1,14 @@
 #!/usr/bin/env bash
-# Remove local build artifacts (never committed except dist/)
+# Remove local build artifacts (dist/ is committed for release installs).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CHAOS="$ROOT/variants/ultimate-chaos-pack"
+VARIANT="$ROOT/variants/lcgo-diorama"
 
 echo "Removing build outputs..."
 rm -rf \
-  "$ROOT/pack" \
-  "$ROOT/behavior_pack" \
-  "$ROOT/build" \
-  "$CHAOS/pack" \
-  "$CHAOS/behavior_pack" \
-  "$CHAOS/vanilla_src" \
-  "$CHAOS/venice_cache"
+  "$VARIANT/build" \
+  "$VARIANT/Lara_Croft_GO_Diorama.mcpack" \
+  "$ROOT/download/lcgo_mc_output"
 
-echo "Clean complete. Rebuild with: ./scripts/build-mcaddon.sh"
+echo "Clean complete. Rebuild with: ./scripts/build_pack.sh"

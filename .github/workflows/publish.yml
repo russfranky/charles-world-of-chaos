@@ -8,9 +8,8 @@ on:
     branches: [main]
     paths-ignore:
       - "dist/**"
-      - "variants/ultimate-chaos-pack/VERSION"
-      - "docs/assets/**"
-      - "docs/mob-index/**"
+      - "variants/lcgo-diorama/VERSION"
+      - "download/**"
 
 permissions:
   contents: write
@@ -36,10 +35,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
 
       - name: Bump, build, release
         env:

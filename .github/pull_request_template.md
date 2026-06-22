@@ -4,18 +4,18 @@
 
 ## Type of Change
 
-- [ ] New cow variant or entity
-- [ ] Texture or model update
+- [ ] Texture or palette update
+- [ ] Level or voxel converter change
 - [ ] Bug fix
 - [ ] Documentation
 - [ ] Build or tooling
 
 ## Testing
 
+- [ ] `./scripts/build_pack.sh` succeeds
+- [ ] `python3 scripts/validate_pack.py` passes
 - [ ] Tested on Minecraft Bedrock (version: ___)
-- [ ] Both behavior and resource packs load without errors
-- [ ] Custom cows spawn and behave correctly
 
 ## Screenshots
 
-<!-- If applicable, add screenshots of the cows in-game -->
+<!-- If applicable, add in-game screenshots of updated textures -->
