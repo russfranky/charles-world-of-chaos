@@ -496,6 +496,66 @@ FEATURES: list[Feature] = [
         "False positives on example strings.",
         [TestCase("T-090-01", "check_secrets.py exists", True)],
     ),
+    Feature(
+        "F-091", "Menu music override",
+        "As a player, the title screen plays custom menu music.",
+        "Bell_At_Twilight.ogg applied via apply_audio_overrides; optimized in build.",
+        "Missing ffmpeg; audio size budget.",
+        [TestCase("T-091-01", "Menu music OGG present in built RP", True)],
+        "apply_audio_overrides.py; optimize_audio.py",
+    ),
+    Feature(
+        "F-092", "GitHub CI pipeline",
+        "As a maintainer, PRs run build and validation automatically.",
+        "ci.yml builds pack, runs .auto/checks.sh, uploads artifacts.",
+        "MCTools optional continue-on-error.",
+        [
+            TestCase("T-092-01", "ci.yml exists with checks.sh step", True),
+            TestCase("T-092-02", "CI build on merge (GitHub)", False),
+        ],
+    ),
+    Feature(
+        "F-093", "Release publish automation",
+        "As a maintainer, merge to main bumps version and publishes release.",
+        "publish.yml tags Charles' World of Chaos release with mcaddon/mcpack.",
+        "GH_TOKEN; SKIP_BUMP env.",
+        [TestCase("T-093-01", "publish_pack.sh and publish.yml exist", True)],
+        "Keeps brindal-grayson-cow-pack.mcaddon filename for URL stability",
+    ),
+    Feature(
+        "F-094", "Product branding consistency",
+        "As a player, pack name matches Charles' World of Chaos everywhere shipped.",
+        "Built RP lang, BP manifest, README use Charles' World of Chaos.",
+        "Legacy Brindal & Grayson names in source dirs and repo slug.",
+        [TestCase("T-094-01", "validate_branding.py passes on built pack", True)],
+        "Repo slug still brindal-grayson-cow-pack — rename recommended",
+    ),
+    Feature(
+        "F-095", "Custom cow spawn rules",
+        "As a player, Spot and Storm cows can spawn naturally in worlds.",
+        "brindal_cow.json and grayson_cow.json spawn rules merged into BP.",
+        "Spawn weight tuning; biome filters.",
+        [TestCase("T-095-01", "validate_pack reports 2+ custom spawn rules", True)],
+    ),
+    Feature(
+        "F-096", "Mob index approval gallery",
+        "As a maintainer, I review mob textures in a browser gallery.",
+        "docs/mob-index/index.html lists shipped mobs with approval status.",
+        "Stale previews after texture change.",
+        [TestCase("T-096-01", "mob-index.json exists with shipped mobs", True)],
+    ),
+    Feature(
+        "F-097", "World template SKU (future)",
+        "As a Marketplace buyer, I get Brindal & Grayson Cow Ranch world template.",
+        "worlds/brindal_grayson_ranch scaffold with locked experiments.",
+        "Binary .mcworld export not in repo; naming differs from add-on brand.",
+        [
+            TestCase("T-097-01", "validate_world_scaffold.py passes", True),
+            TestCase("T-097-02", "World template export on device", False),
+        ],
+        "Marketplace SKU name may stay Brindal & Grayson Cow Ranch",
+        manual_only=True,
+    ),
 ]
 
 # Maps test case IDs to shell/python commands
@@ -509,6 +569,9 @@ AUTOMATED_RUNNERS: dict[str, list[str]] = {
     "T-083-01": ["python3", str(ROOT / "scripts/validate_mob_approvals.py")],
     "T-084-01": ["python3", str(ROOT / "scripts/validate_world_scaffold.py")],
     "T-085-01": ["python3", str(ROOT / "variants/ultimate-chaos-pack/scripts/simulate_barn.py")],
+    "T-094-01": ["python3", str(ROOT / "qa/validate_branding.py")],
+    "T-095-01": ["python3", str(ROOT / "variants/ultimate-chaos-pack/scripts/validate_pack.py")],
+    "T-097-01": ["python3", str(ROOT / "scripts/validate_world_scaffold.py")],
 }
 
 SCRIPT_MARKERS: dict[str, str] = {
@@ -638,6 +701,30 @@ def execute_test(tc: TestCase) -> TestResult:
     if tc.id in ("T-070-02", "T-086-01", "T-087-01", "T-088-01"):
         ok, _ = run_cmd(["python3", str(ROOT / "variants/ultimate-chaos-pack/scripts/validate_pack.py")])
         return TestResult(tc.id, ok, "validate_pack")
+
+    if tc.id == "T-091-01":
+        ogg = ROOT / "variants/ultimate-chaos-pack/pack/sounds/music/menu/Bell_At_Twilight.ogg"
+        ok = ogg.exists() and ogg.stat().st_size > 1000
+        return TestResult(tc.id, ok, f"menu music {ogg.name}" + (" found" if ok else " missing"))
+
+    if tc.id == "T-092-01":
+        ci = ROOT / ".github/workflows/ci.yml"
+        ok = ci.exists() and ".auto/checks.sh" in ci.read_text(encoding="utf-8")
+        return TestResult(tc.id, ok, "ci.yml references checks.sh")
+
+    if tc.id == "T-093-01":
+        ok = (ROOT / "scripts/publish_pack.sh").exists() and (ROOT / ".github/workflows/publish.yml").exists()
+        return TestResult(tc.id, ok, "publish scripts present")
+
+    if tc.id == "T-096-01":
+        idx = ROOT / "docs/mob-index/mob-index.json"
+        if not idx.exists():
+            return TestResult(tc.id, False, "mob-index.json missing")
+        import json
+        data = json.loads(idx.read_text(encoding="utf-8"))
+        shipped = [m for m in data.get("mobs", []) if m.get("shipped")]
+        ok = len(shipped) >= 2
+        return TestResult(tc.id, ok, f"{len(shipped)} shipped mobs in index")
 
     return TestResult(tc.id, True, "WAIVED — no automated runner mapped")
 
