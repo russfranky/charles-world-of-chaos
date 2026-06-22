@@ -1,0 +1,236 @@
+{
+  "name": "Cave of Snakes \u2014 Sample",
+  "description": "Sunlit outdoor LC GO level fragment \u2014 12\u00d712, all 12 tile types",
+  "width": 12,
+  "depth": 12,
+  "tiles": [
+    {
+      "x": 0,
+      "z": 0,
+      "y": 0,
+      "type": "floor_lit"
+    },
+    {
+      "x": 1,
+      "z": 0,
+      "y": 0,
+      "type": "floor_lit"
+    },
+    {
+      "x": 2,
+      "z": 0,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 3,
+      "z": 0,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 4,
+      "z": 0,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 5,
+      "z": 0,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 6,
+      "z": 0,
+      "y": 0,
+      "type": "floor_shadow"
+    },
+    {
+      "x": 7,
+      "z": 0,
+      "y": 0,
+      "type": "floor_shadow"
+    },
+    {
+      "x": 8,
+      "z": 0,
+      "y": 0,
+      "type": "wall"
+    },
+    {
+      "x": 9,
+      "z": 0,
+      "y": 0,
+      "type": "floor_shadow"
+    },
+    {
+      "x": 10,
+      "z": 0,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 11,
+      "z": 0,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 1,
+      "z": 4,
+      "y": 0,
+      "type": "floor_lit"
+    },
+    {
+      "x": 3,
+      "z": 4,
+      "y": 0,
+      "type": "sand"
+    },
+    {
+      "x": 4,
+      "z": 4,
+      "y": 0,
+      "type": "sand"
+    },
+    {
+      "x": 5,
+      "z": 4,
+      "y": 0,
+      "type": "wood"
+    },
+    {
+      "x": 6,
+      "z": 4,
+      "y": 0,
+      "type": "leaves"
+    },
+    {
+      "x": 10,
+      "z": 4,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 2,
+      "z": 6,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 5,
+      "z": 6,
+      "y": 0,
+      "type": "floor_lit"
+    },
+    {
+      "x": 6,
+      "z": 6,
+      "y": 0,
+      "type": "gold_relic"
+    },
+    {
+      "x": 7,
+      "z": 6,
+      "y": 0,
+      "type": "floor_lit"
+    },
+    {
+      "x": 8,
+      "z": 6,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 4,
+      "z": 8,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 5,
+      "z": 8,
+      "y": 0,
+      "type": "water"
+    },
+    {
+      "x": 6,
+      "z": 8,
+      "y": 0,
+      "type": "water"
+    },
+    {
+      "x": 7,
+      "z": 8,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 0,
+      "z": 9,
+      "y": 1,
+      "type": "floor_lit"
+    },
+    {
+      "x": 1,
+      "z": 9,
+      "y": 1,
+      "type": "floor_lit"
+    },
+    {
+      "x": 0,
+      "z": 10,
+      "y": 1,
+      "type": "floor_lit"
+    },
+    {
+      "x": 1,
+      "z": 10,
+      "y": 1,
+      "type": "floor_lit"
+    },
+    {
+      "x": 2,
+      "z": 11,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 3,
+      "z": 11,
+      "y": 0,
+      "type": "jade_relic"
+    },
+    {
+      "x": 4,
+      "z": 11,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 5,
+      "z": 11,
+      "y": 0,
+      "type": "floor_light"
+    },
+    {
+      "x": 7,
+      "z": 11,
+      "y": 0,
+      "type": "floor_dark"
+    },
+    {
+      "x": 8,
+      "z": 11,
+      "y": 0,
+      "type": "bronze_relic"
+    },
+    {
+      "x": 9,
+      "z": 11,
+      "y": 0,
+      "type": "floor_dark"
+    }
+  ]
+}

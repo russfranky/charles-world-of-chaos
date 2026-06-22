@@ -1,0 +1,47 @@
+# LC GO → MC Bedrock /setblock commands
+# Total blocks: 43
+# Run each line in-game as a slash command.
+
+setblock 0 100 0 calcite
+setblock 1 100 0 calcite
+setblock 2 100 0 stone
+setblock 3 100 0 stone
+setblock 4 100 0 deepslate
+setblock 5 100 0 deepslate
+setblock 6 100 0 bedrock
+setblock 7 100 0 bedrock
+setblock 8 100 0 cobblestone
+setblock 8 101 0 cobblestone
+setblock 9 100 0 bedrock
+setblock 10 100 0 deepslate
+setblock 11 100 0 stone
+setblock 1 100 4 calcite
+setblock 3 100 4 sand
+setblock 4 100 4 sand
+setblock 5 100 4 oak_log
+setblock 5 101 4 oak_log
+setblock 5 102 4 oak_log
+setblock 5 103 4 leaves
+setblock 6 101 4 leaves
+setblock 6 102 4 leaves
+setblock 10 100 4 deepslate
+setblock 2 100 6 stone
+setblock 5 100 6 calcite
+setblock 6 100 6 gold_block
+setblock 7 100 6 calcite
+setblock 8 100 6 stone
+setblock 4 100 8 stone
+setblock 5 100 8 water
+setblock 6 100 8 water
+setblock 7 100 8 stone
+setblock 0 101 9 calcite
+setblock 1 101 9 calcite
+setblock 0 101 10 calcite
+setblock 1 101 10 calcite
+setblock 2 100 11 deepslate
+setblock 3 100 11 emerald_block
+setblock 4 100 11 deepslate
+setblock 5 100 11 stone
+setblock 7 100 11 deepslate
+setblock 8 100 11 copper_block
+setblock 9 100 11 deepslate
