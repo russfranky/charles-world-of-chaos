@@ -3,7 +3,7 @@
   "header": {
     "name": "Lara Croft GO Diorama Pack",
     "description": "Sunlit outdoor LC GO aesthetic: warm stone + Holstein spots + 4-step cel + ink outlines",
-    "uuid": "a7c3e891-4f2d-4b6e-9c1a-8d4f2e6b0a31",
+    "uuid": "936c6214-f91a-4021-98ff-346c6bcdbf41",
     "version": [
       1,
       0,
@@ -18,7 +18,7 @@
   "modules": [
     {
       "type": "resources",
-      "uuid": "b8d4f902-5e3e-4c7f-ad2b-9e5f3f7c1b42",
+      "uuid": "71aca86c-78d6-40d4-a3df-a9ab3bede2dc",
       "version": [
         1,
         0,
