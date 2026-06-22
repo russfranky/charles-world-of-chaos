@@ -70,7 +70,9 @@ The sample **Cave of Snakes** level ships in `download/sample_level.json`.
 
 | Path | Role |
 |------|------|
-| `variants/cel-band/pack/` | Converted textures + manifest (source of truth) |
+| `variants/cel-band/pack/` | Converted textures + manifest (24 files; see `docs/WORKFLOW.md`) |
+| `scripts/preflight_check.py` | Pre-import structural validation (from Archive 2) |
+| `docs/TRADEMARK_AUDIT.md` | Franchise term inventory and redaction guide |
 | `variants/cel-band/scripts/assemble_pack.py` | Zip pack → `.mcpack` |
 | `variants/cel-band/scripts/convert_level.py` | Level JSON → setblock / mcfunction |
 | `dist/Cel_Band_Pack.mcpack` | Shipped distributable |

@@ -3,7 +3,7 @@
   "header": {
     "name": "Cel Band Pack",
     "description": "Converted cel-band textures for Bedrock 1.21+: four-step bands, warm stone, ink outlines.",
-    "uuid": "936c6214-f91a-4021-98ff-346c6bcdbf41",
+    "uuid": "a8649e97-d073-4e89-a28a-7ed6e5a376f2",
     "version": [
       1,
       0,
@@ -18,7 +18,7 @@
   "modules": [
     {
       "type": "resources",
-      "uuid": "71aca86c-78d6-40d4-a3df-a9ab3bede2dc",
+      "uuid": "7275a0e6-df43-42bd-9cf6-65cc71ad0d29",
       "version": [
         1,
         0,

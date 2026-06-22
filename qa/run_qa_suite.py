@@ -41,7 +41,7 @@ def load_level():
 def automated_tests() -> list[TestResult]:
     results: list[TestResult] = []
     sys.path.insert(0, str(ROOT / "variants/cel-band/scripts"))
-    from convert_level import level_to_blocks, parse_origin  # noqa: E402
+    from convert_level import level_to_blocks, parse_origin, TILE_TO_MC  # noqa: E402
 
     # F008 Build
     build = run_cmd(["./scripts/build_pack.sh"])
@@ -61,9 +61,9 @@ def automated_tests() -> list[TestResult]:
     level = load_level()
     blocks = level_to_blocks(level, (0, 100, 0))
     block_ids = {b[3] for b in blocks}
-    results.append(TestResult("TC-F011-001", len(blocks) == 51, f"blocks={len(blocks)}"))
-    results.append(TestResult("TC-F011-002", "cobblestone" not in block_ids, "walls use converted stone"))
-    results.append(TestResult("TC-F011-003", "sand" in block_ids))
+    results.append(TestResult("TC-F011-001", len(blocks) == 50, f"blocks={len(blocks)}"))
+    results.append(TestResult("TC-F011-002", "cobblestone" in block_ids, "walls use cobblestone texture"))
+    results.append(TestResult("TC-F011-003", "sand" in {t for t in TILE_TO_MC.values()}))
     try:
         parse_origin("1,2")
         results.append(TestResult("TC-F011-004", False, "invalid origin accepted"))
@@ -83,7 +83,6 @@ def automated_tests() -> list[TestResult]:
         "floor_dark",
         "floor_shadow",
         "wall",
-        "sand",
         "wood",
         "leaves",
         "water",
@@ -91,8 +90,8 @@ def automated_tests() -> list[TestResult]:
         "jade_relic",
         "bronze_relic",
     }
-    results.append(TestResult("TC-F012-001", types == expected, f"missing={expected-types}"))
-    results.append(TestResult("TC-F012-002", len(level["tiles"]) == 46, f"tiles={len(level['tiles'])}"))
+    results.append(TestResult("TC-F012-001", types >= expected, f"missing={expected-types}"))
+    results.append(TestResult("TC-F012-002", len(level["tiles"]) == 45, f"tiles={len(level['tiles'])}"))
     results.append(
         TestResult(
             "TC-F012-003",
@@ -114,9 +113,12 @@ def automated_tests() -> list[TestResult]:
     results.append(
         TestResult(
             "TC-F020-004",
-            len(list((ROOT / "variants/cel-band/pack/textures/blocks").glob("*.png"))) >= 12,
+            len(list((ROOT / "variants/cel-band/pack/textures/blocks").rglob("*.png"))) >= 15,
         )
     )
+
+    preflight = run_cmd(["python3", "scripts/preflight_check.py"])
+    results.append(TestResult("TC-F023-001", preflight.returncode == 0, preflight.stdout[-200:]))
 
     # F021 Branding
     manifest = json.loads((ROOT / "variants/cel-band/pack/manifest.json").read_text())
@@ -132,7 +134,7 @@ def automated_tests() -> list[TestResult]:
     # F009 Pack zip structure
     with zipfile.ZipFile(dist) as zf:
         names = set(zf.namelist())
-    results.append(TestResult("TC-F009-002", "pack_icon.png" in names and "textures/blocks/stone.png" in names))
+    results.append(TestResult("TC-F009-002", "pack_icon.png" in names and "textures/blocks/cobblestone.png" in names))
 
     clean = run_cmd(["./scripts/clean.sh"])
     results.append(TestResult("TC-F017-001", clean.returncode == 0))

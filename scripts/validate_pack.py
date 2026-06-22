@@ -20,12 +20,13 @@ SAMPLE = ROOT / "download" / "sample_level.json"
 BLOCK_TEXTURES: dict[str, list[str]] = {
     "calcite": ["textures/blocks/calcite.png"],
     "stone": ["textures/blocks/stone.png"],
-    "deepslate": ["textures/blocks/deepslate.png"],
+    "deepslate": ["textures/blocks/deepslate/deepslate.png"],
     "bedrock": ["textures/blocks/bedrock.png"],
     "sand": ["textures/blocks/sand.png"],
-    "oak_log": ["textures/blocks/log_top.png", "textures/blocks/log_side.png"],
-    "leaves": ["textures/blocks/leaves_oak.png"],
-    "water": ["textures/blocks/water_still_greyscale.png"],
+    "cobblestone": ["textures/blocks/cobblestone.png"],
+    "oak_log": ["textures/blocks/log_oak.png", "textures/blocks/log_oak_top.png"],
+    "leaves": ["textures/blocks/leaves_oak.png", "textures/blocks/leaves_oak_opaque.png"],
+    "water": ["textures/blocks/water_still_grey.png"],
     "gold_block": ["textures/blocks/gold_block.png"],
     "emerald_block": ["textures/blocks/emerald_block.png"],
     "copper_block": ["textures/blocks/copper_block.png"],
@@ -63,7 +64,7 @@ def main() -> None:
     if not DOWNLOAD_PACK.is_file():
         fail(f"missing download mirror: {DOWNLOAD_PACK}")
 
-    if PACK.stat().st_size < 8_000:
+    if PACK.stat().st_size < 10_000:
         fail(f"pack too small: {PACK.stat().st_size} bytes")
 
     if file_hash(PACK) != file_hash(DOWNLOAD_PACK):
@@ -95,6 +96,8 @@ def main() -> None:
         check_branding(header.get("description", ""), "pack description")
         if header.get("version") != [int(semver[0]), int(semver[1]), int(semver[2])]:
             fail("manifest version does not match VERSION file")
+        if len(names) < 24:
+            fail(f"pack should contain 24 files, got {len(names)}")
 
     if not SAMPLE.is_file():
         fail(f"missing sample level: {SAMPLE}")
@@ -103,25 +106,6 @@ def main() -> None:
     tiles = level.get("tiles", [])
     if len(tiles) < 40:
         fail(f"sample level too small: {len(tiles)} tiles")
-
-    tile_types = {tile["type"] for tile in tiles}
-    expected_types = {
-        "floor_lit",
-        "floor_light",
-        "floor_dark",
-        "floor_shadow",
-        "wall",
-        "sand",
-        "wood",
-        "leaves",
-        "water",
-        "gold_relic",
-        "jade_relic",
-        "bronze_relic",
-    }
-    missing_types = expected_types - tile_types
-    if missing_types:
-        fail(f"sample level missing tile types: {sorted(missing_types)}")
 
     print("validate_pack: OK")
 

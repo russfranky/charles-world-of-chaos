@@ -31,6 +31,9 @@ jobs:
       - name: QA registry suite
         run: python3 qa/run_qa_suite.py
 
+      - name: Preflight pack check
+        run: python3 scripts/preflight_check.py
+
       - name: Upload distributable
         uses: actions/upload-artifact@v4
         with:

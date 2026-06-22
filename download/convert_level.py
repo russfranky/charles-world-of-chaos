@@ -29,7 +29,7 @@ TILE_TO_MC: dict[str, str] = {
     "floor_light": "stone",
     "floor_dark": "deepslate",
     "floor_shadow": "bedrock",
-    "wall": "stone",
+    "wall": "cobblestone",
     "sand": "sand",
     "wood": "oak_log",
     "leaves": "leaves",
@@ -50,8 +50,8 @@ def level_to_blocks(level_json: dict, origin: tuple[int, int, int] = (0, 100, 0)
         tile_type = tile["type"]
         block_type = TILE_TO_MC.get(tile_type, "stone")
         if tile_type == "wall":
-            blocks.append((x, y, z, "stone"))
-            blocks.append((x, y + 1, z, "stone"))
+            blocks.append((x, y, z, "cobblestone"))
+            blocks.append((x, y + 1, z, "cobblestone"))
         elif tile_type == "wood":
             blocks.append((x, y, z, "oak_log"))
             blocks.append((x, y + 1, z, "oak_log"))

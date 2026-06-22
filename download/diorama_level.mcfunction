@@ -6,8 +6,8 @@ setblock 4 100 0 deepslate
 setblock 5 100 0 deepslate
 setblock 6 100 0 bedrock
 setblock 7 100 0 bedrock
-setblock 8 100 0 stone
-setblock 8 101 0 stone
+setblock 8 100 0 cobblestone
+setblock 8 101 0 cobblestone
 setblock 9 100 0 bedrock
 setblock 10 100 0 deepslate
 setblock 11 100 0 stone
@@ -15,7 +15,6 @@ setblock 5 100 4 oak_log
 setblock 5 101 4 oak_log
 setblock 5 102 4 oak_log
 setblock 5 103 4 leaves
-setblock 4 100 5 sand
 setblock 6 101 4 leaves
 setblock 6 102 4 leaves
 setblock 5 100 6 calcite
