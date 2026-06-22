@@ -1,6 +1,6 @@
 # Build outputs (rebuilt locally; dist/ committed for release installs)
-variants/lcgo-diorama/build/
-variants/lcgo-diorama/Lara_Croft_GO_Diorama.mcpack
+variants/sunlit-diorama/build/
+variants/sunlit-diorama/Sunlit_Diorama.mcpack
 build/
 out/
 

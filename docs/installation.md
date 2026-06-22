@@ -1,12 +1,12 @@
 # Installation
 
-Install **Lara Croft GO Diorama** on Minecraft Bedrock 1.21 or newer.
+Install **Sunlit Diorama** on Minecraft Bedrock 1.21 or newer.
 
 ## Download
 
-**[Latest release — Lara_Croft_GO_Diorama.mcpack](https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/Lara_Croft_GO_Diorama.mcpack)**
+**[Latest release — Sunlit_Diorama.mcpack](https://github.com/russfranky/charles-world-of-chaos/releases/latest/download/Sunlit_Diorama.mcpack)**
 
-Or build locally: `./scripts/build_pack.sh` → open `dist/Lara_Croft_GO_Diorama.mcpack`.
+Or build locally: `./scripts/build_pack.sh` → open `dist/Sunlit_Diorama.mcpack`.
 
 ## Platform steps
 
@@ -14,7 +14,7 @@ Or build locally: `./scripts/build_pack.sh` → open `dist/Lara_Croft_GO_Diorama
 
 1. Double-click the `.mcpack` file (or right-click → Open with Minecraft).
 2. Minecraft imports the pack automatically.
-3. **Settings → Global Resources** → move **Lara Croft GO Diorama** to Active.
+3. **Settings → Global Resources** → move **Sunlit Diorama** to Active.
 4. Open any world.
 
 ### iOS / iPadOS
@@ -35,7 +35,7 @@ Or build locally: `./scripts/build_pack.sh` → open `dist/Lara_Croft_GO_Diorama
 Instead of global resources, you can enable the pack for a single world:
 
 1. Edit the world → **Resource Packs**.
-2. Add **Lara Croft GO Diorama** to the active list.
+2. Add **Sunlit Diorama** to the active list.
 
 ## Updating
 
@@ -55,8 +55,8 @@ Re-download the latest release `.mcpack` and import again. The pack UUID is stab
 To place the included Cave of Snakes vignette:
 
 ```bash
-python3 variants/lcgo-diorama/scripts/lcgo_mc_tool.py --mode convert \
-  --level variants/lcgo-diorama/levels/sample_level.json \
+python3 variants/sunlit-diorama/scripts/diorama_mc_tool.py --mode convert \
+  --level variants/sunlit-diorama/levels/sample_level.json \
   --origin 100,64,200
 ```
 

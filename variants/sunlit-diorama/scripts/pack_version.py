@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read or bump the Lara Croft GO Diorama pack semver."""
+"""Read or bump the Sunlit Diorama pack semver."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def write_version(major: int, minor: int, patch: int) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="LC GO Diorama pack version helper")
+    parser = argparse.ArgumentParser(description="Sunlit Diorama pack version helper")
     parser.add_argument("--bump-patch", action="store_true")
     parser.add_argument("--print", choices=["semver", "tag", "label"], dest="print_field")
     args = parser.parse_args()

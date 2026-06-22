@@ -3,12 +3,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-VARIANT="$ROOT/variants/lcgo-diorama"
+VARIANT="$ROOT/variants/sunlit-diorama"
 
 echo "Removing build outputs..."
 rm -rf \
   "$VARIANT/build" \
-  "$VARIANT/Lara_Croft_GO_Diorama.mcpack" \
-  "$ROOT/download/lcgo_mc_output"
+  "$VARIANT/Sunlit_Diorama.mcpack" \
+  "$ROOT/download/diorama_mc_output"
 
 echo "Clean complete. Rebuild with: ./scripts/build_pack.sh"

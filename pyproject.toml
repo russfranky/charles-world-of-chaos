@@ -1,12 +1,12 @@
 [project]
-name = "lara-croft-go-diorama"
+name = "sunlit-diorama"
 version = "0.0.0"
 requires-python = ">=3.11"
 
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-src = ["variants/lcgo-diorama/scripts", "scripts"]
+src = ["variants/sunlit-diorama/scripts", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]

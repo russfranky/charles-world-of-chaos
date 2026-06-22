@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Lara Croft GO → Minecraft Bedrock 1.21+ diorama pack builder.
+Sunlit Diorama — Minecraft Bedrock 1.21+ resource pack builder.
 
 Single source of truth: edit PALETTE, rerun --mode all.
-Spec: variants/lcgo-diorama/docs/Lara_Croft_GO_MC_Voxel_Spec.pdf
+Spec: download/Voxel_Spec.pdf
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw
 VARIANT_ROOT = Path(__file__).resolve().parent.parent
 REPO_ROOT = VARIANT_ROOT.parent.parent
 DEFAULT_LEVEL = VARIANT_ROOT / "levels" / "sample_level.json"
-DEFAULT_OUTPUT = REPO_ROOT / "download" / "lcgo_mc_output"
+DEFAULT_OUTPUT = REPO_ROOT / "download" / "diorama_mc_output"
 
 SIZE = 16
 ICON_SIZE = 256
@@ -55,7 +55,7 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "jade_dark": (0x38, 0x66, 0x48),
 }
 
-LCGO_TILE_TO_MC: dict[str, str] = {
+DIORAMA_TILE_TO_MC: dict[str, str] = {
     "floor_lit": "calcite",
     "floor_light": "stone",
     "floor_dark": "deepslate",
@@ -465,9 +465,9 @@ def write_manifest(out_dir: Path) -> None:
     manifest = {
         "format_version": 2,
         "header": {
-            "name": "Lara Croft GO Diorama Pack",
+            "name": "Sunlit Diorama Pack",
             "description": (
-                "Sunlit outdoor LC GO aesthetic: warm stone + Holstein spots + "
+                "Sunlit outdoor diorama aesthetic: warm stone + Holstein spots + "
                 "4-step cel + ink outlines"
             ),
             "uuid": PACK_HEADER_UUID,
@@ -485,7 +485,7 @@ def write_manifest(out_dir: Path) -> None:
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
 
-def lcgo_level_to_blocks(
+def diorama_level_to_blocks(
     level_json: dict, origin: tuple[int, int, int] = (0, 100, 0)
 ) -> list[tuple[int, int, int, str]]:
     blocks: list[tuple[int, int, int, str]] = []
@@ -495,7 +495,7 @@ def lcgo_level_to_blocks(
         y = base_y + tile.get("y", 0)
         z = base_z + tile["z"]
         tile_type = tile["type"]
-        block_type = LCGO_TILE_TO_MC.get(tile_type, "stone")
+        block_type = DIORAMA_TILE_TO_MC.get(tile_type, "stone")
         if tile_type == "wall":
             blocks.append((x, y, z, "cobblestone"))
             blocks.append((x, y + 1, z, "cobblestone"))
@@ -520,7 +520,7 @@ def lcgo_level_to_blocks(
 def write_conversion_outputs(blocks: list[tuple[int, int, int, str]], out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     setblock_lines = [
-        "# LC GO → MC Bedrock /setblock commands",
+        "# Diorama level → MC Bedrock /setblock commands",
         f"# Total blocks: {len(blocks)}",
         "# Run each line in-game as a slash command.",
         "",
@@ -530,13 +530,13 @@ def write_conversion_outputs(blocks: list[tuple[int, int, int, str]], out_dir: P
     (out_dir / "sample_level.setblock").write_text("\n".join(setblock_lines) + "\n", encoding="utf-8")
 
     mcfunction = [f"setblock {x} {y} {z} {bid}" for x, y, z, bid in blocks]
-    (out_dir / "lcgo_level.mcfunction").write_text("\n".join(mcfunction) + "\n", encoding="utf-8")
+    (out_dir / "diorama_level.mcfunction").write_text("\n".join(mcfunction) + "\n", encoding="utf-8")
 
-    py_lines = ["# Auto-generated LC GO voxel data", "BLOCKS = ["]
+    py_lines = ["# Auto-generated diorama voxel data", "BLOCKS = ["]
     for x, y, z, bid in blocks:
         py_lines.append(f"    ({x}, {y}, {z}, '{bid}'),")
     py_lines.append("]")
-    (out_dir / "lcgo_blocks.py").write_text("\n".join(py_lines) + "\n", encoding="utf-8")
+    (out_dir / "diorama_blocks.py").write_text("\n".join(py_lines) + "\n", encoding="utf-8")
 
 
 def assemble_mcpack(out_dir: Path, mcpack_path: Path) -> None:
@@ -556,7 +556,7 @@ def parse_origin(s: str) -> tuple[int, int, int]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="LC GO → Minecraft Bedrock diorama tool")
+    parser = argparse.ArgumentParser(description="Sunlit Diorama → Minecraft Bedrock pack tool")
     parser.add_argument(
         "--mode",
         choices=["all", "textures", "pack", "convert"],
@@ -576,7 +576,7 @@ def main() -> None:
 
     if args.mode in ("all", "pack"):
         write_manifest(out)
-        mcpack = REPO_ROOT / "download" / "Lara_Croft_GO_Diorama.mcpack"
+        mcpack = REPO_ROOT / "download" / "Sunlit_Diorama.mcpack"
         assemble_mcpack(out, mcpack)
         kb = mcpack.stat().st_size / 1024
         print(f"Packaged {mcpack} ({kb:.1f} KB)")
@@ -584,7 +584,7 @@ def main() -> None:
     if args.mode in ("all", "convert"):
         level = json.loads(args.level.read_text(encoding="utf-8"))
         origin = parse_origin(args.origin)
-        blocks = lcgo_level_to_blocks(level, origin)
+        blocks = diorama_level_to_blocks(level, origin)
         write_conversion_outputs(blocks, out)
         level_copy = REPO_ROOT / "download" / "sample_level.json"
         level_copy.write_text(json.dumps(level, indent=2) + "\n", encoding="utf-8")

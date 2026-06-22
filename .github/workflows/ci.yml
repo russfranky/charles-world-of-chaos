@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build Lara Croft GO Diorama pack
+      - name: Build Sunlit Diorama pack
         run: chmod +x scripts/build_pack.sh && ./scripts/build_pack.sh
 
       - name: Validate pack
@@ -31,6 +31,6 @@ jobs:
       - name: Upload distributable
         uses: actions/upload-artifact@v4
         with:
-          name: Lara_Croft_GO_Diorama
-          path: dist/Lara_Croft_GO_Diorama.mcpack
+          name: Sunlit_Diorama
+          path: dist/Sunlit_Diorama.mcpack
           retention-days: 30

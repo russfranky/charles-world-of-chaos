@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Lara Croft GO Diorama build artifacts."""
+"""Validate Sunlit Diorama build artifacts."""
 
 from __future__ import annotations
 
@@ -9,9 +9,9 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PACK = ROOT / "dist" / "Lara_Croft_GO_Diorama.mcpack"
+PACK = ROOT / "dist" / "Sunlit_Diorama.mcpack"
 SAMPLE = ROOT / "download" / "sample_level.json"
-TOOL = ROOT / "variants" / "lcgo-diorama" / "scripts" / "lcgo_mc_tool.py"
+TOOL = ROOT / "variants" / "sunlit-diorama" / "scripts" / "diorama_mc_tool.py"
 
 
 def fail(message: str) -> None:
@@ -39,6 +39,8 @@ def main() -> None:
         header = manifest.get("header", {})
         if header.get("min_engine_version", [0, 0, 0]) < [1, 21, 0]:
             fail("manifest min_engine_version must be >= 1.21.0")
+        if "lara" in header.get("name", "").lower() or "croft" in header.get("name", "").lower():
+            fail("pack name must not reference trademarked franchises")
 
     if not SAMPLE.is_file():
         fail(f"missing sample level: {SAMPLE}")

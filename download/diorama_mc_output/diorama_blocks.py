@@ -1,4 +1,4 @@
-# Auto-generated LC GO voxel data
+# Auto-generated diorama voxel data
 BLOCKS = [
     (0, 100, 0, 'calcite'),
     (1, 100, 0, 'calcite'),

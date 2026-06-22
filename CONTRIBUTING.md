@@ -1,14 +1,14 @@
 # Contributing
 
-Thank you for improving **Lara Croft GO Diorama** for Minecraft Bedrock.
+Thank you for improving **Sunlit Diorama** for Minecraft Bedrock.
 
 ## Repository layout
 
 | Path | Role |
 |------|------|
-| `variants/lcgo-diorama/scripts/lcgo_mc_tool.py` | Texture generator, pack assembler, voxel converter |
-| `variants/lcgo-diorama/levels/` | Sample LC GO level JSON |
-| `variants/lcgo-diorama/VERSION` | Pack semver (bumped on release) |
+| `variants/sunlit-diorama/scripts/diorama_mc_tool.py` | Texture generator, pack assembler, voxel converter |
+| `variants/sunlit-diorama/levels/` | Sample diorama level JSON |
+| `variants/sunlit-diorama/VERSION` | Pack semver (bumped on release) |
 | `dist/` | Committed distributable `.mcpack` |
 | `download/` | Release bundle mirrored from builds |
 
@@ -25,9 +25,9 @@ python3 scripts/validate_pack.py
 
 ## Conventions
 
-- **Palette changes** — edit `PALETTE` and tile mappings in `lcgo_mc_tool.py`, then rebuild.
+- **Palette changes** — edit `PALETTE` and tile mappings in `diorama_mc_tool.py`, then rebuild.
 - **Pack UUID** — do not change manifest UUIDs after a public release (in-place updates depend on them).
-- **Versioning** — `variants/lcgo-diorama/VERSION` follows semver; `publish.yml` bumps patch on merge to `main`.
+- **Versioning** — `variants/sunlit-diorama/VERSION` follows semver; `publish.yml` bumps patch on merge to `main`.
 - **Pre-commit** — `pip install -r requirements.txt && pre-commit install`
 
 ## Pull requests
